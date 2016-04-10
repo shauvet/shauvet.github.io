@@ -1,0 +1,19 @@
+/*功能css*/
+.f-clearfix:after {content:"."; display:block; height:0; visibility:hidden; clear:both; }
+.f-clearfix { *zoom:1; }
+.f-left{float: left;}
+.f-right{float: right;}
+.f-ilb{display: inline-block;}
+
+h2{font-size:20px;line-height: 24px;}
+p{font-size: 14px;line-height: 18px;}
+.m-team h2{vertical-align: top;margin-left: 15px;}
+.g-wrapper{padding: 20px;background-color: #eee;border:1px solid #999;}
+.m-main_content,.m-team,.m-member{height: auto;box-sizing:border-box;background-color: #fff;}
+.m-team{padding:20px;width: 200px;}
+.m-member{padding:20px;width: 120px;}
+.m-main{width: 100%;}
+.m-main_content{padding:20px;margin: 0 160px 0 220px;}
+.m-main_content p{margin:10px 0;}
+.m-team{margin-left: -100%;}
+.m-member{margin-left: -140px;}

@@ -1,0 +1,10 @@
+*{margin: 0;padding: 0;box-sizing: border-box;font-family: "microsoft yahei";}
+
+.formWrapper{width:960px;margin: 50px auto;}
+.formWrapper select{margin-right: 20px;height: 30px;border-radius: 5px;}
+.formWrapper input[type="text"]{height: 30px;border-radius: 5px;}
+.formWrapper input,.formWrapper label{margin-right: 5px;}
+.formWrapper span{display:inline-block;width:80px;}
+.formWrapper input[type="radio"]:first-child{margin-left: 80px;}
+.org{margin:20px 0;}
+#corp{display: none;}

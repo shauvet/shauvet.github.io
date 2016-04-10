@@ -1,0 +1,141 @@
+@charset "utf-8";
+
+/*公共区*/
+*{box-sizing: border-box;}
+.left{float:left;}
+.right{float: right;}
+.f-cb{zoom:1;}
+.f-cb:after{content: '.';display: block;clear: both;height: 0;overflow: hidden;visibility: hidden;}
+.close-btn-big{display: inline-block;position:absolute;right:10px;top:10px;height: 20px;width: 20px;background: url(../image/video-close.png) no-repeat;cursor: pointer;}
+.mask{display: none;position:fixed;top:0;left:0;width:100%;height: 100%;background-color: rgba(0,0,0,0.7);z-index: 3;}
+body{background-color: #f8f8f8;}
+
+/*提示区*/
+.notice-area{position:relative;width:100%;height:40px;background-color: #f3f3f3;}
+.notice-area span{position: absolute;right:30px;cursor: pointer;}
+.notice-area i{display:inline-block;height:9px;width:9px;vertical-align: middle;margin-right:5px;background: url(../image/close.png) no-repeat;}
+.notice-area p a{color:#21a557}
+.notice-area p{display: inline-block;}
+.notice-wrap{position:relative;width:960px;margin:0 auto;line-height: 40px;}
+
+/*导航区*/
+.nav-area{height: 80px;width: 960px;margin:0 auto;line-height: 80px;}
+.nav-area h1{font-size: 22px;line-height: 80px;}
+.nav-area .name-en{padding-right:8px;color: #21a557;border-right: 2px solid #21a557;}
+.nav-title a,.nav-area li{display: inline-block;}
+.nav-title .follow-btn{margin-left: 25px;padding:3px;width:45px;line-height:18px;background-color: #21a557;color: #fff;text-align: center;vertical-align: middle;cursor: pointer;}
+.nav-title .followed-btn{display:none;padding: 1px;}
+.nav-title .followed-btn span{margin-left: 5px;}
+.nav-title .followed-icon{display:inline-block;vertical-align:middle;width:14px;height:14px;background: url(../image/followed-icon.png) no-repeat left center;}
+.nav-title .followed-cancel{display:inline-block;padding-left:10px;border-left: 1px solid #ccc;line-height: 12px;color:#ccc;}
+.followed-cancel:hover{color:#21a557;text-decoration: underline;cursor: pointer;}
+.nav-title span{margin-left: 25px;}
+.nav-area ul{}
+.nav-area ul li{margin:0 10px;font-size: 14px;}
+.nav-area ul a:hover{color:#21a557;}
+#nav-search{vertical-align:middle;height:19px;width:19px;background: url(../image/sprite.png) no-repeat 0 -18px;}
+#nav-search:hover{cursor:pointer;background: url(../image/sprite.png) no-repeat -28px -18px;}
+
+/*轮播图区*/
+.carousel-area{text-align: center;position: relative;width:100%;overflow: hidden;}
+.carousel-area ul{display: inline-block;position: absolute;left:50%;bottom: 8%;margin-left:-27px;z-index: 2;}
+.carousel-indicators{display: inline-block;background-color:#fff;height: 10px;width: 10px;border-radius: 5px;
+    margin:0 3px;}
+.on{background-color: #333;}
+.carousel-indicators:hover{cursor:pointer;background-color: #333;}
+.banner-wrapper .banner{display: none;width:100%;}
+.banner-wrapper img{width:100%;}
+.banner-wrapper .selected-banner{display: block;}
+
+/*介绍区*/
+.description-area{width:960px;margin:45px auto;}
+.description{width:30%;margin-right: 3%;}
+.study-left,.open-left,.mooc-left{width:80px;height:80px;padding: 8px;}
+.study-left{background: url(../image/icon-study.png) no-repeat;}
+.open-left{background: url(../image/icon-open.png) no-repeat;}
+.mooc-left{background: url(../image/icon-mooc.png) no-repeat;}
+.study-right,.open-right,.mooc-right{margin-left: 90px;}
+.description h3{font-size: 18px;}
+.study-right p,.open-right p,.mooc-right p{padding: 15px 20px 15px 0;line-height: 20px;}
+.study-right a,.open-right a,.mooc-right a{padding-left:5px;color:rgb(57,160,48);}
+.description a:hover{text-decoration: underline;}
+
+/*图片区*/
+.workspace-area{height: 200px;}
+.workspace-area img{width:19.79%;height:200px;}
+@media (max-width: 1205px) {
+    .workspace-area .last-img{margin-right: -100%;}
+}
+
+/*课程区*/
+.content-area{width:960px;margin: 60px auto;}
+.main{width:780px;}
+.content-area .sidebar{margin-left: 800px;}
+.main button{font-size:16px;background: transparent;border: none;}
+.main .tab-ctrl{margin-bottom: 20px;font-size: 20px;}
+.main .tab-ctrl li{display: inline-block;width: 160px;height: 40px;line-height: 40px;text-align: center;font-size: 16px;box-shadow: 1px 1px 1px #ccc;cursor: pointer;background-color: #fff;}
+.main li:hover{box-shadow: 3px 3px 3px #999;}
+.main .tab-ctrl .selected{background-color: rgb(57,160,48);}
+.main .selected button{color: #fff;}
+.main button{font-weight: bold;color:rgb(113,113,113);}
+.item-title,.author,.stu-number,.price{margin:5px;padding: 1px;}
+.item-title{color:rgb(113,113,113);}
+.item{float:left;width:23%;height:200px;margin-right: 2%;margin-bottom: 2%;background-color: #fff;box-shadow: 1px 1px 1px #ccc;}
+@media (max-width: 1205px) {
+    .item{width: 29%;height: 230px;}
+}
+.item:hover{box-shadow: 3px 3px 3px #999;cursor: pointer;}
+.item h6{overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+.item:hover h6{color: #39a030;}
+.item img{width:100%;height: auto;}
+.author{color:#ccc;}
+.stu-number{display:inline-block;margin-left:5px;color:#ccc;height: 18px;width:auto;border: 1px solid #ccc;border-radius: 3px;}
+.stu-number i{display:inline-block;margin-top:-3px;background: url(../image/user.png) no-repeat;width: 16px;height: 16px;vertical-align: middle;line-height: 18px;}
+.stu-number span{line-height: 18px;}
+.price{color:rgb(255,68,7);font-weight: bold;}
+
+/*分页导航*/
+.pagination{margin-top: 30px;margin-right: 50px;font-size: 14px;}
+.pagination ul li{display: inline-block;padding: 3px 5px;margin:0 5px;cursor: pointer;}
+.pagination ul li:hover,.page-nav .selected{background-color: #39a030;color: #fff;}
+.pagination .last-page,.pagination .next-page{padding: 3px 10px;background-color: #21a557;color: #fff;}
+
+/*侧边栏*/
+.sidebar .video-area,.hot-rank{background-color: #fff;box-shadow: 1px 1px 1px #ccc;}
+.sidebar .video-area{margin-bottom: 15px;}
+.sidebar .video{padding: 15px;}
+.video-area img{width:100%;height: auto;cursor: pointer;}
+.sidebar h4{padding:15px;font-size:18px;border-bottom: 1px solid #ccc;}
+.sidebar ul{padding: 15px;}
+.sidebar li{margin-bottom: 15px;}
+.sidebar li:last-child{margin-bottom: 0;}
+.sidebar img{margin-right: 10px;}
+.sidebar p{overflow: hidden;white-space: nowrap;text-overflow: ellipsis;margin-bottom: 10px;}
+.rank-item{overflow: hidden;}
+.rank-item i{display:inline-block;width:16px;height:16px;margin-top:-2px;margin-right:5px;background: url(../image/user.png) no-repeat;vertical-align: middle;}
+
+/*底部*/
+footer{height: 210px;width:100%;background-color: #333;}
+.footer-area{width: 960px;margin:0 auto;padding:60px 30px;color: #939699;}
+.footer-area h1{font-size:22px;color: #21a557;margin-bottom: 20px;}
+.footer-area .info p{line-height: 24px;}
+.footer-area .detail{font-size: 14px;margin-right: 50px;}
+.footer-area .detail dt{font-size: 12px;}
+.detail dl{margin: 0 30px;}
+.detail dt,.detail dd{margin:10px 0;}
+.detail dl a{color: #939699;}
+.detail dl a:hover{text-decoration: underline;}
+.detail .weibo-icon{display:inline-block;vertical-align:middle;margin-left:5px;width:20px;height:20px;background: url(../image/sprite.png) no-repeat 0 -75px;}
+
+/*视频区*/
+.video-m .video-play{position:absolute;top:50%;left:50%;margin-top:-300px;margin-left:-480px;width:960px;height: 580px;padding:20px;background-color: #fff;}
+.video-play video{display:block;margin:0 auto;background-color: #000;}
+.video-play p{height: 50px;line-height: 50px;font-size: 20px;font-weight: bold;}
+
+/*登录区*/
+.login-area{position:absolute;left:50%;top:50%;margin-left:-150px;margin-top:-200px;width:400px;height: 300px;padding: 25px;background-color: #fff;font-size: 18px;line-height: 45px;}
+.login-area p,.login-area input,.login-area span{width:330px;font-size: 20px;margin-bottom: 20px;}
+.login-area input{height: 45px;padding: 3px 10px;}
+.login-area span{display:inline-block;height: 50px;background-color: #39a030;border: none;color: #fff;text-align: center;cursor: pointer;}
+
+

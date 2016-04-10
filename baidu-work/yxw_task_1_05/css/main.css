@@ -1,0 +1,56 @@
+body{font-family: "Microsoft YaHei","微软雅黑";}
+
+/*tool*/
+.f-fl{float: left;}
+.f-fr{float: right;}
+.f-clearfix:after {content:"."; display:block; height:0; visibility:hidden; clear:both; }
+.f-clearfix { *zoom:1; }
+.f-top{vertical-align: top;}
+
+/*navbar*/
+.g-nav{position: relative;background-color: #333;}
+.g-nav h1{display: inline-block;margin-left: 40px;font-size: 25px;line-height: 60px;color: #f00;}
+.g-nav ul,.g-nav li{display: inline-block;margin: 0 5px;line-height: 60px;font-weight: bold;}
+.g-nav a{color: #fff;text-decoration: none;}
+.g-nav ul{position: absolute;right: 20px;}
+.g-nav li{list-style-type: circle;color:#000;}
+.g-nav .f-active{color: #aaa;}
+
+/*body*/
+.g-body,.g-body article,.g-body aside,.g-body .m-pic{box-sizing:border-box;padding:20px;box-shadow: 3px 3px #838383;}
+.g-body{background-color: #dedede;}
+.g-body article,.g-body .m-pic{margin-bottom:20px;background-color: #fff;}
+.g-body aside{background-color: #fff;}
+
+/*main*/
+.m-main{margin-right: 400px;}
+.m-main h1{font-size: 24px;line-height: 36px;}
+.m-main h2{font-size: 18px;line-height: 32px;}
+.m-main p,.m-main li{font-size: 14px;line-height: 24px;}
+.m-main p{padding: 10px 0;}
+.m-main ol{margin: 0 20px 20px;}
+.m-main ol li{list-style: inherit;font-weight: bold;}
+.m-main table{width:100%;}
+.m-main table,.m-main tr,.m-main th,.m-main td{border-color: #ccc;}
+.m-main caption{font:16px/24px normal;}
+.m-main th{background-color: #333;color: #fff;font-weight: bold;}
+.m-main th,.m-main td{padding: 5px;}
+.m-main tfoot tr{background-color: #ccc;font-weight: bold;}
+
+/*picture*/
+.m-pic li{display: inline-block;box-sizing: border-box;padding: 10px;border:1px solid #ccc;margin:10px;}
+.m-pic p{text-align: center;}
+
+/*aside*/
+.m-aside{width:380px;}
+.m-aside h2{font: 18px/26px normal;font-weight: bold;}
+.m-aside .u-form{padding: 5px;line-height: 14px;}
+.m-aside p{margin-left: 130px;margin-top: 5px;color: #ccc;}
+.m-aside .u-title{display:inline-block;width:120px;margin-right: 5px;text-align: right;}
+.m-aside .u-btn{width: 320px;height: 40px;background-color: #3355d0;box-shadow: 1px 1px #ccc;color: #fff;font:16px/20px bold;
+border-radius: 10px;}
+.m-aside input,.m-aside textarea{padding: 3px;}
+
+/*footer*/
+.g-foot{height: 70px;width:100%;background-color: #333;}
+.g-foot p{text-align: center;color:#fff;font-weight: bold;line-height: 70px;}

@@ -1,0 +1,9 @@
+*{margin: 0;padding: 0;box-sizing: border-box;font-family: "microsoft yahei";}
+li{list-style-type: none;}
+
+.form-wrapper{width:960px;margin:0 auto;padding: 50px;}
+li{margin:10px 0;}
+label{display:inline-block;width:90px;}
+input{height:30px;padding: 3px 5px;border-radius: 5px;outline: none;}
+input[type="submit"]{margin-left: 230px;width:50px;border:none;cursor:pointer;background-color: #2f79ba;color:#fff;}
+.tip{margin-left: 100px;}

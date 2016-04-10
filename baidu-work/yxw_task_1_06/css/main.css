@@ -1,0 +1,15 @@
+/*tool*/
+.f-fl{float: left;}
+.f-fr{float: right;}
+.f-clearfix:after {content:"."; display:block; height:0; visibility:hidden; clear:both; }
+.f-clearfix { *zoom:1; }
+.f-ib{display: inline-block;}
+.f-tl{text-align: left;}
+.f-tr{text-align: right;}
+.f-vb{vertical-align: bottom;}
+.f-div{width: 892px;height: 2px;background-color: #938e8c;}
+
+.g-wrapper{width: 980px;height: 1386px;padding: 0 44px;}
+
+/*header*/
+.m-header .u-block{width: 110px;height: 61px;background-color: #d55d5c;}

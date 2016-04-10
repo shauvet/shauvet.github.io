@@ -1,0 +1,161 @@
+/*global*/
+*{box-sizing: border-box;font-size: 12px;font-family: "microsoft yahei";}
+select{height: 25px;}
+
+/*tools*/
+.f-ib{display: inline-block;}
+.f-vm{vertical-align: middle;}
+.f-fl{float: left;}
+.f-clearfix:after {content:"."; display:block; height:0; visibility:hidden; clear:both; }
+.f-clearfix { *zoom:1; }
+.f-ml30{margin-left: 30px;}
+.f-mr15{margin-right: 15px;}
+.f-mr5{margin-right: 5px;}
+.f-mt20{margin-top: 20px;}
+.f-mb5{margin-bottom: 5px;}
+.f-div{display:inline-block;width:1px;height: 45px;background-color: #ccc;}
+.s-fcgray{color: #aaa;}
+.s-fcblue{color: #6699c4;}
+
+
+/*header*/
+header{width:100%;height: 56px;background-color: #2189c0;}
+.g-top{position:relative;margin:0 auto;width:1280px;height: 56px;background-color: #2189c0;}
+.g-top .u-logo{margin-left: 50px;padding: 10px 0;}
+.g-top .u-search{position: absolute;right: 150px;top:14px;}
+.g-top input{box-sizing: border-box;width: 315px;height: 28px;border-radius: 14px;outline: none;padding: 3px 14px 3px 40px;
+    background: url('../images/search.png') no-repeat 5% center;background-color: #fff;}
+.g-top .u-login{position: absolute;right: 90px;top:20px;}
+.g-top img{vertical-align: middle;}
+.g-top a{color: #fff;font-weight: bold;}
+
+/*aside*/
+.g-side{box-sizing:border-box;padding:18px 45px 0;width:260px;height:1200px;background-color: #2b2e3d;color:#6e8096;}
+.g-side .u-icon{position:relative;display:inline-block;vertical-align:middle;text-align:center;height: 56px;width: 56px;
+    border:1px solid #b9babe;border-radius: 50%;}
+.g-side span{position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;height: 48px;width: 48px;
+    border-radius: 50%;background-color: #b9babe}
+.g-side h1{margin-left:18px;font-size:14px;color:#eceaeb;}
+.g-side p{margin: 25px;font-size: 14px;}
+.g-side .u-div{width:2px;height: 28px;background-color: #333;}
+.g-side i{margin-right:10px;}
+.g-side li{margin: 18px 0;}
+.g-side .u-act ul{padding-left: 25px;}
+
+/*main*/
+.g-main{width:100%;height:1200px;margin-left: 260px;background-color: #ededed;}
+.g-main .u-breadcrumb{height: 30px;background-color: #fff;padding-left: 25px;}
+.g-main span{line-height: 30px;padding: 0 3px;}
+.g-content{margin-left:60px;width:890px;}
+
+.u-ctrl{height: 85px;padding:15px 0;background-color: #fff;}
+.u-ctrl div{height: 60px;}
+.u-ctrl .sel-small{width:70px;}
+.u-ctrl .sel-big{width: 120px;}
+.u-ctrl label{margin-right: 15px;line-height: 25px;}
+.u-ctrl input{margin-left:3px;border:1px solid #a9a9a9;height: 25px;}
+#query_first{width:125px;}
+#query_second{width:190px;background: url(../images/change.png) no-repeat right center;position: relative;}
+#query_third{width:310px;}
+.u-ctrl .change{position: absolute;right:-1px;top:15px;color: #fff;font-weight: bold;cursor: pointer;}
+.u-ctrl button{width: 50px;height: 25px;color: #fff;font-weight: bold;background-color: #398ac1;margin-top: 15px;}
+
+.u-his{height: 65px;margin-top:12px;text-align: center;}
+.u-his ul{position: relative;}
+.u-his li{float: left;margin-right: 5px;}
+.u-his .u-next{margin-left: -5px;}
+.u-his div,.u-his li{background-color: #fff;}
+.u-his .u-prev,.u-his .u-next{width: 30px;height: 65px;}
+.u-his .u-prev:hover,.u-his .u-next:hover{cursor: pointer;}
+.u-his li{width: 110px;height: 65px;}
+.u-his li:hover, .u-his li.cur{border-top: 4px solid #2189bf;cursor: pointer;}
+.u-his .u-hq{width: 130px;height: 65px;line-height: 65px;}
+.u-his i{font-size: 20px;line-height: 65px;}
+.u-his img{vertical-align: middle;}
+.u-his p{margin-top:10px;line-height: 20px;}
+.u-his b{color: #6e8096;}
+.u-his strong{font-size: 20px;font-weight:500;line-height: 28px;color: #ec8828;}
+
+.u-sum{margin-left: -30px;height: 88px;}
+.u-sum h3{font-weight: normal;}
+.u-sum .u-vol{position:relative;float: left;margin-left: 30px;width:200px;height: 70px;background-color: #fff;border-left: 4px solid;}
+.u-sum .u-vol:nth-child(1){border-left-color: #43b29d;}
+.u-sum .u-vol:nth-child(2){border-left-color: #388ac1;}
+.u-sum .u-vol:nth-child(3){border-left-color: #d04b36;}
+.u-sum .u-vol:nth-child(4){border-left-color: #e2cd46;}
+.u-sum .u-vol:nth-child(1):after,
+.u-sum .u-vol:nth-child(2):after,
+.u-sum .u-vol:nth-child(3):after,
+.u-sum .u-vol:nth-child(4):after{position:absolute;content:'';width:60px;height: 47px;top:12px;right: 15px;}
+.u-sum .u-vol:nth-child(1):after{background-color: #43b29d;}
+.u-sum .u-vol:nth-child(2):after{background-color: #388ac1;}
+.u-sum .u-vol:nth-child(3):after{background-color: #d04b36;}
+.u-sum .u-vol:nth-child(4):after{background-color: #e2cd46;}
+.u-sum p,.u-sum span{margin-left: 10px;}
+.u-sum p{line-height: 25px;margin-top: 10px;}
+.u-sum span{font-size:70%;color: #666;}
+
+.u-pro{margin-top: 15px;}
+.u-last{margin-top: 10px;}
+.u-pro{height: 355px;}
+.u-last{height:385px;}
+.u-pro .u-tab,.u-info,.u-calendar,.u-rank{height: 100%;background-color: #fff;border-radius: 10px;}
+.u-pro .u-tab,.u-last .u-rank{width: 530px;}
+.u-pro .u-info,.u-last .u-calendar{width: 350px;}
+.u-pro .u-info,.u-rank{margin-left: 10px;}
+.u-pro header,.u-last header{padding-left:20px;height: 40px;line-height: 40px;color: #6e8096;background-color: #f4f5f7;}
+.u-tab .tab-show,.u-tab input{display: none;}
+.u-tab li{display: inline-block;margin-top: 15px;}
+.u-tab label{display:block;width: 80px;height: 28px;line-height: 28px;background-color: #edecf1;
+    text-align: center;border-radius: 3px;cursor: pointer;}
+.u-tab ul{position:relative;padding: 0 20px 27px;}
+.u-pro table{border-collapse:collapse;border: 1px solid #ccc;line-height: 28px;text-align:center;width: 100%;}
+.u-pro td{border: 1px solid #ccc;}
+.u-pro ul li input:checked + label{z-index:1;background-color: #ffffff;border-top: 2px solid #cacbcb;border-left: 2px solid #cacbcb;
+    border-right: 2px solid #cacbcb;border-bottom: 2px solid #fff;border-bottom-left-radius: 0;border-bottom-right-radius: 0;}
+.u-pro ul li input:checked + label + .tab-show {z-index:0;position: absolute;left: 0;top: 43px;width: 490px;height: 239px;
+    margin: 0 20px 25px;padding: 30px 37px;border-radius: 3px;display: block;border:2px solid #cacbcb;}
+.u-info .main{margin-left: 35px;}
+.u-info h6{color:#aaa;font-weight: normal;line-height: 20px;}
+.u-info p{line-height: 16px;}
+.u-info footer{margin-left: 35px;}
+.u-info input{vertical-align: middle;}
+.u-info footer label{display: inline-block;line-height: 28px;}
+.u-info .des{height: 145px;}
+.u-info button{height: 28px;width: 50px;background-color: #216a9a;color: #fff;margin-left: 130px;}
+.u-info ul{margin-top: 10px;}
+.u-info li{display: block;border-bottom: 1px solid #aaa;padding-left: 10px;}
+.u-info li:nth-child(2)>div:nth-child(1){padding-right: 45px;}
+
+.u-calendar form{padding: 12px 22px;}
+.u-calendar select,input{margin-right: 3px;height: 22px;}
+.u-calendar input{border: 1px solid #aaa;}
+.u-calendar select[name="year"],input[type="reset"]{width:63px;}
+.u-calendar select[name="month"]{width: 83px;}
+.u-calendar select[name="markdate"]{width: 73px;}
+.u-calendar .tb-wrapper{padding: 0 30px 25px;}
+.u-calendar table{width:100%;text-align: center;border-collapse: separate;}
+.u-calendar thead th{padding: 8px 0;text-align: center;border-top: 1px solid #2189bf;border-bottom: 1px solid #aaa;}
+.u-calendar .week{color: #cf4b36;}
+.u-calendar .mark,.u-calendar td:hover{border:1px solid #f8d573;cursor: pointer;}
+
+.u-rank table{width: 450px;margin:0 auto;padding: 15px 40px;text-align: center;border-collapse: collapse;
+    border-spacing: 0;color: #333;}
+.u-rank thead tr{height: 27px;}
+.u-rank th{text-align: center;}
+.u-rank th:nth-child(3){text-align: left;padding-left: 70px;}
+.u-rank td{margin:0;padding: 0;}
+.u-rank .progress{display: inline-block;width: 150px;height: 4px;margin-left: 10px;margin-bottom: 3px;
+    background-color: #dcdcdc;border-radius: 2px;}
+.u-rank i{display: block;height: 100%;border-radius: 2px 0 0 2px;}
+.u-rank .progress80{width: 80%;background-color: #ed6e52;}
+.u-rank .progress70{width: 70%;background-color: #ef8150;}
+.u-rank .progress60{width: 60%;background-color: #f19e4f;}
+.u-rank .progress50,.progress45,.progress40,.progress35,.progress30,.progress25,.progress20{background-color: #7ecaf0;}
+.progress50{width:50%;}
+.progress45{width:45%;}
+.progress40{width:40%;}
+.progress35{width:35%;}
+.progress30{width:30%;}
+.progress25{width:25%;}
+.progress20{width:20%;}
