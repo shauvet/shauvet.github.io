@@ -1,0 +1,188 @@
+<!--
+HTML5. Use tags like <article>, <section>, etc.
+See: http://www.sitepoint.com/web-foundations/doctypes/
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!--
+    Ask IE to behave like a modern browser
+    See: https://www.modern.ie/en-us/performance/how-to-use-x-ua-compatible
+    -->
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Profile</title>
+
+    <!--
+    Disables zooming on mobile devices.
+    -->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <!--
+    Stylesheet that minimizes browser differences.
+    See: http://necolas.github.io/normalize.css/
+    -->
+    <link rel="stylesheet" href="css/normalize.css">
+
+    <!--
+    Our own stylesheet.
+    -->
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body>
+
+    <div class="container">
+      <header class="main-header">
+        <img class="main-header__avatar" src="img/teng.jpg" alt="">
+        <h1>Hi, I'm Teng Bao</h1>
+      </header>
+
+      <nav class="main-nav">
+        <ul class="nostyle inline-items">
+          <li><a href="#">Work</a></li>
+          <li><a href="#">Experience</a></li>
+          <li><a href="#">Photos</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+
+      <section class="info-section whatido">
+        <header>
+          <h2>What I Do</h2>
+          <p class="info-section__description">I'm Teng. I design and develop things on the web. Oh, and I like curry.</p>
+        </header>
+        <ul class="nostyle whatido__skill-list">
+          <li class="whatido__skill whatido__skill--code">
+            <h3>Code</h3>
+            <p>I like building things on the web. I've built games, tools, and web apps.</p>
+          </li>
+          <li class="whatido__skill whatido__skill--design">
+            <h3>Design / UX</h3>
+            <p>I like creating happiness by making things look good and work well.</p>
+          </li>
+          <li class="whatido__skill whatido__skill--product">
+            <h3>Product</h3>
+            <p>I like taking products from idea to reality to users and beyond!</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="info-section education-experience">
+        <header>
+          <h2>Education <span class="small-device-break">&amp;</span> Experience</h2>
+        </header>
+        <ul class="nostyle education-experience__list">
+          <li class="education-experience__item">
+            <img class="float-left education-experience__img" src="img/strikingly-logo.png" alt="Strikingly">
+            <div class="education-experience__content">
+              <h3>Strikingly</h3>
+              <p class="education-experience__title">Cofounder, 2012 - Present</p>
+              <p class="education-experience__description">Strikingly is a website builder that's simple, beautiful, and fun. And perfect for the age of mobile. I'm in charge of UI/UX and front-end.</p>
+            </div>
+          </li>
+          <li class="education-experience__item">
+            <img class="float-left education-experience__img" src="img/echo-rocket.jpg" alt="Echo Rocket">
+            <div class="education-experience__content">
+              <h3>Freelance Web/Game Developer</h3>
+              <p class="education-experience__title">2007 - 2012</p>
+              <p class="education-experience__description">EchoRocket was my one-man Flash game studio and web development/design consultancy. I built Spinblaster, Block Knocker, CampusAmp, HireBrite, and more!</p>
+            </div>
+          </li>
+          <li class="education-experience__item">
+            <img class="float-left education-experience__img" src="img/u-of-chicago.jpg" alt="">
+            <div class="education-experience__content">
+              <h3>University of Chicago</h3>
+              <p class="education-experience__title">BA Economics, 2008-2012</p>
+              <p class="education-experience__description">Studying the finer points of firms, markets, finance, decision theory, and supply and demand.</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="info-section photos">
+        <header>
+          <h2>Photos</h2>
+          <p class="info-section__description">Some pics from my travels!</p>
+        </header>
+        <ul class="nostyle photos__list">
+          <li>
+            <img src="img/p01.jpg" alt="">
+          </li>
+          <li>
+            <img src="img/p02.jpg" alt="">
+          </li>
+          <li>
+            <img src="img/p03.jpg" alt="">
+          </li>
+          <li>
+            <img src="img/p04.jpg" alt="">
+          </li>
+          <li>
+            <img src="img/p05.jpg" alt="">
+          </li>
+          <li>
+            <img src="img/p06.jpg" alt="">
+          </li>
+          <li>
+            <img src="img/p07.jpg" alt="">
+          </li>
+          <li>
+            <img src="img/p08.jpg" alt="">
+          </li>
+        </ul>
+      </section>
+
+      <section class="info-section get-in-touch">
+        <header>
+          <h2>Get in Touch</h2>
+        </header>
+        <ul class="nostyle get-in-touch__list">
+          <li>
+            <a href="#"><img src="img/fb-icon.png" alt=""></a>
+            <p>Facebook</p>
+          </li>
+          <li>
+            <img src="img/twitter-icon.png" alt="">
+            <p>Twitter</p>
+          </li>
+          <li>
+            <img src="img/linkedin-icon.png" alt="">
+            <p>Twitter</p>
+          </li>
+          <li>
+            <img src="img/email-icon.png" alt="">
+            <p>Twitter</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="info-section contact">
+        <header>
+          <h2>Or...Leave a Message</h2>
+        </header>
+        <form action="">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input name="name" id="name" type="text">
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input name="email" id="email" type="email">
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea name="message" id="message"></textarea>
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+      </section>
+
+    </div>
+
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,300,400' rel='stylesheet' type='text/css'>
+  <script type='text/javascript' id="__bs_script__">//<![CDATA[
+    document.write("<script async src='http://HOST:4000/browser-sync/browser-sync-client.2.7.4.js'><\/script>".replace("HOST", location.hostname));
+  //]]></script>
+  </body>
+</html>
