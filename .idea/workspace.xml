@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a651b0e2-64e6-4584-b87e-e20b161ef022" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\gitck\shauvet.github.io\baidu-work\yxw_task_2_31\rea.html" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baidu-work/yxw_task_2_31/main.js" afterPath="$PROJECT_DIR$/baidu-work/yxw_task_2_31/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baidu-work/yxw_task_2_31/task31.html" afterPath="$PROJECT_DIR$/baidu-work/yxw_task_2_31/task31.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/baidu-work/yxw_task_2_32/main.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/baidu-work/yxw_task_2_32/main.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/baidu-work/yxw_task_2_32/task32.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="shauvet.github.io.iws" />
@@ -48,21 +48,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="task31.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/baidu-work/yxw_task_2_31/task31.html">
+      <file leaf-file-name="task32.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/baidu-work/yxw_task_2_32/task32.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.076923" vertical-offset="0" max-vertical-offset="760">
-              <caret line="17" column="29" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="29" />
+            <state vertical-scroll-proportion="-6.923077" vertical-offset="0" max-vertical-offset="380">
+              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="main.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/baidu-work/yxw_task_2_31/main.js">
+        <entry file="file://$PROJECT_DIR$/baidu-work/yxw_task_2_32/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7040704" vertical-offset="0" max-vertical-offset="909">
-              <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.4840484" vertical-offset="0" max-vertical-offset="909">
+              <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/baidu-work/yxw_task_2_32/main.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="120">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -86,6 +98,8 @@
         <option value="$PROJECT_DIR$/css/main.css" />
         <option value="$PROJECT_DIR$/baidu-work/yxw_task_2_31/task31.html" />
         <option value="$PROJECT_DIR$/baidu-work/yxw_task_2_31/main.js" />
+        <option value="$PROJECT_DIR$/baidu-work/yxw_task_2_32/task32.html" />
+        <option value="$PROJECT_DIR$/baidu-work/yxw_task_2_32/main.js" />
       </list>
     </option>
   </component>
@@ -200,7 +214,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="yxw_task_2_31" />
+              <option name="myItemId" value="yxw_task_2_32" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -226,6 +240,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="FullScreen" value="false" />
+    <property name="DefaultHtmlFileTemplate" value="Html5" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -371,14 +386,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
-          <caret line="10" column="136" selection-start-line="10" selection-start-column="136" selection-end-line="10" selection-end-column="136" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/normalize.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8680">
@@ -387,9 +394,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/baidu-work/yxw_task_2_32/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="909">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/baidu-work/yxw_task_2_31/task31.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.076923" vertical-offset="0" max-vertical-offset="760">
+        <state vertical-scroll-proportion="0.38505095" vertical-offset="0" max-vertical-offset="883">
           <caret line="17" column="29" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="29" />
           <folding />
         </state>
@@ -397,9 +412,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/baidu-work/yxw_task_2_31/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7040704" vertical-offset="0" max-vertical-offset="909">
-          <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.4180418" vertical-offset="0" max-vertical-offset="909">
+          <caret line="19" column="27" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
+          <caret line="10" column="136" selection-start-line="10" selection-start-column="136" selection-end-line="10" selection-end-column="136" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/baidu-work/yxw_task_2_32/task32.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.923077" vertical-offset="0" max-vertical-offset="380">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/baidu-work/yxw_task_2_32/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4840484" vertical-offset="0" max-vertical-offset="909">
+          <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
