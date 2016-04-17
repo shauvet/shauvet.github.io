@@ -22,13 +22,26 @@ var formFactory = (function(){
         }
     }
 
+    /*检查方法*/
+    var check = (function(){
+        return {
+            nameCheck:function(){},
+            passCheck:function(){},
+            repassCheck:function(){},
+            emailCheck:function(){},
+            phoneCheck:function(){}
+        };
+
+    })();
+
     var nameCre = $('name');
     var passwordCre = $('password');
     var emailCre = $('email');
     var phoneCre = $('phone');
 
-    var formCre = $('formCreate')
+    var formCre = $('formCreate');
 
+    /*表单工厂*/
     function FormList(label,type,rules,validator){
         this.label = label;
         this.type = type;
@@ -36,5 +49,11 @@ var formFactory = (function(){
         this.validator = validator;
 
     }
+
+    var name = new FormList('名称','input','必填，长度为4-16个字符',nameCheck);
+    var password = new FormList('密码','password','必填，长度为6-8个字符',passCheck);
+    var rePassword = new FormList('确认密码','password','与密码相同',repassCheck);
+    var email = new FormList('邮箱','email','请输入邮箱',emailCheck);
+    var phone = new FormList('手机','telephone','请输入手机号',phoneCheck);
 
 })();
