@@ -1,1 +1,8 @@
 *{margin:0;padding:0;}
+
+.style1 input{width:200px;height:40px;}
+.style2 input{width:150px;height:60px;}
+
+.normal{border-color: #2189bf;}
+.right{border-color: #21a557;}
+.wrong{border-color: #cf4b36;}
