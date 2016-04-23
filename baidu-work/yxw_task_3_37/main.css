@@ -1,0 +1,13 @@
+*{margin: 0;padding: 0;box-sizing: border-box;font-family: "microsoft yahei";}
+
+.wrapper{width:960px;margin:0 auto;padding: 15px;}
+.wrapper button{cursor: pointer;}
+
+.mask{display:none;position:fixed;width: 100%;height: 100%;background-color: rgba(0,0,0,0.3);z-index: 2;}
+.modal{display:none;position:absolute;top:50%;left:50%;width: 400px;height: 300px;margin-top:-150px;margin-left:-200px;z-index: 3;background-color: #ddd;}
+.modal h6{height: 50px;padding: 10px;line-height: 30px;color: #ddd;background-color: #666;}
+.modal .close{display: block;position: absolute;top:5px;right:5px;width:15px;height: 15px;line-height:15px;font-size:15px;color: #fff;background-color: #2189bf;}
+.modal .close:hover{color: #fff;background-color: #cf4b36;cursor: pointer;}
+.modal p{padding: 10px;}
+.modal .modal-footer{position:absolute;right:0;bottom:0;height: 70px;width:100%;padding: 10px;}
+.modal button{float:right;margin-left:5px;width: 150px;height: 50px;color: #ddd;background-color: #666;}
