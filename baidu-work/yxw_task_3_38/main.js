@@ -3,13 +3,6 @@
  */
 var sortTable = (function(){
 
-    var title = ['姓名','语文','数学','英语','总分'];
-    var data = {
-        '小明':['80','90','70','240'],
-        '小红':['90','60','90','240'],
-        '小亮':['60','100','70','230']
-};
-
     function addEvent(ele,type,func){
         if(ele.addEventListener){
             ele.addEventListener(type,func,false);
@@ -20,14 +13,15 @@ var sortTable = (function(){
         }
     }
 
-    function SortTable(tableEle, thead, data, funcSort){
+    var SortTable = function (tableEle, courses, data, funcSort){
         this.tableEle = tableEle;
-        this.thead = thead;
+        this.courses = courses;
         this.data = data;
         this.funcSort = funcSort;
         this.curOrder = null;
+
         this.init();
-    }
+    };
 
     SortTable.prototype = {
         init: function(){
@@ -35,25 +29,55 @@ var sortTable = (function(){
             for (var key in this.data){
                 this.curOrder.push(key);
             }
+
             this.render();
         },
-        render: function(){
-            var strBody = '',
-                i;
-            for(key in this.data){
-                strBody += '<tr><td>' + key + '</td>';
-                for(i=0; i<this.data[key].length; i++){
-                    strBody += '<td>' + this.data[key][i] + '</td>';
-                }
+        render: function() {
+            function fn(d) {
+                return '<td>' + d + '</td>';
             }
-            strBody += '</tr>';
-            this.tableEle += strBody;
+
+            var items = '<tr>';
+            items += this.courses.map(fn).join('');
+            items += '</tr>';
+
+            for (var i = 0; i < this.curOrder.length; i++) {
+                var name = this.curOrder[i];
+                items += '<tr><td>' + name + '</td>';
+                items += this.data[name].map(fn).join('');
+                items += '</tr>'
+            }
+
+            this.tableEle.innerHTML = items;
+
             this.addSortEle();
         },
+//        render: function(){
+//            this.tableEle.innerHTML = '';
+//            var strHead = '<thead><tr>',
+//                strBody = '',
+//                i,j;
+//            for (i=0; i<this.courses.length; i++){
+//                strHead += '<th>' + courses[i] + '</th>';
+//            }
+//            for (var key in this.data){
+//                strBody += '<tr><td>' + key + '</td>';
+//                for(j=0; j<this.data[key].length; j++){
+//                    strBody += '<td>' + this.data[key][j] + '</td>';
+//                }
+//            }
+//            strHead += '</thead></tr>';
+//            strBody += '</tr>';
+//            this.tableEle.innerHTML += strHead;
+//            this.tableEle.innerHTML += strBody;
+//
+//            this.addSortEle();
+//        },
         addSortEle: function(){
             var self = this;
-            var addArrow = function(index){
+            function addArrow(index){
                 var wrapper = document.createElement('span');
+                wrapper.style.cssText = 'display:inline-block;';
                 var arrowUp = document.createElement('i');
                 arrowUp.style.cssText = 'display: inline-block;width: 0;height: 0;border-style: solid;border-width: 0 7.5px 13.0px 7.5px;border-color: transparent transparent #007bff transparent;';
                 var arrowDown = document.createElement('i');
@@ -62,26 +86,30 @@ var sortTable = (function(){
                 wrapper.appendChild(arrowDown);
 
                 var th = self.tableEle.children[0].children[0].children[index];
-                var func = self.funcSort(self.thead[index]);
+                th.appendChild(wrapper);
 
-                addEvent(arrowUp, 'click', function(){
+                var func = self.funcSort(self.courses[index]);
+
+                addEvent(arrowUp, 'click', function(e){
                     self.curOrder.sort(function(a, b){
                         return -func(self.data[a][index-1], self.data[b][index-1]);
                     });
+
                     self.render();
                 });
-                addEvent(arrowDown, 'click', function(){
+                addEvent(arrowDown, 'click', function(e){
                     self.curOrder.sort(function(a, b){
                         return func(self.data[a][index-1], self.data[b][index-1]);
                     });
+
                     self.render();
                 });
 
                 return wrapper;
             };
-            for(var i=0; i<self.thead.length; i++){
-                var head = self.thead[i];
-                var func = self.funcSort(head);
+            for(var i=0; i<self.courses.length; i++){
+                var name = self.courses[i];
+                var func = self.funcSort(name);
 
                 if(func){
                     var ele = addArrow(i);
@@ -90,8 +118,15 @@ var sortTable = (function(){
         }
     };
 
+    var courses = ['姓名','语文','数学','英语','总分'];
+    var data = {
+        '小明':['80','90','70','240'],
+        '小红':['90','60','90','240'],
+        '小亮':['60','100','70','230']
+    };
+
     var funcSort = function(name){
-        if(name == title[0]){
+        if(name == courses[0]){
             return;
         }
         return function(a, b){
@@ -99,6 +134,7 @@ var sortTable = (function(){
         }
     };
 
-    var tableWrapper = document.querySelector('.wrapper');
-    var newTable = new SortTable(tableWrapper, data, title, funcSort);
+    var table = document.querySelector('.table');
+    console.log(table);
+    var newTable = new SortTable(table, courses, data, funcSort);
 })();
