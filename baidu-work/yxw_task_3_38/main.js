@@ -32,47 +32,28 @@ var sortTable = (function(){
 
             this.render();
         },
-        render: function() {
-            function fn(d) {
-                return '<td>' + d + '</td>';
+        render: function(){
+            this.tableEle.innerHTML = '';
+            var strHead = '<thead><tr>',
+                strBody = '',
+                i, j, k;
+            for (i=0; i<this.courses.length; i++){
+                strHead += '<th>' + courses[i] + '</th>';
             }
-
-            var items = '<tr>';
-            items += this.courses.map(fn).join('');
-            items += '</tr>';
-
-            for (var i = 0; i < this.curOrder.length; i++) {
-                var name = this.curOrder[i];
-                items += '<tr><td>' + name + '</td>';
-                items += this.data[name].map(fn).join('');
-                items += '</tr>'
+            for (j=0; j<this.curOrder.length; j++){
+                var name = this.curOrder[j];
+                strBody += '<tr><td>' + name + '</td>';
+                for (k=0; k<this.data[name].length; k++){
+                    strBody += '<td>' + this.data[name][k] + '</td>';
+                }
             }
-
-            this.tableEle.innerHTML = items;
+            strHead += '</thead></tr>';
+            strBody += '</tr>';
+            this.tableEle.innerHTML += strHead;
+            this.tableEle.innerHTML += strBody;
 
             this.addSortEle();
         },
-//        render: function(){
-//            this.tableEle.innerHTML = '';
-//            var strHead = '<thead><tr>',
-//                strBody = '',
-//                i,j;
-//            for (i=0; i<this.courses.length; i++){
-//                strHead += '<th>' + courses[i] + '</th>';
-//            }
-//            for (var key in this.data){
-//                strBody += '<tr><td>' + key + '</td>';
-//                for(j=0; j<this.data[key].length; j++){
-//                    strBody += '<td>' + this.data[key][j] + '</td>';
-//                }
-//            }
-//            strHead += '</thead></tr>';
-//            strBody += '</tr>';
-//            this.tableEle.innerHTML += strHead;
-//            this.tableEle.innerHTML += strBody;
-//
-//            this.addSortEle();
-//        },
         addSortEle: function(){
             var self = this;
             function addArrow(index){
