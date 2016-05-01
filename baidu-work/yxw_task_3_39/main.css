@@ -1,5 +1,5 @@
 *{margin: 0;padding: 0;box-sizing: border-box;}
-.wrapper{width: 960px;margin: 0 auto;background-color: #ddd;padding: 15px;}
+.wrapper{width: 960px;height: 1800px;margin: 0 auto;background-color: #ddd;padding: 15px;}
 .wrapper table{border: 1px solid #ccc;border-collapse: collapse;}
 .wrapper th,.wrapper td{border: 1px solid #ccc;border-collapse: collapse;padding: 5px 15px;}
 .wrapper th{background-color: #ccc;}
