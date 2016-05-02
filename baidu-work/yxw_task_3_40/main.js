@@ -3,25 +3,63 @@
  */
 ;(function($, window, document, undefined){
     //定义Mycalender构造函数
-    var MyCalender = function(ele, opt){
-        this.$element = ele;
-        this.defaults = {
-            'show': true
+    var MyCalender = function(wrapper){
+        this.wrapper = wrapper;
+        this.date = new Date();
+        this.mainEle = null;
 
-        };
-        this.options = $.extend({}, this.defaults, opt);
+
+        this.init();
     };
+
 //定义Mycalender的方法
     MyCalender.prototype = {
-        createCalender: function(){
+        weekday: ['一', '二', '三', '四', '五', '六', '日'],
+        init: function(){
+            this.mainEle = $('<div></div>')
+                .css('width', '400px')
+                .css('height', '400px')
+                .css('border', '2px solid #999')
+                .css('font-family', 'microsoft yahei')
+                .appendTo(this.wrapper);
 
+            this.render();
+        },
+        render: function(){
+            var titleWrapper = $('<div></div>')
+                .css('text-align', 'center')
+                .css('line-height', '1.5em')
+                .appendTo(this.mainEle);
+            var title = $('<span></span>')
+                .appendTo(titleWrapper);
+            var previous = $('<strong></strong>')
+                .html('<')
+                .css('float', 'left')
+                .css('cursor', 'pointer')
+                .appendTo(titleWrapper)
+                .click(function(){});
+            var next = $('<strong></strong>')
+                .html('>')
+                .css('float', 'right')
+                .css('cursor', 'pointer')
+                .appendTo(titleWrapper)
+                .click(function(){});
+
+            var table = $('<table></table>')
+                .appendTo(this.wrapper);
+            var thead = $('<thead></thead>');
+            for(var i=0; i<this.weekday.length; i++){
+                var th = $('<th>').html(this.weekday[i]).appendTo(thead);
+            }
+            thead.appendTo(table);
+
+            var tbody = $('<tbody></tbody>');
+            for(var j=0; j<42; j++){
+                var td = $('<td>').css('cursor', 'pointer').appendTo(tbody);
+            }
+            tbody.appendTo(table);
+            
         }
     };
-//在插件中实用MyCalender对象
-    $.fn.myPlugin = function(options){
-        //创建MyCalender实体
-        var calender = new MyCalender(this, options);
-        //调用其方法
-        return calender.createCalender();
-    }
+
 })(jQuery, window, document);
