@@ -7,7 +7,7 @@
         this.wrapper = wrapper;
         this.date = new Date();
         this.mainEle = null;
-
+        this.selectedEle = null;
 
         this.init();
     };
@@ -30,7 +30,7 @@
                 .css('text-align', 'center')
                 .css('line-height', '1.5em')
                 .appendTo(this.mainEle);
-            var title = $('<span></span>')
+            var title = $('<span class="j-title"></span>')
                 .appendTo(titleWrapper);
             var previous = $('<strong></strong>')
                 .html('<')
@@ -58,8 +58,71 @@
                 var td = $('<td>').css('cursor', 'pointer').appendTo(tbody);
             }
             tbody.appendTo(table);
-            
+
+            this.renderByDate(this.date);
+
+            var self = this;
+            this.mainEle.click(function(e){
+                if (e.target.nodeName === 'TD') {
+                    var tds = $('td'),
+                        oIndex = tds.index($(e.target)),
+                        selectIndex = tds.index(self.selectedEle);
+                    var dat = new Date(self.date);
+                    dat.setDate(dat.getDate() + oIndex - selectIndex);
+                    self.selectDate(dat);
+                }
+            })
+        },
+        preMonth: function(){
+            var dateTemp = new Date(this.date);
+            dateTemp.setMonth(dateTemp.getMonth() + 1);
+            this.selectDate(dateTemp);
+        },
+        nextMonth: function(){
+            var dateTemp = new Date(this.date);
+            dateTemp.setMonth(dateTemp.getMonth() - 1);
+            this.selectDate(dateTemp);
+        },
+        selectDate: function(date){
+            this.selectedEle.css('background-color','').css('color','');
+            if (date.getMonth() === this.date.getMonth()) {
+                var tds = $('td'),
+                    oIndex = tds.index(this.selectedEle);
+                var temp = tds.get(oIndex + date.getData() - this.date.getDate());
+                this.selectedEle = $(temp).css('background-color', '#f33').css('color', '#fff');
+            } else {
+                this.renderByDate(date);
+            }
+
+            this.date = date;
+        },
+        renderByDate: function (date) {
+            $('.j-title').html(date.getFullYear() + '年' + (date.getMonth() + 1) + '月');
+            var dat = new Date();
+            dat.setDate(dat.getDate() - date.getDate() + 1);
+            dat.setDate(dat.getDate() - dat.getDay());
+
+            var tds = $('td');
+            for (var i=0; i<42; i++) {
+                var ele = $(tds.get(i+7)).html(dat.getDate());
+            }
+
+            if (dat.getMonth() !== date.getMonth()) {
+                ele.css('color', '#ccc');
+            } else {
+                if (dat.getDay() === 0 || dat.getDay() === 6) {
+                    ele.css('color', '#f33');
+                }
+            }
+
+            if (dat.getTime() === date.getTime()) {
+                ele.css('background-color', '#f33').css('color','#fff')
+                this.selectedEle = ele;
+            }
+
+            dat.setDate(dat.getDate() + 1);
         }
     };
 
+    var calender = new MyCalender($('.wrapper'));
 })(jQuery, window, document);
