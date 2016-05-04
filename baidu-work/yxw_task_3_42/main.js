@@ -41,13 +41,14 @@ MyCalender.prototype = {
             .css('z-index', '99')
             .css('top', '50px')
             .css('width', '360px')
-            .css('height', '440px')
+            .css('height', '480px')
             .css('border', '2px solid #ccc')
             .css('font-family', 'microsoft yahei')
             .hide().appendTo(this.wrapperDiv);
 
         var self = this;
         var titleWrapper = $('<div></div>')
+            .css('height', '40px')
             .css('text-align', 'center')
             .css('line-height', '1.5em')
             .appendTo(wrapperCal);
@@ -222,14 +223,14 @@ MyCalender.prototype = {
         this.date = date;
     },
     renderByDate: function(date) {
-        this.mainDiv.find('.title').html(date.getFullYear() + '年' + (date.getMonth() + 1) + '月');
+        this.wrapperDiv.find('.j-title').html(date.getFullYear() + '年' + (date.getMonth() + 1) + '月');
 
         // 找到第一个日期
         var dat = new Date(date);
         dat.setDate(dat.getDate() - date.getDate() + 1);
         dat.setDate(dat.getDate() - dat.getDay());
 
-        var tds = this.mainDiv.find('i');
+        var tds = this.wrapperDiv.find('i');
         for (var i = 0; i < 42; i++) {
             // 获取显示日子的jq对象
             var ele = $(tds.get(i + 7)).html(dat.getDate());
@@ -271,9 +272,9 @@ var calender1 = new MyCalender($('.wrapper')).select(function(){
     alert('您选择了' + this.getSelectedDate());
 });
 
-$(document.body).append($('<p>上面是一个选择时间跨度的,最短3天最长100天</p>').css('margin-bottom', '50px'))
+$(document.body).append($('<p>上面是一个选择时间跨度的,最短3天最长100天</p>').css('margin-bottom', '50px'));
 
-var calender2 = new DatePicker($(document.body)).select(function() {
+var calender2 = new MyCalender($('.wrapper')).select(function() {
     alert('您选择了' + this.getSelectedDate());
 });
 
