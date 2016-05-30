@@ -1,0 +1,26 @@
+.footIcon{
+	background: url(../../images/footer_1.png);
+	background-repeat: no-repeat;
+	width: 48px;
+	height: 48px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+.currentIcon{
+	background-image: url(../../images/footer_2.png);
+}
+.fi1{
+	background-position: 0 0;
+}
+.fi2{
+	background-position: 0 -60px;
+}
+.fi3{
+	background-position: 0 -120px;
+}
+.fi4{
+	background-position: 0 -180px;
+}
+.fi5{
+	background-position: 0 -240px;
+}

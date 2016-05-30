@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=0.5,user-scalable=no,target-densitydpi=device-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="no" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>杭州数用科技信息有限公司</title>
+		<style id="_zoom"></style>
+		<script type="text/javascript" src="../js/self-adaptive.js"></script>
+		<link rel="stylesheet" href="../css/android/client/new_client.css" />
+		<script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
+	</head>
+
+	<body class="zoom">
+		<!--头部开始-->
+		<header class="header">
+			<a class="mui-action-back">
+				<div class="back">
+					<img src="../images/btn_fanhui.png">
+				</div>
+			</a>
+			<div class="head_middle">
+				新建企业客户
+			</div>
+			<a href="client.html" class="right">
+			    客户列表  
+			</a>
+		</header>
+		<form method="post" id="form1" class="scroll_total">
+			<div class="abstract">
+				<div class="title title_add">客户名称</div>
+				<div class="level_outside">
+					<div class="level">热</div>
+				</div>
+				<a url="client_name.html" class="link_btn" data='{"type":"clientName"}'>
+					<div class="name" id="clientName"> 
+						<input type="text" placeholder="（必填）">
+					</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</a>
+			</div>
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">标签</div>
+				<a url="choice_detail.html" class="link_btn" data='{"type":"tag"}'>
+					<div class="name" id="tag">已沟通</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</a>
+			</div>
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">联系人</div>
+				<div class="digit1">
+					<input type="text" placeholder="请输入联系人姓名" id="linkman" value="">
+				</div>
+			</div>
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">联系电话</div>
+				<div class="digit1">
+					<input type="text" placeholder="请输入联系电话" id="mobile" value="">
+				</div>
+			</div>
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">客户地址</div>
+				<div class="digit1">
+					<input type="text" placeholder="请输入公司地址" id="address" value="杭州市滨江区江虹路上峰电商产业园">
+				</div>
+			</div>
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">所有人</div>
+				<a url="choice_detail.html" class="link_btn" data='{"type":"owner"}'>
+					<div class="name" id="owner">张华</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</a>
+			</div>
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">客户类型</div>
+				<a url="choice_detail.html" class="link_btn" data='{"type":"clientType"}'>
+					<div class="name" id="clientType">普通客户</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</a>
+			</div>
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">行业</div>
+				<a url="choice_detail.html" class="link_btn" data='{"type":"industry"}'>
+					<div class="name" id="industry">其他</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</a>
+			</div>
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">客户阶段</div>
+				<a url="choice_detail.html" class="link_btn" data='{"type":"targetClient"}'>
+					<div class="name" id="targetClient">目标客户</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</a>
+			</div>
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">重要程度</div>
+				<div class="name">
+					<div id="QuacorGrading">
+
+						<input name="1" type="button" />
+						<input name="2" type="button" />
+						<input name="3" type="button" />
+						<input name="4" type="button" />
+						<input name="5" type="button" />
+						<span id="QuacorGradingValue"><b><font size="5" color="#fd7d28"></font></b></span>
+					</div>
+				</div>
+			</div>
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">来源</div>
+				<a url="choice_detail.html" class="link_btn" data='{"type":"source"}'>
+					<div class="name" id="source">独立开发</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</a>
+			</div>
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">感兴趣产品</div>
+				<a url="choice_detail.html" class="link_btn" data='{"type":"interest"}'>
+					<div class="name" id="interest">CRM</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</a>
+			</div>
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">营销阶段</div>
+				<a url="choice_detail.html" class="link_btn" data='{"type":"marketing"}'>
+					<div class="name" id="marketing">初步咨询</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</a>
+			</div>
+			<div class="bottom_xian"></div>
+		</form>
+		<footer class="footer">
+			<div class="bottom">
+				<a class="mui-action-back">  
+						取消
+					</a>
+			</div>
+			<div class="bottom">
+				<a href="client_detail.html">
+					<button type="button" id="btnSave">保存</button>
+				</a>
+			</div>
+		</footer>
+		<script type="text/javascript" src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/client/new_client.js"></script>
+	</body>
+
+</html>

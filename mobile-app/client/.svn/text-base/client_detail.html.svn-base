@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=0.5,user-scalable=no,target-densitydpi=device-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="no" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>杭州数用科技信息有限公司</title>
+		<style id="_zoom"></style>
+		<script type="text/javascript" src="../js/self-adaptive.js"></script>
+		<link rel="stylesheet" href="../css/android/client/client_detail.css" />
+		<!--<script type="text/javascript" src="js/zepto_min.js"></script>-->
+		<script type="text/javascript" src="../js/touchslider.js"></script>
+		<script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
+	</head>
+
+	<body class="zoom">
+		<!--头部开始-->
+		<header class="header">
+			<a class="mui-action-back">
+				<div class="back">
+					<img src="../images/btn_fanhui.png">
+				</div>
+			</a>
+			<div class="head_middle">
+				<div class="first">客户视图</div>
+				<div class="second">目标客户&nbsp;&nbsp;张华</div>
+			</div>
+			<a href="client.html" class="right">
+			    客户列表                               
+			</a>
+		</header>
+		<div class="nav">
+			<ul id="pagenavi1" class="page">
+				<li>
+					<a href="#" class="active">客户信息</a>
+				</li>
+				<li>
+					<a href="#">相关摘要</a>
+				</li>
+			</ul>
+		</div>
+		<div class="scroll_total">
+			<div id="slider1" class="swipe">
+				<ul class="box01_list">
+					<li class="li_list">
+						<div class="abstract">
+							<div class="title title_add">客户名称</div>
+							<div class="level_outside">
+								<div class="level">热</div>
+							</div>
+							<a url="choice_detail.html" class="link_btn" data='{"type":"clientNameList"}'>
+								<div class="name" id="clientNameList">
+									南京坤宁安固
+								</div>
+								<div class="pic">
+									<img src="../images/btn_xiayiye.png" />
+								</div>
+							</a>
+						</div>
+						<div class="kong"></div>
+						<div class="abstract">
+							<div class="title">联系人</div>
+							<a url="choice_detail.html" class="link_btn" data='{"type":"linkman"}'>
+								<div class="name" id="linkman">李鸣</div>
+								<div class="pic">
+									<img src="../images/btn_xiayiye.png" />
+								</div>
+							</a>
+						</div>
+						<div class="kong"></div>
+						<div class="abstract">
+							<div class="title">客户阶段</div>
+							<a url="choice_detail.html" class="link_btn" data='{"type":"targetClient"}'>
+								<div class="name" id="targetClient">目标客户</div>
+								<div class="pic">
+									<img src="../images/btn_xiayiye.png" />
+								</div>
+							</a>
+						</div>
+						<div class="kong"></div>
+						<div class="abstract">
+							<div class="title">行业</div>
+							<a url="choice_detail.html" class="link_btn" data='{"type":"industry"}'>
+								<div class="name" id="industry">其他</div>
+								<div class="pic">
+									<img src="../images/btn_xiayiye.png" />
+								</div>
+							</a>
+						</div>
+						<div class="kong"></div>
+						<div class="abstract">
+							<div class="title">重要程度</div>
+							<div class="name">
+								<div id="QuacorGrading">
+									<input name="1" type="button" />
+									<input name="2" type="button" />
+									<input name="3" type="button" />
+									<input name="4" type="button" />
+									<input name="5" type="button" />
+									<span id="QuacorGradingValue"><b><font size="5" color="#fd7d28"></font></b></span>
+								</div>
+							</div>
+						</div>
+						<div class="kong"></div>
+						<div id="showdiv" style="display: none;">   
+							<div class="abstract">
+								<div class="title">客户地址</div>
+								<a url="text_detail.html" class="link_btn" data='{"type":"address"}'>
+									<div class="name" id="address">杭州市滨江区</div>      
+									<div class="pic">
+										<img src="../images/btn_xiayiye.png" />
+									</div>
+								</a>
+							</div>
+							<div class="kong"></div>
+							<div class="abstract">
+								<div class="title">标签</div>
+								<a url="choice_detail.html" class="link_btn" data='{"type":"tag"}'>
+									<div class="name" id="tag">已沟通</div>
+									<div class="pic">
+										<img src="../images/btn_xiayiye.png" />
+									</div>
+								</a>
+							</div>
+							<div class="kong"></div>
+							<div class="abstract">
+								<div class="title">所有人</div>
+								<a url="text_detail.html" class="link_btn" data='{"type":"owner"}'>
+									<div class="name" id="owner">张华</div>
+									<div class="pic">
+										<img src="../images/btn_xiayiye.png" />
+									</div>
+								</a>
+							</div>
+							<div class="kong"></div>
+							<div class="abstract">
+								<div class="title">客户类型</div>
+								<a url="choice_detail.html" class="link_btn" data='{"type":"clientType"}'>
+									<div class="name" id="clientType">普通客户</div>
+									<div class="pic">
+										<img src="../images/btn_xiayiye.png" />
+									</div>
+								</a>
+							</div>
+							<div class="kong"></div>
+							<div class="abstract">
+				<div class="title">来源</div>
+				<a url="choice_detail.html" class="link_btn" data='{"type":"source"}'>
+					<div class="name" id="source">独立开发</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</a>
+			</div>
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">感兴趣产品</div>
+				<a url="choice_detail.html" class="link_btn" data='{"type":"interest"}'>
+					<div class="name" id="interest">CRM</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</a>
+			</div>  
+							<div class="kong"></div>
+						</div>
+						<a href="#" onclick="showHideCode()">
+							<div class="more" id="moreDiv">
+								更多
+							</div>
+						</a>
+						<div class="bottom_xian"></div>
+						<div class="one">
+							<div id="btn1" class="img01">
+								<div class="firsttitle">联系人</div>
+							</div>
+							<a href="#">
+								<div class="scan">名片扫描</div>
+							</a>
+							<a class="add" href="new_content.html"><img src="../images/btn_xinjian1.png" /> </a>
+							<div class="next" style="margin-top:8px">
+								<img src="../images/btn_xiayiye.png" />
+							</div>
+						</div>
+						<div id="content1" class="content1">
+							<div class="firstchild">
+								<div class="main">
+									<div class="firstname">李鸣</div>
+									<div class="dep">销售</div>
+									<div class="phone">13856893926</div>
+									<div class="next">
+										<img src="../images/btn_xiayiye.png" />
+									</div>
+								</div>
+							</div>
+							<div class="kong"></div>
+							<div class="firstchild">
+								<div class="main">
+									<div class="firstname">张霞</div>
+									<div class="dep">财务</div>
+									<div class="phone">13856893926</div>
+									<div class="next">
+										<img src="../images/btn_xiayiye.png" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="one">
+							<div id="btn2" class="img01" style="width:556px;">
+								<div class="firsttitle" style="width:516px;">回访记录</div>
+							</div>
+							<a class="add" href="new_company.html"><img src="../images/btn_xinjian1.png" /> </a>
+							<div class="next" style="margin-top:8px">
+								<img src="../images/btn_xiayiye.png" />
+							</div>
+						</div>
+
+						<div id="content2" class="content1">
+							<div class="firstchild">
+								<div class="main">
+									<div class="firstname">给客户远程培训</div>
+									<div class="record_next">
+										<img src="../images/btn_xiayiye.png" />
+									</div>
+								</div>
+							</div>
+							<div class="kong_record"></div>
+							<div class="firstchild">
+								<div class="main">
+									<div class="firstname">张总（李鸣）</div>
+									<div class="firstname">2015-7-22&nbsp;&nbsp;&nbsp;10:01</div>
+								</div>
+							</div>
+						</div>
+						<div class="one">
+							<div id="btn3" class="img01">
+								<div class="firsttitle">共享</div>
+							</div>
+							<a href="#">
+								<div class="scan">撤销共享</div>
+							</a>
+							<a class="add" href="#"><img src="../images/btn_xinjian1.png" /> </a>
+							<div class="next" style="margin-top:8px">
+								<img src="../images/btn_xiayiye.png" />
+							</div>
+						</div>
+						<div id="content3" class="content1">
+							<div class="firstchild">
+								<div class="main">
+									<div class="share_firstname">李鸣</div>
+									<div class="permission"><img src="images/btn_kedu.png" /><span>读</span></div>
+									<div class="permission"><img src="images/btn_kexie.png" /><span>写</span></div>
+								</div>
+							</div>
+							<div class="kong"></div>
+							<div class="firstchild">
+								<div class="main">
+									<div class="share_firstname">张总</div>
+									<div class="permission"><img src="images/btn_kedu.png" /><span>读</span></div>
+									<div class="permission"><img src="images/btn_bukexie.png" /><span>写</span></div>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li class="li_list">
+						<div class="abstract">
+							<div class="title">合同/订单 </div>
+							<div class="digit">1000000000</div>
+						</div>
+						<div class="kong"></div>
+						<a href="#">
+							<div class="abstract">
+								<div class="title">回款</div>
+								<div class="digit">183960</div>
+							</div>
+						</a>
+						<div class="kong"></div>
+						<a href="#">
+							<div class="abstract">
+								<div class="title">应收明细</div>
+								<div class="digit">25869</div>
+							</div>
+						</a>
+						<div class="kong"></div>
+						<a href="#">
+							<div class="abstract">
+								<div class="title">已发货/交付产品</div>
+								<div class="digit">6655447</div>
+							</div>
+						</a>
+						<div class="kong"></div>
+						<a href="#">
+							<div class="abstract">
+								<div class="title">已开发票</div>
+								<div class="digit">1968358</div>
+							</div>
+						</a>
+						<div class="kong"></div>
+						<a href="#">
+							<div class="abstract">
+								<div class="title">销售费用</div>
+								<div class="digit">123568</div>
+							</div>
+						</a>
+						<div class="bottom_xian"></div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<footer class="footer">
+			<div class="bottom">
+				<a href="#">
+						共享
+					</a>
+			</div>
+			<div class="bottom">
+				<a href="#"> 
+						转移
+					</a>
+			</div>
+			<div class="bottom">
+				<a href="#">
+						更多
+					</a>
+			</div>
+		</footer>
+		<script type="text/javascript" src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/client/client_detail.js"></script>
+	</body>
+
+</html>

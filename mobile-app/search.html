@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" /> 
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=0.5,user-scalable=no,target-densitydpi=device-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="no" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>杭州数用科技信息有限公司</title>
+		<style id="_zoom"></style>
+		<script type="text/javascript" src="js/self-adaptive.js"></script>
+		<link rel="stylesheet" href="css/android/search.css" />
+		<script type="text/javascript" src="js/jquery-1.7.2.min.js" ></script>
+		<script type="text/javascript">
+$(function(){
+	$("#rest").click(function(){
+		$("#search").attr("value","");
+		});
+});
+</script>
+	</head>
+	<body class="zoom">
+		<header class="header">
+		<div class="search">
+			<a ><img src="images/icon_sousuo.png"/></a>
+			<input id="search" type="search" value="" placeholder="搜索">
+			<div class="rest" id="rest"><img src="images/reset.png"/></div> 
+		</div>
+		<a class="mui-action-back"><div class="cancel">取消</div></a>
+		</header>
+		<div class="rimd_img">
+			<img src="images/icon_Hkehu.png"  />
+			<img src="images/icon_Hlianxiren.png" class="middle_img" />
+			<img src="images/icon_Hhuifangjilu.png" />
+		</div>
+		<div class="rimd_zi">您可以搜索到：客户、联系人、回访记录</div>
+		<div class="scroll_total">
+		<a href="search_detail.html">
+		<div class="content">
+			李鸣
+		</div>
+		<div class="xian"></div>
+		</a>
+		</div>
+		<script type="text/javascript" src="js/mui.min.js" ></script>
+	</body>
+</html>

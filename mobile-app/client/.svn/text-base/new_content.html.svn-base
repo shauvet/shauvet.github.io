@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=0.5,user-scalable=no,target-densitydpi=device-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="no" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>杭州数用科技信息有限公司</title>
+		<style id="_zoom"></style>
+		<script type="text/javascript" src="../js/self-adaptive.js"></script>
+		<link rel="stylesheet" href="../css/android/client/new_client.css" />
+		<script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
+	</head>
+
+	<body class="zoom">
+		<!--头部开始-->
+		<header class="header">
+			<a class="mui-action-back">
+				<div class="back">
+					<img src="../images/btn_fanhui.png">
+				</div>
+			</a>
+			<div class="head_middle">
+				新建联系人
+			</div>
+			<a href="content_list.html">
+				<div class="right">
+					联系人列表
+				</div>
+			</a>
+		</header>
+		<form method="post" id="form1" class="scroll_total">
+			<div class="abstract">
+				<div class="title title_add">客户名称</div>
+				<div class="level_outside">
+					<div class="level">热</div>
+				</div>
+				<a url="client_name.html" class="link_btn" data='{"type":"clientName"}'>
+					<div class="name" id="clientName">
+						<input type="text" placeholder="（必填）">
+					</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</a>
+			</div>
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">联系人</div>
+				<div class="digit1">
+					<input type="text" placeholder="请输入联系人姓名" value="">
+				</div>
+			</div>
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">联系电话</div>
+				<div class="digit1">
+					<input type="text" placeholder="请输入电话号码" value="">
+				</div>
+			</div>
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">性别</div>
+				<a url="choice_detail.html" class="link_btn" data='{"type":"gender"}'>
+					<div class="digit1" id="gender">男</div> 
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</a>
+			</div>			
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">负责业务</div>
+				<a url="choice_detail.html" class="link_btn" data='{"type":"owner"}'>
+					<div class="name" id="owner">销售</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</a>
+			</div>
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">类型</div>
+				<a url="choice_detail.html" class="link_btn" data='{"type":"tag"}'>
+					<div class="name" id="tag">主联系人</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</a>
+			</div>
+			<div class="bottom_xian"></div>
+		</form>
+		<footer class="footer">
+			<div class="bottom">
+				<a class="mui-action-back">   
+						取消
+					</a>
+			</div>
+			<div class="bottom">
+				<a href="content_detail.html">
+					<button type="button" id="btnSave">保存</button>
+				</a>
+			</div>
+		</footer>
+		<script type="text/javascript" src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/client/new_content.js"></script>
+	</body>
+
+</html>

@@ -1,0 +1,462 @@
+/** 通用样式 */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+dd,
+dl,
+dt,
+li,
+ol,
+ul,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+body {
+	color: #33aae0;
+	font-size: 0.8em;
+	font-family: 'Microsoft YaHei', Arial, Helvetica, sans-serif;
+	background: #F1F2F2;
+	background-size: 100% 100%;
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	-webkit-overflow-scrolling: touch
+}
+audio,
+canvas,
+progress,
+video {
+	display: inline-block;
+	vertical-align: baseline
+}
+audio:not([controls]) {
+	display: none;
+	height: 0
+}
+[hidden],
+template {
+	display: none
+}
+a {
+    text-decoration: none;
+	background: 0 0
+}
+a:active,
+a:hover {
+	outline: 0
+}
+abbr[title] {
+	border-bottom: 1px dotted
+}
+b,
+strong {
+	font-weight: 700
+}
+dfn {
+	font-style: italic
+}
+h1 {
+	margin: .67em 0
+}
+mark {
+	color: #000;
+	background: #ff0
+}
+small {
+	font-size: 80%
+}
+sub,
+sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline
+}
+sup {
+	top: -.5em
+}
+sub {
+	bottom: -.25em
+}
+img {
+	border: 0
+}
+svg:not(:root) {
+	overflow: hidden
+}
+figure {
+	margin: 1em 40px
+}
+hr {
+	box-sizing: content-box;
+	height: 0
+}
+pre {
+	overflow: auto
+}
+code,
+kbd,
+pre,
+samp {
+	font-family: monospace, monospace;
+	font-size: 1em
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+	font: inherit;
+	margin: 0;
+	color: inherit;
+}
+button {
+	overflow: visible
+}
+button,
+select {
+	text-transform: none
+}
+button,
+html input[type=button],
+input[type=reset],
+input[type=submit] {
+	cursor: pointer;
+	-webkit-appearance: button
+}
+button[disabled],
+html input[disabled] {
+	cursor: default
+}
+input {
+	line-height: normal
+}
+input[type=checkbox],
+input[type=radio] {
+	box-sizing: border-box;
+	padding: 0
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+	height: auto
+}
+input[type=search]::-webkit-search-cancel-button,
+input[type=search]::-webkit-search-decoration {
+	-webkit-appearance: none
+}
+fieldset {
+	margin: 0 2px;
+	padding: .35em .625em .75em;
+	border: 1px solid silver
+}
+legend {
+	padding: 0;
+	border: 0
+}
+textarea {
+	overflow: auto
+}
+optgroup {
+	font-weight: 700
+}
+table {
+	border-spacing: 0;
+	border-collapse: collapse
+}
+td,
+th {
+	padding: 0
+}
+* {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	outline: 0;
+	-webkit-tap-highlight-color: transparent;
+}
+/** header */
+.header {
+	height: 96px;
+	line-height: 96px;
+	width: 100%;
+	top: 0px;
+	background: #33B5E6;
+	position: fixed;
+	z-index: 5;
+	background: #33B5E6;
+	text-align: center;
+}
+.back{
+	width:96px;
+	height: 96px;
+	float:left;
+	line-height: 96px;
+}
+.back img{
+	margin-top:32px;
+}
+.header_title{
+	width:528px; 
+	height:96px;
+	float:left;
+	color:#fff;
+	font-size:40px;
+}
+/** 下拉选项 */
+select {
+	display: none;
+}
+.select_box {
+	z-index: 1050;
+	font-size: 36px;
+	text-align: center;
+	line-height: 96px;
+	color: #fff;
+	float: left;
+	width: 324px;
+	margin-left: 105px;
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+.select_showbox {
+	width: 324px;
+	height: 96px;
+	background: #32B5E3 url(../../../images/btn_wodexia.png) no-repeat 250px 35px;
+}
+.select_option {
+	position: absolute;
+	left: 0;
+	width: 720px;
+	border-top: 1px solid #ddd;
+	display: none;
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+.select_option li {
+	list-style-type: none;
+	background: #fff;
+	border-bottom: 1px solid #ddd;
+	color: #333
+}
+.select_option li.selected {
+	background: #fff;
+	color: #333;
+}
+.select_option li.hover {
+	background: #fff;
+	color: #333;
+}
+/** 筛选条件 */
+.select_check{
+	position: relative;
+	top:96px;
+	width:100%;
+	height:96px;
+}
+.check { 
+	width: 50%;
+	height: 96px;
+	float: left;
+	background: #fff;
+	border-left: 1px solid #E0E0E0;
+	border-right: 1px solid #E0E0E0;
+	border-bottom: 2px solid #E0E0E0;
+}
+/* diy_select */
+
+.diy_select {
+	height: 96px;
+	width: 100%;
+	font-size: 36px;
+	background: #fff;
+	color: #000;
+	float: left;
+	border-bottom: 1px solid #ddd;
+	text-align: center;
+}
+.diy_select_btn {
+	text-align: left;
+	line-height: 94px;
+}
+.diy_select_txt {
+	float: left;
+	height: 100%;
+	line-height: 96px;
+	margin-left: 10%;
+}
+.diy_select_btn img {
+	margin-top: 25px;
+}
+.diy_select,
+.diy_select_list {
+	background: #fff;
+}
+.diy_select_txt {
+	width: 60%;
+}
+.diy_select_txt,
+.diy_select_list li {
+	text-indent: 10px;
+	overflow: hidden;
+}
+.diy_select_list {
+	position: absolute;
+	top: 2px;
+	z-index: 10;
+	width: 50%;
+	display: none;
+	margin-top: 96px;
+}
+.diy_select_list li {
+	list-style: none;
+	height: 96px;
+	color:#000;
+	line-height: 96px;
+	cursor: default;
+	border-bottom: 2px solid #E0E0E0;
+}
+.diy_select_list li a{
+		color:#000;
+}
+/**滚动条控制*/
+.scroll_total{
+	width:100%;
+	position:absolute;
+	top:192px;
+	left:0;
+	bottom:0;
+	overflow:auto; 	
+}
+.scroll_add{
+	top:96px;
+}
+/** content */
+.visit{
+	width:100%;
+	background: #fff;
+	padding-top:20px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #d9d9d9;
+	margin-bottom: 20px;
+}
+.name{
+	width:672px;
+	margin: 0 auto;
+	height:60px;
+	line-height: 60px;
+	font-size:40px;
+	color:#000;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.name .address, span{
+    float: right;
+	color:#33B5E4;
+	font-size:24px;
+
+}
+.address{
+	width:672px;
+	margin: 0 auto;
+	height:52px;
+	line-height: 52px;
+	font-size: 32px;
+	color:#000;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.time{
+	width:672px;
+	margin: 0 auto;
+	height:48px;
+	line-height: 48px;
+	font-size: 28px;
+	color:#000;
+}
+.time span{
+    color:#33B5E4;
+	font-size:24px;
+	float: left;
+	margin-right:20px;
+}
+.position{
+	width:100%;
+	background: #fff;
+	padding-top:25px;
+	padding-left:30px;
+	padding-bottom: 30px;
+}
+.total{
+	width:630px;
+	line-height: 42px;
+	font-size:32px;
+	color:#000;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.detail{
+	width:100%;
+	padding-left:30px;
+	line-height: 34px;
+	font-size:24px;
+	color:#909090;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.xian{
+	width:672px;
+	height:1px;
+	margin:0 auto;
+	border-bottom: 1px solid #d9d9d9;
+}

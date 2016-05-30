@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=0.5,user-scalable=no,target-densitydpi=device-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="no" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>杭州数用科技信息有限公司</title>
+		<style id="_zoom"></style>
+		<script type="text/javascript" src="../js/self-adaptive.js"></script>
+		<link rel="stylesheet" href="../css/android/mui.min.css" />
+		<link rel="stylesheet" href="../css/android/client/client.css" />
+		<script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript">
+$(document).ready(function(){
+	$("a.forgot").click(function(){
+		$("#login-modal").modal("hide");	
+});
+	$("#rest").click(function(){
+		$("#search").attr("value","");
+		});
+});  
+</script>
+	</head>
+
+	<body class="zoom">
+		<header class="header">
+			<a class="mui-action-back">
+				<div class="back">
+					<img src="../images/btn_fanhui.png">
+				</div>
+			</a>
+			<div class="header_middle">
+				<select name="choose" id="choose">
+					<option value="" selected="selected"><a href="#">我的联系人</a></option>
+					<option value="公司联系人"><a href="#">公司联系人</a></option>
+					<option value="团队联系人"><a href="#">团队联系人</a></option>
+					<option value="其他联系人"><a href="#">其他联系人</a></option>
+				</select>
+			</div>
+			<a href="new_content.html">
+				<img src="../images/btn_xinjian.png">
+			</a>
+			<a href="#">
+				<img src="../images/btn_gongneng.png">
+			</a>
+		</header>
+		<div class="select_check">
+			<div class="check">
+				<div class='diy_select'>
+					<input type='hidden' name='' class='diy_select_input' />
+					<div class='diy_select_txt'>条件筛选</div>
+					<div class='diy_select_btn'>
+						<img src="../images/btn_open.png" />
+					</div>
+					<ul class='diy_select_list'>
+						<li><a href="#">需回访</a></li>
+						<li><a href="#">七天未联系</a></li>
+						<li><a href="#">报价中</a></li>
+						<li><a href="#">成交客户</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="check">
+				<div class='diy_select'>
+					<input type='hidden' name='' class='diy_select_input' />
+					<div class='diy_select_txt'>更新时间</div>
+					<div class='diy_select_btn'>
+						<img src="../images/btn_open.png" />
+					</div>
+					<ul class='diy_select_list'>
+						<li><a href="#">更新时间顺序</a></li>
+						<li><a href="#">更新时间倒序</a></li>
+						<li><a href="#">公司名称顺序</a></li>
+						<li><a href="#">创建时间倒序</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--搜索-->
+		<div class="search">
+			<a ><img src="../images/icon_sousuo.png"/></a>
+			<input id="search" type="search" value="" placeholder="搜索">
+			<div class="rest" id="rest"><img src="../images/reset.png"/></div> 
+		</div>
+		<!--列表开始-->
+		<div class="scroll_total">
+			<div id="pullrefresh" class="mui-content mui-scroll-wrapper mui_add">
+				<div class="mui-scroll">
+					<ul class="mui-table-view mui-table-view-chevron">
+
+					</ul>
+				</div>
+			</div>
+			<div style="height:5px;width:100%;"></div>
+		</div>
+		<!--列表结束-->
+		<script type="text/javascript" src="../js/jquery.select.js"></script>
+		<script type="text/javascript" src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/select_down.js"></script>
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					var table = document.body.querySelector('.mui-table-view');
+					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+					for (var i = cells.length, len = i + 3; i < len; i++) {
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+						li.innerHTML = '<div class="content"><div class="left"><div class="title"><div class="company">南京坤宁安固科技有限公司 <p>张华&nbsp;&nbsp;成交客户</p></div></div><div class="name">李鸣&nbsp;&nbsp;13566355859</div><div class="record">记录&nbsp;&nbsp;给客户演示，希望手机APP能给每位客户带来方便，也希望大家能够对我们的产品多多提出意见</div><div class="abstract"><p>相关摘要:</p><span>合同/订单10000</span><span>回款19999</span><span>应收30000</span><span>已发货/交付产品100000</span><span>开发票10000</span></div></div><div class="edit"><img src="../images/btn_edit.png" /></div><div class="clear"></div></div>';
+						//下拉刷新，新纪录插到最前面；
+						table.insertBefore(li, table.firstChild);
+					}
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				}, 1500);
+			}
+			var count = 0;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+					var table = document.body.querySelector('.mui-table-view');
+					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+					for (var i = cells.length, len = i + 5; i < len; i++) {
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+						li.innerHTML = '<div class="content"><div class="left"><div class="title"><div class="content_name">李鸣<span>销售</span><a href="#">13856386653</a></div></div><a href="content_detail.html"><div class="content_company">南京坤宁安固有限公司<span>企业客户</span></div><div class="abstract"><p>最近记录:</p>给客户演示...</div></a></div><div class="edit"><a href=""><img src="../images/btn_edit.png" /></a></div><div class="clear"></div></div>';
+						
+						table.appendChild(li);
+					}
+				}, 1500);
+			}
+			if (mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 1000);
+
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+		</script>
+	</body>
+
+</html>

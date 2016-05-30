@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=0.5,user-scalable=no,target-densitydpi=device-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="no" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>杭州数用科技信息有限公司</title>
+		<!-- 下面两行页面自适应必写，顺序不能错 -->
+		<style id="_zoom"></style>
+		<script type="text/javascript" src="js/self-adaptive.js"></script>
+		<!-- 自适应结束 -->
+		<script type="text/javascript" src="js/mui.min.js" ></script>
+		<link rel="stylesheet" href="css/android/search.css" />
+	</head>
+	<body class="zoom">
+		<header class="header">
+			<a class="mui-action-back">
+				<div class="back"><img src="images/btn_fanhui.png" /></div>
+			</a>
+			<div class="header_title">联系人</div>
+			<div class="save">
+				<button type="button" id="btnSave" class="savebtn">保存</button>  
+			</div>
+		</header>
+		<form class="scroll_total scroll_add" action="#" method="post">
+         <div class="text_input">
+         	<input type="text" id="phone" name="phone" placeholder="请输入联系人姓名">
+         </div>
+		</form>
+	</body>
+</html>

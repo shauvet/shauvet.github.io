@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>杭州数用科技信息有限公司</title>
+<!--必要样式-->
+<link rel="stylesheet" href="../css/android/siginIn/signIn.css" />
+<script type="text/javascript" src="../js/mui.min.js" ></script>
+<script src="../js/signIn/photoswipe.min.js"></script> 
+<script src="../js/signIn/photoswipe-ui-default.min.js"></script> 
+</head>
+
+<body> 
+	
+	
+		<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+	
+			<div class="pswp__bg"></div>
+				<div class="pswp__scroll-wrap">   
+					<div class="mui-action-back photo_back">  
+					<img src="../images/photo_back.png">
+					</div>
+					<div class="pswp__container">
+						<div class="pswp__item"></div>
+						<div class="pswp__item"></div>
+						<div class="pswp__item"></div>
+					</div>
+					<div class="pswp__ui pswp__ui--hidden">
+						<div class="pswp__top-bar">
+							<div class="pswp__counter"></div>
+						<div class="pswp__preloader"></div>
+						</div>
+						<div class="pswp__caption">
+							<div class="pswp__caption__center"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+<script type="text/javascript">
+mui.init();
+			if (mui.os.plus) {
+				mui.plusReady(function() {
+						openPhotoSwipe();
+				});
+			} else {
+				mui.ready(function() {
+					openPhotoSwipe(); 
+				});
+			}
+var openPhotoSwipe = function() {
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    var items = [
+        {
+            src: '../img/s1.jpg',
+            w: 800,
+            h: 1142
+        },
+        {
+            src: '../img/s2.jpg',
+            w: 800,
+            h: 1142
+        },
+		{
+            src: '../img/s3.jpg',
+            w: 800,
+            h: 1142
+        },
+		{
+            src: '../img/s4.jpg',
+            w: 800,
+            h: 1142  
+        },
+		{
+            src: '../img/s5.jpg',
+            w: 800,
+            h: 1142
+        }
+    ];
+    
+    var options = {
+        history: false,
+        focus: false,
+
+        showAnimationDuration: 0,
+        hideAnimationDuration: 0
+        
+    };
+    
+    var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
+    gallery.init();
+};
+
+document.getElementById('photos').onclick = openPhotoSwipe;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=0.5,user-scalable=no,target-densitydpi=device-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="no" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>杭州数用科技信息有限公司</title>
+		<style id="_zoom"></style>
+		<script type="text/javascript" src="../js/self-adaptive.js"></script>
+		<link rel="stylesheet" href="../css/android/mui.min.css" />
+		<link rel="stylesheet" href="../css/android/returnVisit/myRecord.css" />
+		<script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="../js/mui.min.js" ></script> 
+		<script type="text/javascript" src="../js/modal.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$("a.forgot").click(function() {
+					$("#login-modal").modal("hide");
+				});
+				$("#rest").click(function() {
+					$("#search").attr("value", "");
+				});
+			});
+		</script>
+	</head>
+
+	<body class="zoom">
+		<!--头部开始-->
+		<header class="header">
+			<a class="mui-action-back">
+				<img src="../images/btn_fanhui.png">
+			</a>
+			<select>
+				<option value="" selected="selected"><a href="#">我的回访</a></option>
+				<option value="团队的回访"><a href="#">团队的回访</a></option>
+				<option value="全部回访"><a href="#">全部回访</a></option>
+			</select>
+			<a data-toggle="modal" href="#login-modal">
+				<img src="../images/btn_xinjian.png">
+			</a>
+			<a href="#">
+				<img src="../images/btn_gongneng.png">
+			</a>
+		</header>
+		<div class="news" id="login-modal">
+			<div style="height:25px;"><img src="../images/image_select.png" /></div>
+			<a href="#">
+				<div class="news_list news_list_top">电话回访</div>
+			</a>
+			<a href="#">
+				<div class="news_list news_list_bottom">拜访客户</div>
+			</a>
+		</div>
+		<div class="select_check">
+			<div class="check">
+				<div class='diy_select'>
+					<input type='hidden' name='' class='diy_select_input' />
+					<div class='diy_select_txt'>条件筛选</div>
+					<div class='diy_select_btn'>
+						<img src="../images/icon_open.png" />
+					</div>
+					<ul class='diy_select_list'>
+						<li><a href="#">需回访</a></li>
+						<li><a href="#">七天未联系</a></li>
+						<li><a href="#">报价中</a></li>
+						<li><a href="#">成交客户</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="check" style="width:300px;">
+				<div class='diy_select'>
+					<input type='hidden' name='' class='diy_select_input' />
+					<div class='diy_select_txt' style="width:75%;">更新时间</div>
+					<div class='diy_select_btn'>
+						<img src="../images/icon_open.png" />
+					</div>
+					<ul class='diy_select_list'>
+						<li><a href="#">更新时间顺序</a></li>
+						<li><a href="#">更新时间倒序</a></li>
+						<li><a href="#">公司名称顺序</a></li>
+						<li><a href="#">创建时间倒序</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="diy_right">
+				<img src="../images/btn_next.png" >				
+			</div>
+		</div>
+			<!--搜索-->
+		<div class="search">
+			<a><img src="../images/icon_sousuo.png" /></a>
+			<input id="search" type="search" value="" placeholder="搜索">
+			<div class="rest" id="rest"><img src="../images/reset.png" /></div>
+		</div>
+
+		<div class="ground"></div>
+		<form id="form1" class="scroll" method="post">
+		<div class="title">
+			<img src="../images/icon-new.png">
+			<span>今天15:38</span>
+			<div class="company_name">南京坤宁安固科技有限公司</div>
+		</div>
+		<div class="content">
+			<div class="left"><img src="../images/images_test2.png"/></div>
+			<div class="right">
+				<div class="name">洪玲玲<span>电话</span></div>
+				<div class="mid_content">初步联系，有意向，目前有5人</div>
+				<p>联系人:李鸣13897533467</p>
+			</div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="title">
+			<img src="../images/icon-new.png">
+			<span>14:00</span>
+			<div class="company_name">杭州聚光科技有限公司</div>
+		</div>
+		<div class="content">
+			<div class="left"><img src="../images/images_test2.png"/></div>
+			<div class="right">
+				<div class="name">洪玲玲<span>登门拜访</span></div>
+				<div class="mid_content">初步联系，有意向，目前有5人</div>
+				<p>联系人:李鸣13897533467</p>
+				<p><img src="../images/ioc_weizhi.png"/>浙江省杭州市滨江区江虹路611号</p>
+			</div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="title">
+			<img src="../images/icon-new.png">
+			<span>10:30</span>
+			<div class="company_name">南京国光科技有限公司</div>
+		</div>
+		<div class="content">
+			<div class="left"><img src="../images/images_test1.png"/></div>
+			<div class="right">
+				<div class="name">洪玲玲<span>电话</span></div>
+				<div class="mid_content">给客户远程演示软件应用</div>
+				<p>联系人:李鸣13897533467</p>
+			</div>
+			<div class="clear"></div>
+		</div>
+				
+		</form>		
+		<script type="text/javascript" src="../js/select_down.js"></script>
+		<script type="text/javascript" src="../js/jquery.select.js"></script>
+		<script type="text/javascript" src="../js/returnVisit/myRecord.js" ></script>
+	</body>
+
+</html>

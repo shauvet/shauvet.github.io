@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=0.5,user-scalable=no,target-densitydpi=device-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="yes"  />
+		<title>杭州数用科技信息有限公司</title>
+		<style id="_zoom"></style>
+		<script type="text/javascript" src="js/self-adaptive.js" ></script>
+		<link rel="stylesheet" type="text/css" href="css/android/login.css" />	
+		<script type="text/javascript" src="js/jquery-1.7.2.min.js" ></script>
+	</head>
+	<body class="zoom">		
+		<div>
+			<header class="header">
+<!--				<a href="#"><img src="images/btn_fanhui.png"/></a>-->
+				<p>登录</p>				
+			</header>
+			<form method="post" action="" id="form1">  
+				<div class="logo">
+					<div class="logo_pic">
+                <img src="images/log_pic.png" />
+                    </div>
+				</div>
+
+					<section id="login">
+
+						<div>
+							<input type="text" id="coCode" name="coCode" placeholder="请输入企业代码" value="test100">
+						</div>
+						<div>
+							<input type="text" id="userName" name="userName" placeholder="请输入用户名/手机/邮箱" value="admin">
+						</div>
+
+						<div>
+							<input type="password" id="passWord" name="passWord" placeholder="请输入密码" value="123456">
+						</div>
+
+						<button type="button" class="btnLogin" id="btnLogin" onclick="login()">登录</button>   
+                         <!--  
+                        <a href="forgot.html">忘记密码？</a>
+						<a href="Register.html">用户注册</a>--> 
+
+					</section> 
+
+			</form>
+
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">  
+		function login(){
+			self.location = 'menu.html';  
+		} 
+			(function($) {
+				mui.init();
+                var coCodeBox = document.getElementById("coCode");
+                var userNameBox = document.getElementById("userName");
+                var passWordBox = document.getElementById("passWord"); 
+				var PostTest = function() { 
+					var url = "http://192.168.1.156:80/api/HrStaff/Login";     
+					var data = {
+							CoCode: coCodeBox.value,
+							Username: userNameBox.value, 
+							Password: passWordBox.value     
+					}; 
+					$.post(url,data , function(ret) { 	 					
+//                  alert(ret);     
+                        var obj = JSON.parse(ret); 
+						if(obj.Sign == '1'){ 
+							location.href = "menu.html";							
+							plus.storage.setItem("key", obj.Key);
+							var kval = plus.storage.getItem("key");
+							
+						}else{   
+							alert("用户名或密码错误！");
+						}
+					},'application/json');	 								
+				} 
+			document.getElementById("btnLogin").addEventListener('tap', function() { 
+					PostTest();
+				});		 		   
+					var backButtonPress = 0;
+					$.back = function(event) {
+						backButtonPress++;    
+						if (backButtonPress > 1) {
+							plus.runtime.quit();
+						} else {
+							plus.nativeUI.toast('再按一次退出应用');
+						}
+						setTimeout(function() {
+							backButtonPress = 0;
+						}, 1000);
+						return false;
+					};
+			})(mui); 
+		</script>
+	</body>
+
+</html>

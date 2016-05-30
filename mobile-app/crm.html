@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=0.5,user-scalable=no,target-densitydpi=device-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="no" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>杭州数用科技信息有限公司</title>
+		<style id="_zoom"></style>
+		<script type="text/javascript" src="js/self-adaptive.js" ></script>
+		<link href="css/jquery.circliful.css" rel="stylesheet" type="text/css" />
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="css/android/app.css" />
+		<link rel="stylesheet" type="text/css" href="css/android/mui.min.css">
+		<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+		<link rel="stylesheet" href="css/android/crm.css" />
+		<script type="text/javascript" src="js/modal.js"></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+		<script type="text/javascript">
+$(document).ready(function(){
+	$("a.forgot").click(function(){
+		$("#login-modal").modal("hide");	
+});
+</script>
+<script type="text/javascript"> 
+var i=1,gentry=null,w=null;
+var hl=null,le=null,de=null,ie=null;
+var unv=true;
+// H5 plus事件处理
+function plusReady(){
+	// 获取摄像头目录对象
+	plus.io.resolveLocalFileSystemURL( "_doc/", function ( entry ) {
+		entry.getDirectory( "camera", {create:true}, function ( dir ) {
+			gentry = dir;
+			updateHistory();
+		}, function ( e ) {
+			outSet( "Get directory \"camera\" failed: "+e.message );
+		} );
+	}, function ( e ) {
+		outSet( "Resolve \"_doc/\" failed: "+e.message );
+	} );
+}   
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener("plusready",plusReady,false);
+}
+// 监听DOMContentLoaded事件
+document.addEventListener("DOMContentLoaded",function(){
+	// 获取DOM元素对象
+	hl=document.getElementById("history");
+	le=document.getElementById("empty");
+	de=document.getElementById("display");
+	if(ie=document.getElementById("index")){
+		ie.onchange=indexChanged;
+	}
+	// 判断是否支持video标签
+	unv=!document.createElement('video').canPlayType;
+},false );
+function changeIndex() {
+	outSet( "选择摄像头：" );
+	ie.focus();
+}
+function indexChanged() {
+	de.innerText = ie.options[ie.selectedIndex].innerText;
+	i = parseInt( ie.value );
+	outLine( de.innerText );
+}
+// 拍照
+function getImage() {  
+	outSet( "开始拍照：" );
+	var cmr = plus.camera.getCamera();
+	cmr.captureImage( function ( p ) {
+		outLine( "成功："+p );
+		location.href = "card_scan.html";
+		plus.io.resolveLocalFileSystemURL( p, function ( entry ) {
+//			document.getElementById("img").src = entry.fullPath;
+			createItem( entry );
+		}, function ( e ) {
+			outLine( "读取拍照文件错误："+e.message );
+		} );
+	}, function ( e ) {
+		outLine( "失败："+e.message );
+	}, {filename:"_doc/camera/photo.jpg",index:1} );
+}
+// 录像
+function getVideo() {
+	outSet( "开始录像：" );
+	var cmr = plus.camera.getCamera();
+	cmr.startVideoCapture( function ( p ) {
+		outLine( "成功："+p );
+		plus.io.resolveLocalFileSystemURL( p, function( entry) {
+			createItem( entry );
+		}, function( e ) {
+			outLine( "读取录像文件错误："+e.message );
+		} );
+	}, function( e ){
+		outLine( "失败："+e.message );
+	}, {filename:"_doc/camera/",index:i} );
+}
+// 显示文件
+function displayFile( li ) {
+	if ( w ) {
+		outLine( "重复点击！" );
+		return;
+	}
+	if ( !li || !li.entry ) {
+		ouSet( "无效的媒体文件" ); 
+		return;
+	}
+	var name = li.entry.name;
+	var suffix = name.substr(name.lastIndexOf('.'));
+	var url = "";
+	if ( suffix==".mov" || suffix==".3gp" || suffix==".mp4" || suffix==".avi" ){
+		//if(unv){plus.runtime.openFile("_doc/camera/"+name);return;}
+		url = "camera_video.html";
+	} else {
+		url = "camera_image.html";
+	}
+	w=plus.webview.create(url,url,{scrollIndicator:'none',scalable:true,bounce:"all"});
+	w.addEventListener( "loaded", function(){
+		w.evalJS( "loadMedia('"+li.entry.toLocalURL()+"')" );
+		//w.evalJS( "loadMedia(\""+"http://localhost:13131/_doc/camera/"+name+"\")" );
+	}, false );
+	w.addEventListener( "close", function() {
+		w = null;
+	}, false );
+	w.show( "pop-in" );
+}
+
+// 添加播放项
+function createItem( entry ) {
+	var li = document.createElement("li");
+	li.className = "ditem";
+	li.innerHTML = '<span class="iplay"><font class="aname"></font><br/><font class="ainf"></font></span>';
+	li.setAttribute( "onclick", "displayFile(this);" );
+	hl.insertBefore( li, le.nextSibling );
+	li.querySelector(".aname").innerText = entry.name;
+	li.querySelector(".ainf").innerText = "...";
+	li.entry = entry;
+	updateInformation( li );
+	// 设置空项不可见
+	le.style.display = "none";
+}
+// 获取录音文件信息
+function updateInformation( li ) {
+	if ( !li || !li.entry ) {
+		return;
+	}
+	var entry = li.entry;
+	entry.getMetadata( function ( metadata ) {
+		li.querySelector( ".ainf" ).innerText = dateToStr( metadata.modificationTime );
+	}, function ( e ) {
+		outLine( "获取文件\""+entry.name+"\"信息失败："+e.message );
+	} );
+}
+// 获取录音历史列表
+function updateHistory() {
+	if ( !gentry ) {
+		return;
+	}
+  	var reader = gentry.createReader();
+  	reader.readEntries( function ( entries ) {
+  		for ( var i in entries ) {
+  			if ( entries[i].isFile ) {
+  				createItem( entries[i] );
+  			}
+  		}
+  	}, function ( e ) {
+  		outLine( "读取录音列表失败："+e.message );
+  	} );
+}
+// 清除历史记录
+function cleanHistory() {
+	hl.innerHTML = '<li id="empty" class="ditem-empty">无历史记录</li>';
+	le = document.getElementById( "empty" );
+	// 删除音频文件
+	outSet( "清空拍照录像历史记录：" );
+	gentry.removeRecursively( function () {
+		// Success
+		outLine( "成功！" );
+	}, function ( e ) {
+		outLine( "失败："+e.message ); 
+	});
+}
+</script>
+	</head>
+
+	<body class="zoom">
+		<!--头部开始-->
+		<header class="header"> 
+			<a href="search.html">
+				<img src="images/btn_sousuo.png">
+			</a>
+			<span>CRM</span>
+			<a data-toggle="modal" href="#login-modal">    
+				<img src="images/btn_xinjian.png">
+			</a>  
+			<a href="#">
+				<img src="images/btn_gongneng.png">
+			</a>
+		</header>
+		<div class="news"  id="login-modal">
+ <div style="height:25px;"><img src="images/image_select.png"/></div> 
+	<a url="client/new_company.html" class="link_btn"><div class="news_list news_list_top">新建企业客户</div></a>
+	<a url="client/new_person.html" class="link_btn"><div class="news_list">新建个人客户</div></a>	
+		<a url="client/new_content.html" class="link_btn"><div class="news_list">新建联系人</div></a>
+			<a url="returnVisit/new_record.html" class="link_btn"><div class="news_list">新建回访记录</div></a>
+				<div class="news_list" onclick="getImage();">名片扫描</div>
+				<div style="display: none;"><img id="img" src=""/>  </div>   
+				<div id="output" style="display: none;"></div>  
+					<a url="siginIn/signIn.html" class="link_btn"><div class="news_list news_list_bottom">签到</div></a>   
+		</div>
+		
+		<div class="check_down">
+			<div class="check">
+				<div class='diy_select'>
+					<input type='hidden' name='' class='diy_select_input' />
+					<div class='diy_select_txt'>团队</div>
+					<div class='diy_select_btn'>
+						<img src="images/btn_open.png" />
+					</div>
+					<ul class='diy_select_list'>
+						<li>销售组1</li>
+						<li>销售组2</li>
+						<li>销售组3</li>
+					</ul>
+				</div>
+			</div>
+			<div class="check">
+				<div class='diy_select'>
+					<input type='hidden' name='' class='diy_select_input' />
+					<div class='diy_select_txt'>本月</div>
+					<div class='diy_select_btn'>
+						<img src="images/btn_open.png" />
+					</div>
+					<ul class='diy_select_list'>
+						<li>本月</li>
+						<li>本周</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--头部结束-->
+		<!--左右滑动-->
+		<!--<div class="mui-content">
+			<ul class="mui-table-view mui-table-view-chevron">
+				<li id="switch" class="mui-table-view-cell">
+					定时轮播
+					<div class="mui-switch">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+			</ul>
+		</div>-->
+		<div id="slider" class="mui-slider">
+			<div class="mui-slider-group mui-slider-loop">
+				<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+				<div class="mui-slider-item mui-slider-item-duplicate">
+				</div>
+				<!-- 第一张 -->
+				<div class="mui-slider-item">
+			    <div id="chartsPie" class="info1"></div>
+			    <div class="stu">
+				<p>营销统计比例图</p>
+			      </div>
+				</div>
+				<!-- 第二张 -->
+				<div class="mui-slider-item">
+					 <div id="mainBar" class="info"></div>
+			     <div class="stu">
+				<p>总销售统计比例图</p>
+			      </div>
+				</div>
+				<!-- 第三张 -->
+				<div class="mui-slider-item">
+                    <div id="mainFunnel" class="info"></div>
+                 <div class="stu">
+				<p>客户阶段销售漏斗</p>
+			      </div>
+				</div>
+				<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+				<div class="mui-slider-item mui-slider-item-duplicate">
+				</div>
+			</div>
+			<div class="mui-slider-indicator point">
+				<div class="mui-indicator mui-active"></div>
+				<div class="mui-indicator"></div>
+				<div class="mui-indicator"></div>
+			</div>
+		</div>
+		
+		<!--正文内容-->
+	<div class="scroll_total">	
+			<a href="#">
+			<div class="first">
+				<div class="first_inside">
+				<div class="title_pic">
+				<img src="images/icon_CRNxinxi.png" />
+				</div>
+				<div class="title">
+				   <span>CRM信息</span>			
+				<div class="round">
+					<p>999+</p>
+				</div>
+				</div>
+				<div class="next">
+					<img src="images/btn_xiayiye.png" />
+				</div>
+				</div>
+			</div>
+			</a>
+			
+			<div class="second">
+				<a url="client/client.html" class="link_btn"> 				
+				<div class="first_inside">
+				<div class="title_pic">
+				<img src="images/icon_kehu.png" />
+				</div>
+				<div class="title">
+				   客户		
+				</div>
+				<div class="next">
+					<img src="images/btn_xiayiye.png" />
+				</div>
+				</div>
+				</a>
+				<div class="xian"></div>
+				<a url="client/content_list.html" class="link_btn">
+			    <div class="first_inside">
+				<div class="title_pic">
+				<img src="images/icon_lianxiren.png" />
+				</div>
+				<div class="title">
+				   联系人		
+				</div>
+				<div class="next">
+					<img src="images/btn_xiayiye.png" />
+				</div>
+				</div>
+				</a>
+				<div class="xian"></div>
+				<a url="returnVisit/new_record.html" class="link_btn">
+				<div class="first_inside">
+				<div class="title_pic">
+				<img src="images/icon_huifanggenzong.png" />
+				</div>
+				<div class="title">
+				   回访跟踪		
+				</div>
+				<div class="next">
+					<img src="images/btn_xiayiye.png" />
+				</div>
+				</div>
+				</a>
+			</div>
+			
+			<a href="#">
+			<div class="first">
+				<div class="first_inside">
+				<div class="title_pic">
+				<img src="images/icon_juecefenxi.png" />
+				</div>
+				<div class="title">
+				   决策分析		
+				</div>
+				<div class="next">
+					<img src="images/btn_xiayiye.png" />
+				</div>
+				</div>
+			</div>
+			</a>
+			
+			<a url="siginIn/sign_history.html" class="link_btn">
+			<div class="first">
+				<div class="first_inside">
+				<div class="title_pic">
+				<img src="images/icon_locus.png" />
+				</div>
+				<div class="title">
+				   行动轨迹		
+				</div>
+				<div class="next">
+					<img src="images/btn_xiayiye.png" />
+				</div>
+				</div>
+			</div>
+			</a>
+			<!--<div class="more">
+				<p>更多...</p>
+			</div>-->   
+		</div>
+		<!--底部菜单开始-->
+		<!--<footer class="footer">
+			<a href="main.html">
+			<img src="images/ioc_work.png" />
+				<p>工作圈</p>
+			</a>
+			<a href="#">
+			<img src="images/ioc_net.png" />
+				<p>微网</p>
+			</a>			      
+			<a href="#">
+			<img src="images/ioc_qixin.png" />
+				<p>企信</p>
+			</a>
+			<a href="#">
+		   <img src="images/ioc_crmReplace.png" />
+				<p style="color:#33B5E6">CRM</p>
+			</a>
+			<a href="mine.html">
+		    <img src="images/ioc_mine.png" />
+				<p>我的</p>
+			</a>
+				<ul>
+				<li>
+					<a href="main.html">
+						<div class="footIcon fi1"></div>
+							<p>工作圈</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="footIcon fi2"></div>
+							<p>微网</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="footIcon fi3"></div>
+							<p>企信</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="footIcon fi4 currentIcon"></div>
+							<p>CRM</p>
+					</a>
+				</li>
+				<li>
+					<a href="mine.html">
+						<div class="footIcon fi5"></div>
+							<p>我的</p>
+					</a>
+				</li>
+			</ul>
+		</footer>-->
+		<!--底部菜单结束-->
+		<script src="js/echarts.js"></script>
+		<script src="js/mui.min.js"></script>
+        <script src="js/scroll-x.js"></script>
+        <script type="text/javascript" src="js/select_down.js"></script>
+        <script>
+        	(function($) {
+					mui.init();
+	var initBinding = function() {
+		var currWV = plus.webview.currentWebview();
+	// 将页面的参数传到详细页面
+		jQuery(".link_btn").each(function(i, el) {  
+			el.addEventListener('tap', function() {
+			var _this = jQuery(this);
+			var _url = _this.attr("url");
+				var wv = plus.webview.getWebviewById(_url);
+				if (wv == undefined) {
+					wv = plus.webview.create(
+						_url, _url, {}, {}	  				
+					);  
+				}
+				plus.webview.show( wv ); 
+			});
+		});
+	};
+	if (mui.os.plus) {
+		mui.plusReady(function() {
+			initBinding();
+		});
+	} else {
+		mui.ready(function() {
+			initBinding();
+		});
+	}
+	
+	})(mui);
+        </script>
+	</body>
+
+</html>

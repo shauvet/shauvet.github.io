@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=0.5,user-scalable=no,target-densitydpi=device-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="no" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>杭州数用科技信息有限公司</title>
+		<style id="_zoom"></style>
+		<script type="text/javascript" src="js/self-adaptive.js"></script>
+		<link rel="stylesheet" href="css/android/mine.css" />
+		<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+	</head>
+	<body class="zoom">
+		<header class="header">
+		<a url="search.html" class="link_btn">
+				<img src="images/btn_sousuo.png">
+			</a>
+            <div class="head_middle">我的</div>
+			<a data-toggle="modal" href="#login-modal">
+				<img src="images/btn_xinjian.png">
+			</a>
+			<a href="#">
+				<img src="images/btn_gongneng.png">
+			</a>
+		</header>
+		<div class="scroll_total">
+			<div class="first">
+				<div class="first_inside">
+					<div class="pic"><img src="images/images_test2.png"/></div>
+					<div class="middle">
+						<span>我</span>
+						<p>所有人可见</p>
+					</div>
+					<div class="next next_add"><img src="images/btn_xiayiye.png"/></div>
+				</div>
+			</div>
+			<a url="personage.html" class="link_btn">
+		    <div class="oneline">
+		    	<div class="oneline_inside">
+		    		<div class="title_pic">
+		    			<img src="images/iocn_geren.png" />
+		    		</div>
+		    		<div class="title">个人信息</div>
+		    		<div class="next"><img src="images/btn_xiayiye.png"/></div>
+		    	</div>
+		    </div>
+		    </a>
+
+		    <div class="twoline">
+		    <a url="feedback.html" class="link_btn">
+		    	<div class="one_inside">
+		    	<div class="oneline_inside">
+		    		<div class="title_pic">
+		    			<img src="images/iocn_yijian.png" />
+		    		</div>
+		    		<div class="title">意见反馈</div>
+		    		<div class="next"><img src="images/btn_xiayiye.png"/></div>
+		    	</div>
+		    	</div>
+		    </a>
+		    <div class="xian"></div>
+		    <a url="remind_detail.html" class="link_btn">
+		    <div class="one_inside">
+		    	<div class="oneline_inside">
+		    		<div class="title_pic">
+		    			<img src="images/iocn_tixing.png" />
+		    		</div>
+		    		<div class="title">小智提醒</div>
+		    		<div class="next"><img src="images/btn_xiayiye.png"/></div>
+		    	</div>
+		    	</div>
+		    </a>
+		    </div>	
+		    
+		    <a url="setting.html" class="link_btn">
+		    <div class="oneline">
+		    	<div class="oneline_inside">
+		    		<div class="title_pic">
+		    			<img src="images/iocn_shezhi.png" />
+		    		</div>
+		    		<div class="title">系统设置</div>
+		    		<div class="next"><img src="images/btn_xiayiye.png"/></div>
+		    	</div>
+		    </div>
+		    </a> 
+		</div>
+		
+	<!--底部菜单开始-->  
+		<!--<footer class="footer">
+			<a href="main.html">
+			<img src="images/ioc_work.png" />
+				<p>工作圈</p>
+			</a>
+			<a href="#">
+			<img src="images/ioc_net.png" />
+				<p>微网</p>
+			</a>			      
+			<a href="#">
+			<img src="images/ioc_qixin.png" />
+				<p>企信</p>
+			</a>
+			<a href="crm.html">
+		   <img src="images/ioc_crm.png" />
+				<p>CRM</p>
+			</a>
+			<a href="#">
+		    <img src="images/ioc_mineReplace.png" />
+				<p style="color:#33B5E6">我的</p>
+			</a>
+			<ul>
+				<li>
+					<a href="main.html">
+						<div class="footIcon fi1"></div>
+							<p>工作圈</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="footIcon fi2"></div>
+							<p>微网</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="footIcon fi3"></div>
+							<p>企信</p>
+					</a>
+				</li>
+				<li>
+					<a href="crm.html">
+						<div class="footIcon fi4"></div>
+						<p>CRM</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="footIcon fi5 currentIcon"></div>
+							<p>我的</p>
+					</a>
+				</li>
+			</ul>
+		</footer>-->
+		<script src="js/mui.min.js"></script>
+		<script>
+        	(function($) {
+					mui.init();
+	var initBinding = function() {
+		var currWV = plus.webview.currentWebview();
+	// 将页面的参数传到详细页面
+		jQuery(".link_btn").each(function(i, el) {  
+
+			el.addEventListener('tap', function() {
+			var _this = jQuery(this);
+			var _url = _this.attr("url");
+				var wv = plus.webview.getWebviewById(_url);
+				if (wv == undefined) {
+					wv = plus.webview.create(
+						_url, _url, {}, {}	  				
+					);  
+				}
+				plus.webview.show( wv ); 
+			});
+		});
+	};
+	if (mui.os.plus) {
+		mui.plusReady(function() {
+			initBinding();
+		});
+	} else {
+		mui.ready(function() {
+			initBinding();
+		});
+	}
+	
+	})(mui);
+        </script>
+	</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=0.5,user-scalable=no,target-densitydpi=device-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="no" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>杭州数用科技信息有限公司</title>
+		<!-- 下面两行页面自适应必写，顺序不能错 -->
+		<style id="_zoom"></style>
+		<script type="text/javascript" src="js/jquery-self-adaptive.js"></script>
+		<!-- 自适应结束 -->
+		<link rel="stylesheet" href="css/android/new_client.css" />
+	</head>
+
+	<body class="zoom">
+		<!--头部开始-->
+		<header class="header">
+			<a href="client.html" class="back">
+				<img src="images/btn_fanhui.png">
+			</a>
+			<div class="head_middle">
+				个人客户信息
+			</div>
+			<a href="client.html" class="right">
+			    客户列表  
+			</a>
+		</header>
+		<div class="scroll_total">
+		<div class="abstract">
+			<div class="title">客户名称</div>
+			<div class="digit1">
+				<input type="text" id="" name="" placeholder="" >
+			</div>
+		</div>
+		<div class="kong"></div>
+		<div class="abstract">
+			<div class="title">所属单位</div>
+			<div class="digit1">南京坤宁安固</div>
+		</div>
+		<div class="kong"></div>
+		<div class="abstract">
+			<div class="title">联系电话</div>
+			<div class="digit1">13812356985</div>
+		</div>
+		<div class="kong"></div>
+		<a href="#">
+			<div class="abstract">
+				<div class="title">标签</div>
+				<div class="level">热</div>
+				<div class="name1">重点联系</div>
+				<div class="pic">
+					<img src="images/btn_xiayiye.png" />
+				</div>
+			</div>
+		</a>
+		<div class="kong"></div>
+		<a href="#">
+			<div class="abstract">
+				<div class="title">所有人</div>
+				<div class="name">张华</div>
+				<div class="pic">
+					<img src="images/btn_xiayiye.png" />
+				</div>
+			</div>
+		</a>
+		<div class="kong"></div>
+		<a href="#">
+			<div class="abstract">
+				<div class="title">性别</div>
+				<div class="digit1">男</div>
+				<div class="pic">
+					<img src="images/btn_xiayiye.png" />
+				</div>
+			</div>
+		</a>
+		<div class="kong"></div>
+		<a href="#">
+			<div class="abstract">
+				<div class="title">客户地址</div>
+				<div class="digit1">浙江省杭州市</div>
+				<div class="pic">
+					<img src="images/btn_xiayiye.png" />
+				</div>
+			</div>
+		</a>
+		<div class="kong"></div>
+		<a href="#">
+			<div class="abstract">
+				<div class="title">客户类型</div>
+				<div class="name">普通客户</div>
+				<div class="pic">
+					<img src="images/btn_xiayiye.png" />
+				</div>
+			</div>
+		</a>
+		<div class="kong"></div>
+		<a href="#">
+			<div class="abstract">
+				<div class="title">行业</div>
+				<div class="name">其他</div>
+				<div class="pic">
+					<img src="images/btn_xiayiye.png" />
+				</div>
+			</div>
+		</a>
+		<div class="kong"></div>
+		<a href="#">
+			<div class="abstract">
+				<div class="title">客户阶段</div>
+				<div class="name">目标客户</div>
+				<div class="pic">
+					<img src="images/btn_xiayiye.png" />
+				</div>
+			</div>
+		</a>
+		<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">重要程度</div>
+				<div class="name">
+					<div id="QuacorGrading">
+
+						<input name="1" type="button" />
+						<input name="2" type="button" />
+						<input name="3" type="button" />
+						<input name="4" type="button" />
+						<input name="5" type="button" />
+						<span id="QuacorGradingValue"><b><font size="5" color="#fd7d28"></font></b></span>
+					</div>
+				</div>
+			</div>
+		<div class="kong"></div>
+		<a href="#">
+			<div class="abstract">
+				<div class="title">来源</div>
+				<div class="name">独立开发</div>
+				<div class="pic">
+					<img src="images/btn_xiayiye.png" />
+				</div>
+			</div>
+		</a>
+		<div class="kong"></div>
+		<a href="#">
+			<div class="abstract">
+				<div class="title">感兴趣产品</div>
+				<div class="name">CRM</div>
+				<div class="pic">
+					<img src="images/btn_xiayiye.png" />
+				</div>
+			</div>
+		</a>
+		<div class="kong"></div>
+		<a href="#">
+			<div class="abstract">
+				<div class="title">联系记录</div>
+				<div class="name">初步咨询</div>
+				<div class="pic">
+					<img src="images/btn_xiayiye.png" />
+				</div>
+			</div>
+		</a>
+		<div class="bottom_xian"></div>
+		</div>
+		<footer class="footer">
+			<div class="bottom">
+				<a href="#">
+						删除
+					</a>
+			</div>
+			<div class="bottom">
+				<a href="#">
+						保存
+					</a>
+			</div>
+		</footer>
+		<script type="text/javascript">
+			var GradList = document.getElementById("QuacorGrading").getElementsByTagName("input");
+			for (var di = 6; di < parseInt(document.getElementById("QuacorGradingValue").getElementsByTagName("font")[0].innerHTML); di++) {
+				GradList[di].style.backgroundPosition = 'left center';
+			}
+			for (var i = 0; i < GradList.length; i++) {
+				GradList[i].onmouseover = function() {
+					for (var Qi = 0; Qi < GradList.length; Qi++) {
+						GradList[Qi].style.backgroundPosition = 'right center';
+					}
+					for (var Qii = 0; Qii < this.name; Qii++) {
+						GradList[Qii].style.backgroundPosition = 'left center';
+					}
+					document.getElementById("QuacorGradingValue").innerHTML = '<b><font size="5" color="#fd7d28">' + this.name + '</font></b>分';
+				}
+			}
+		</script>
+	</body>
+
+</html>

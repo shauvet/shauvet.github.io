@@ -1,0 +1,20 @@
+.mui-tab-item{
+	background: url(../../images/footer_1.png) no-repeat 45px 20px;
+	width:25%;
+	height:120px;
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);  
+}
+.mui-tab-label{
+	height:30px;
+	line-height: 30px;
+	font-size: 24px;
+	margin-top:80px;
+	position: relative;
+	
+}
+.mui-bar-tab .mui-tab-item.mui-active{
+	color: #33B5E7;
+	background: url(../../images/footer_2.png) no-repeat 45px 20px;
+	margin: 0 auto;
+	overflow: hidden;
+}

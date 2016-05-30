@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=0.5,user-scalable=no,target-densitydpi=device-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="no" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>杭州数用科技信息有限公司</title>
+		<style id="_zoom"></style>
+		<script type="text/javascript" src="js/self-adaptive.js"></script>
+		<script type="text/javascript" src="js/mui.min.js" ></script>
+		<link rel="stylesheet" href="css/android/personage.css" />
+		<script type="text/javascript" src="js/zepto_min.js"></script>
+		<script type="text/javascript" src="js/touchslider.js"></script>
+	</head>
+	<body class="zoom">
+		<header class="header">
+			<a class="mui-action-back">
+				<div class="back"><img src="images/btn_fanhui.png" /></div>
+			</a>
+			<div class="header_title">小智提醒</div>
+		</header>
+		<div class="scroll_total">
+			<div class="nav">
+			<ul id="pagenavi1" class="page">
+				<li>
+					<a href="#" class="active">系统提醒</a>
+				</li>
+				<li>
+					<a href="#">业务提醒</a>
+				</li>
+			</ul> 
+		</div>
+			<div id="slider1" class="swipe">
+				<ul>				
+				<li>
+				<a href="#">
+				<div class="content">
+				<div class="left">2015-8-1&nbsp&nbsp智云通PC-更新</div>
+				<div class="next"><img src="images/btn_xiayiye.png"/></div>
+				</div>
+				</a>
+				</li>
+				<li>
+				<a href="#">
+				<div class="content">
+				<div class="left">2015-8-1&nbsp&nbsp智云通PC-更新22222</div>
+				<div class="next"><img src="images/btn_xiayiye.png"/></div>
+				</div>
+				</a>
+				</li>
+				</ul>
+				</div>
+		</div>
+		<script type="text/javascript">
+				for (n = 1; n < 3; n++) {
+					var page = 'pagenavi' + n;
+					var mslide = 'slider' + n;
+					var mtitle = 'emtitle' + n;
+					arrdiv = 'arrdiv' + n;
+					var as = document.getElementById(page).getElementsByTagName('a');
+					var tt = new TouchSlider({
+						id: mslide,
+						'auto': '-1',
+						fx: 'ease-out',
+						direction: 'left',
+						speed: 300,
+						timeout: 5000,
+						'before': function(index) {
+							var as = document.getElementById(this.page).getElementsByTagName('a');
+							as[this.p].className = '';
+							as[index].className = 'active';
+							this.p = index;
+							var txt = as[index].innerText;
+							$("#" + this.page).parent().find('.emtitle').text(txt);
+						}
+					});
+					tt.page = page;
+					tt.p = 0;
+					//console.dir(tt); console.dir(tt.__proto__);				
+					for (var i = 0; i < as.length; i++) {
+						(function() {
+							var j = i;
+							as[j].tt = tt;
+							as[j].onclick = function() {
+								this.tt.slide(j);
+								return false;
+							}
+						})();
+					}
+				}
+			</script>
+	</body>
+</html>

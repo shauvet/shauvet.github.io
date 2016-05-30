@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=0.5,user-scalable=no,target-densitydpi=device-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="no" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>杭州数用科技信息有限公司</title>
+		<style id="_zoom"></style>
+		<script type="text/javascript" src="../js/self-adaptive.js"></script>
+        <script type="text/javascript" src="../js/mui.min.js" ></script>
+		<link rel="stylesheet" href="../css/android/siginIn/signIn.css" />
+		<script type="text/javascript" src="../js/common.js" ></script>
+		<script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script> 
+		<script src="../js/signIn/photoswipe.min.js"></script> 
+        <script src="../js/signIn/photoswipe-ui-default.min.js"></script> 
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=uYyBkDjBysRrDOrtm11rWi6N"></script>
+<script type="text/javascript"> 
+var i=1,gentry=null,w=null;
+var hl=null,le=null,de=null,ie=null;
+var unv=true;
+// H5 plus事件处理
+function plusReady(){
+	// 获取摄像头目录对象
+	plus.io.resolveLocalFileSystemURL( "_doc/", function ( entry ) {
+		entry.getDirectory( "camera", {create:true}, function ( dir ) {
+			gentry = dir;
+			updateHistory();
+		}, function ( e ) {
+			outSet( "Get directory \"camera\" failed: "+e.message );
+		} );
+	}, function ( e ) {
+		outSet( "Resolve \"_doc/\" failed: "+e.message );
+	} );
+}   
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener("plusready",plusReady,false);
+}
+// 监听DOMContentLoaded事件
+document.addEventListener("DOMContentLoaded",function(){
+	// 获取DOM元素对象
+	hl=document.getElementById("history");
+	le=document.getElementById("empty");
+	de=document.getElementById("display");
+	if(ie=document.getElementById("index")){
+		ie.onchange=indexChanged;
+	}
+	// 判断是否支持video标签
+	unv=!document.createElement('video').canPlayType;
+},false );
+function changeIndex() {
+	outSet( "选择摄像头：" );
+	ie.focus();
+}
+function indexChanged() {
+	de.innerText = ie.options[ie.selectedIndex].innerText;
+	i = parseInt( ie.value );
+	outLine( de.innerText );
+}
+// 拍照
+function getImage() {
+	outSet( "开始拍照：" );
+	var cmr = plus.camera.getCamera();
+	cmr.captureImage( function ( p ) {
+		outLine( "成功："+p );
+		plus.io.resolveLocalFileSystemURL( p, function ( entry ) {
+			document.getElementById("img").src = entry.fullPath;
+			createItem( entry );
+		}, function ( e ) {
+			outLine( "读取拍照文件错误："+e.message );
+		} );
+	}, function ( e ) {
+		outLine( "失败："+e.message );
+	}, {filename:"_doc/camera/photo.jpg",index:1} );
+}
+// 录像
+function getVideo() {
+	outSet( "开始录像：" );
+	var cmr = plus.camera.getCamera();
+	cmr.startVideoCapture( function ( p ) {
+		outLine( "成功："+p );
+		plus.io.resolveLocalFileSystemURL( p, function( entry) {
+			createItem( entry );
+		}, function( e ) {
+			outLine( "读取录像文件错误："+e.message );
+		} );
+	}, function( e ){
+		outLine( "失败："+e.message );
+	}, {filename:"_doc/camera/",index:i} );
+}
+// 显示文件
+function displayFile( li ) {
+	if ( w ) {
+		outLine( "重复点击！" );
+		return;
+	}
+	if ( !li || !li.entry ) {
+		ouSet( "无效的媒体文件" ); 
+		return;
+	}
+	var name = li.entry.name;
+	var suffix = name.substr(name.lastIndexOf('.'));
+	var url = "";
+	if ( suffix==".mov" || suffix==".3gp" || suffix==".mp4" || suffix==".avi" ){
+		//if(unv){plus.runtime.openFile("_doc/camera/"+name);return;}
+		url = "camera_video.html";
+	} else {
+		url = "camera_image.html";
+	}
+	w=plus.webview.create(url,url,{scrollIndicator:'none',scalable:true,bounce:"all"});
+	w.addEventListener( "loaded", function(){
+		w.evalJS( "loadMedia('"+li.entry.toLocalURL()+"')" );
+		//w.evalJS( "loadMedia(\""+"http://localhost:13131/_doc/camera/"+name+"\")" );
+	}, false );
+	w.addEventListener( "close", function() {
+		w = null;
+	}, false );
+	w.show( "pop-in" );
+}
+
+// 添加播放项
+function createItem( entry ) {
+	var li = document.createElement("li");
+	li.className = "ditem";
+	li.innerHTML = '<span class="iplay"><font class="aname"></font><br/><font class="ainf"></font></span>';
+	li.setAttribute( "onclick", "displayFile(this);" );
+	hl.insertBefore( li, le.nextSibling );
+	li.querySelector(".aname").innerText = entry.name;
+	li.querySelector(".ainf").innerText = "...";
+	li.entry = entry;
+	updateInformation( li );
+	// 设置空项不可见
+	le.style.display = "none";
+}
+// 获取录音文件信息
+function updateInformation( li ) {
+	if ( !li || !li.entry ) {
+		return;
+	}
+	var entry = li.entry;
+	entry.getMetadata( function ( metadata ) {
+		li.querySelector( ".ainf" ).innerText = dateToStr( metadata.modificationTime );
+	}, function ( e ) {
+		outLine( "获取文件\""+entry.name+"\"信息失败："+e.message );
+	});
+}
+// 获取录音历史列表
+function updateHistory() {
+	if ( !gentry ) {
+		return;
+	}
+  	var reader = gentry.createReader();
+  	reader.readEntries( function ( entries ) {
+  		for ( var i in entries ) {
+  			if ( entries[i].isFile ) {
+  				createItem( entries[i] );
+  			}
+  		}
+  	}, function ( e ) {
+  		outLine( "读取录音列表失败："+e.message );
+  	} );
+}
+// 清除历史记录
+function cleanHistory() {
+	hl.innerHTML = '<li id="empty" class="ditem-empty">无历史记录</li>';
+	le = document.getElementById( "empty" );
+	// 删除音频文件
+	outSet( "清空拍照录像历史记录：" );
+	gentry.removeRecursively( function () {
+		// Success
+		outLine( "成功！" );
+	}, function ( e ) {
+		outLine( "失败："+e.message ); 
+	});
+}
+</script>
+	</head> 
+	<body class="zoom"> 
+		<header class="header">
+			<a class="mui-action-back">
+				<div class="back"><img src="../images/btn_fanhui.png" /></div>
+			</a>
+			<div class="header_title">签到</div>
+			<a href="sign_history.html"><div class="history">历史</div></a>     
+		</header>
+			<div class="scroll_total" id="lod">地图加载中...
+			<!--<div id="map" class="map_detail"></div>-->
+			<div id="allmap"></div>
+		</div>  
+		<footer class="footer">    
+			<div class="up">
+				<a url="../client/choice_detail.html" class="link_btn" data='{"type":"clientNameList"}'>
+					<div class="one" id="clientNameList">请点击选择客户</div>
+				</a> 
+				<div class="two"  id="picture-btn">
+					<div class="signCheck" id="info">签到</div>  
+					<div class="qian"><img src="../images/icon_locus.png"/></div>
+				</div>
+				<a href="photo.html">  
+				<div class="three">
+			<!--<ul id="history" style="list-style: none;">     
+				<li id="empty"></li>
+				<img id="img" src=""/>
+			</ul>-->
+
+			<img src="../img/s1_m.jpg" alt="Image description" />
+				</div>
+				</a>  
+			</div>
+			<div class="down">    
+				<div class="photo_button" onclick="getImage();">拍照</div>
+				<a href="sign_history.html"><div class="save_button">保存</div></a> 
+			</div>
+			<div id="output" style="display: none;"></div>     
+		</footer>
+		<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		mui('body').on('shown', '.mui-popover', function(e) {
+			//console.log('shown', e.detail.id);//detail为当前popover元素
+		});
+		mui('body').on('hidden', '.mui-popover', function(e) {
+			//console.log('hidden', e.detail.id);//detail为当前popover元素
+		});
+		var info = document.getElementById("info");
+		document.getElementById("picture-btn").addEventListener('tap',function () {
+			var btnArray = [{title:"签到"},{title:"签退"},{title:"前去拜访"},{title:"拜访离开"}];
+			plus.nativeUI.actionSheet({
+				title:"选择操作",   
+				cancel:"取消",
+				buttons:btnArray
+			}, function(e){
+				var index = e.index;  
+				var text = "";
+				switch (index){
+					case 0:
+						text += "";
+						break;
+					case 1:
+						text += "签到";
+						break;
+					case 2:
+						text += "签退";
+						break;
+					case 3:
+						text += "前去拜访";
+						break;
+					case 4:
+						text += "拜访离开";
+						break;
+				}
+				info.innerHTML = text;
+			} );
+		});
+		
+// //  获取页面高度
+//$(document).ready(function(){
+////	alert($(window).height());
+//
+//  $('#lod').css('height',$(window).height());
+//});
+
+//	var point = new BMap.Point(116.331398,39.897445);
+//	map.centerAndZoom(point,12);
+//	function myFun(result){
+//		var cityName = result.name;
+//		map.setCenter(cityName);
+//		alert("当前定位城市:"+cityName);
+//	}
+//	var myCity = new BMap.LocalCity();
+//	myCity.get(myFun);
+
+    // 百度地图API功能
+var map = new BMap.Map("allmap");
+var watchId;
+function geoInf( position ) {
+	var str = ""; 
+	var codns = position.coords;//获取地理坐标信息；
+	var lat = codns.latitude;//获取到当前位置的纬度；
+	str += "纬度："+lat+"\n";
+	var longt = codns.longitude;//获取到当前位置的经度 
+	str += "经度："+longt+"\n";
+	outLine( str );
+	map.centerAndZoom(new BMap.Point(longt, lat),19);  
+	map.enableScrollWheelZoom(true);
+}
+ //通过百度定位模块获取位置信息
+function getPosBaidu(){  
+	outSet( "获取百度定位位置信息:" );
+	plus.geolocation.getCurrentPosition( geoInf, function ( e ) {
+		outSet( "获取百度定位位置信息失败："+e.message );
+	},{provider:'baidu'});
+}
+// // 添加带有定位的导航控件
+//var navigationControl = new BMap.NavigationControl({
+//  // 靠左上角位置
+//  anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
+//  // LARGE类型
+//  type: BMAP_NAVIGATION_CONTROL_LARGE
+//});
+//map.addControl(navigationControl);
+//// 添加定位控件
+//var geolocationControl = new BMap.GeolocationControl();
+////geolocationControl.fire()
+//geolocationControl.addEventListener("locationSuccess", function(e){
+//  // 定位成功事件
+//  var address = '';
+//  address += e.addressComponent.province;
+//  address += e.addressComponent.city;
+//  address += e.addressComponent.district;
+//  address += e.addressComponent.street;
+//  address += e.addressComponent.streetNumber;
+//  alert(e.point.lng + "," + e.point.lat);
+//  alert("当前定位地址为：" + address);
+//});
+//geolocationControl.addEventListener("locationError",function(e){
+//  // 定位失败事件
+//  alert(e.message);
+//});
+//map.addControl(geolocationControl);
+
+	
+		(function($) {
+			mui.init();
+			var initBinding = function() {
+		//添加newId自定义事件监听
+		window.addEventListener('subpageCallback', function(event) {
+			//获得事件参数
+			var data = event.detail.data; 
+			//根据id向服务器请求新闻详情
+   			//alert("type=" + data.type + ";value=" + data.value);
+   		   	if(data.type == "clientNameList"){
+		    var clientNameList = document.getElementById("clientNameList");
+			clientNameList.innerHTML = data.value;       
+		    }
+		});
+		var currWV = plus.webview.currentWebview();
+	// 将页面的参数传到详细页面
+		jQuery(".link_btn").each(function(i, el) {  
+			el.addEventListener('tap', function() {
+			var _this = jQuery(this);
+			var _url = _this.attr("url");
+			var _data = JSON.parse(_this.attr("data").toString()); 
+	//			var elTitle = jQuery(this).find(".title").text(); 
+	//			alert(plus.webview.all().length); 
+				var wv = plus.webview.getWebviewById(_url);
+			//	alert(wv);
+				if (wv == undefined) {
+	//				alert("create");
+					wv = plus.webview.create(
+						_url, _url, {}, {}					
+					);  
+				}
+	//			alert(plus.webview.all().length);
+				currWV.append(wv);
+				
+				wv.show("auto",600,function(){
+					 mui.fire(wv,'showedCallback',{
+									  	argdata:_data,
+									  });
+				}, {});
+			});
+		});
+	
+	};  
+	
+	
+	if (mui.os.plus) {
+		mui.plusReady(function() {
+			 getPosBaidu();
+			initBinding();
+		});
+	} else {
+		mui.ready(function() {
+			  getPosBaidu();
+			initBinding();
+		});
+	}
+	
+	})(mui);
+</script>
+
+	</body>
+</html>

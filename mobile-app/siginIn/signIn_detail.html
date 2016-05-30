@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=0.5,user-scalable=no,target-densitydpi=device-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="no" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>杭州数用科技信息有限公司</title>
+		<style id="_zoom"></style>
+		<script type="text/javascript" src="../js/self-adaptive.js"></script>
+        <script type="text/javascript" src="../js/mui.min.js" ></script>
+		<link rel="stylesheet" href="../css/android/siginIn/signIn.css" />
+		<!--<script type="text/javascript" src="../js/common.js" ></script>
+		<script type="text/javascript" src="../js/jquery-1.7.2.min.js" ></script> -->
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=jGhlgL4DYtnOUqForKi2cbUn"></script>
+	</head>
+	<body class="zoom"> 
+		<header class="header">
+			<a class="mui-action-back">
+				<div class="back"><img src="../images/btn_fanhui.png" /></div>
+			</a>
+			<div class="header_title">签到</div>
+			<a href="sign_history.html"><div class="history">历史</div></a>     
+		</header>
+		<div class="scroll_total map" id="lod">地图加载中...
+			<!--<div id="map" class="map_detail"></div>-->
+			<div id="allmap"></div>  
+			<div id="r-result" style="display: none;">
+		经度: <input id="longitude" type="text" value="120.196533"/>
+		纬度: <input id="latitude" type="text" value="30.182165"/>
+		<!--<input type="button" value="查询" onclick="theLocation()" />-->
+	        </div>
+		</div>   	
+		<footer class="footer footer_detail">
+			<div class="up">
+				<a href="#"><div class="one" id="check_before">客户1</div></a>  
+				<div class="two">
+					<div class="signCheck" id="info">签到</div>  
+					<div class="qian" id="picture-btn"><img src="../images/icon_locus.png"/></div>
+				</div>
+				<a href="photo.html">
+				<div class="three">
+			<!--<ul id="history" style="list-style: none;">     
+				<li id="empty"></li>
+				<img id="img" src=""/>
+			</ul>-->
+
+			<img src="../img/s1_m.jpg" alt="Image description" />
+				</div>
+				</a>  
+			</div>
+			<div id="output" style="display: none;"></div>  
+		</footer>
+		<script type="text/javascript">
+		mui.init();
+			if (mui.os.plus) {
+				mui.plusReady(function() {
+						theLocation();
+				});
+			} else {
+				mui.ready(function() {
+					theLocation(); 
+				});
+			}
+ // 百度地图API功能
+	var map = new BMap.Map("allmap");
+	map.centerAndZoom(new BMap.Point(116.404,39.915),15);
+	map.enableScrollWheelZoom(true);
+//	 // 百度地图API功能
+//	var point = new BMap.Point(116.404, 39.915);
+//	map.centerAndZoom(point, 15);
+//	var marker = new BMap.Marker(point);  // 创建标注
+//	map.addOverlay(marker);               // 将标注添加到地图中
+//	marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+//	
+	// 用经纬度设置地图中心点
+	function theLocation(){
+		if(document.getElementById("longitude").value != "" && document.getElementById("latitude").value != ""){
+			map.clearOverlays(); 
+			var new_point = new BMap.Point(document.getElementById("longitude").value,document.getElementById("latitude").value);
+			var marker = new BMap.Marker(new_point);  // 创建标注
+			map.addOverlay(marker); // 将标注添加到地图中
+			map.panTo(new_point);      
+		}
+	}
+</script>
+	</body>
+</html>

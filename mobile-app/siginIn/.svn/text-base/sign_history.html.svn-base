@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=0.5,user-scalable=no,target-densitydpi=device-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="no" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>杭州数用科技信息有限公司</title>
+		<style id="_zoom"></style>
+		<script type="text/javascript" src="../js/self-adaptive.js"></script>
+		<link rel="stylesheet" href="../css/android/siginIn/sign_history.css" />
+		<script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="../js/mui.min.js" ></script> 
+	</head>
+	<body class="zoom">
+		<header class="header">
+			<a class="mui-action-back">
+				<div class="back"><img src="../images/btn_fanhui.png" /></div> 
+			</a>
+<!--			<div class="header_title">行动轨迹</div>-->
+<select>
+	<option value="" selected="selected">行动轨迹</option>
+	<option value="其他人"><a href="#">其他人</a></option>
+	<option value="团队"><a href="#">团队</a></option>
+	<option value="公司"><a href="#">公司</a></option>
+</select> 
+		</header>
+		<div class="select_check">
+			<div class="check">
+				<div class='diy_select'>
+					<input type='hidden' name='' class='diy_select_input' />
+					<div class='diy_select_txt'>条件筛选</div>
+					<div class='diy_select_btn'>
+						<img src="../images/btn_open.png" />
+					</div>
+					<ul class='diy_select_list'>
+						<li><a href="#">需回访</a></li>
+						<li><a href="#">七天未联系</a></li>
+						<li><a href="#">报价中</a></li>
+						<li><a href="#">成交客户</a></li>
+					</ul> 
+				</div>
+			</div>
+			<div class="check">
+				<div class='diy_select'>
+					<input type='hidden' name='' class='diy_select_input' />
+					<div class='diy_select_txt'>更新时间</div>
+					<div class='diy_select_btn'>
+						<img src="../images/btn_open.png" />
+					</div>
+					<ul class='diy_select_list'>
+						<li><a href="#">更新时间顺序</a></li>
+						<li><a href="#">更新时间倒序</a></li>
+						<li><a href="#">公司名称顺序</a></li>
+						<li><a href="#">创建时间倒序</a></li>
+					</ul>
+				</div>
+			</div>
+		</div> 
+	    <form id="form1" class="scroll_total" method="post">
+	    	<a href="signIn_detail.html">
+			<div class="visit">
+				<div class="name">南京坤宁安固科技有限公司<span>拜访离开</span></div>
+				<div class="address">浙江省杭州市滨江聚财区</div>
+				<div class="time"><span>@李华</span>2015-7-25&nbsp;&nbsp;17:10</div>
+			</div>
+			</a>
+			<a href="signIn_detail.html">
+			<div class="visit">
+				<div class="name">南京坤宁安固科技有限公司<span>前去拜访</span></div>
+				<div class="address">浙江省杭州市滨江聚财区</div>
+				<div class="time"><span>@李华</span>2015-7-25&nbsp;&nbsp;17:10</div>
+			</div>	
+			</a>
+			<a href="signIn_detail.html">
+			<div class="visit">
+				<div class="address">浙江省杭州市滨江聚财区<span>签到</span></div>
+				<div class="time"><span>@李华</span>2015-7-25&nbsp;&nbsp;17:10</div>
+			</div>
+			</a>
+		</form>
+		<script type="text/javascript" src="../js/jquery.select.js" ></script>
+		<script type="text/javascript" src="../js/select_down.js"></script>
+		<script type="text/javascript" src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/signIn/sign_history.js" ></script>
+	</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=0.5,user-scalable=no,target-densitydpi=device-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="no" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>杭州数用科技信息有限公司</title>
+		<style id="_zoom"></style>
+		<script type="text/javascript" src="../js/self-adaptive.js"></script>
+		<link rel="stylesheet" href="../css/android/client/new_client.css" />
+		<script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
+	</head>
+
+	<body class="zoom">
+		<!--头部开始-->
+		<header class="header">
+			<a class="mui-action-back">
+				<div class="back">
+					<img src="../images/btn_fanhui.png">
+				</div>
+			</a>
+			<div class="head_middle">
+				联系人视图
+			</div>
+			<a href="content_list.html">
+				<div class="right">
+					联系人列表
+				</div>
+			</a>
+		</header>
+		<div class="scroll_total">
+			<div class="abstract">
+				<div class="title title_add">对应客户</div>
+				<div class="level_outside">
+					<div class="level">热</div>
+				</div>
+				<a url="#" class="link_btn" data='{"type":""}'>
+					<div class="name" id="clientName">
+						<input type="text" placeholder="（必填）">
+					</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</a>
+			</div>
+			<div class="kong"></div>
+			<div class="abstract">
+				<div class="title">联系人</div>
+				<a url="text_detail.html" class="link_btn" data='{"type":"contact"}'>
+					<div class="name" id="owner">张华</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</a>
+			</div>
+			<div class="kong"></div>
+			<a href="#">
+				<div class="abstract">
+					<div class="title">移动电话</div>
+					<div class="name">13826535563</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</div>
+			</a>
+			<div class="kong"></div>
+			<a href="#">
+				<div class="abstract">
+					<div class="title">性别</div>
+					<div class="name">男</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</div>
+			</a>
+			<div class="kong"></div>
+			<a href="#">
+				<div class="abstract">
+					<div class="title">负责业务</div>
+					<div class="name">销售</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</div>
+			</a>
+			<div class="kong"></div>
+			<a href="#">
+				<div class="abstract">
+					<div class="title">类型</div>
+					<div class="name">联系人</div>
+					<div class="pic">
+						<img src="../images/btn_xiayiye.png" />
+					</div>
+				</div>
+			</a>
+			<!--<div class="kong"></div>
+			<a href="#" onclick="showHideCode()">
+				<div class="more more_add">
+					更多
+				</div>
+			</a>-->
+			<div class="bottom_xian"></div>
+			<div class="one">
+				<div id="btn2" class="img01" style="width:556px;">
+					<div class="firsttitle" style="width:516px;">回访记录</div>
+				</div>
+				<a class="add" href="new_company.html"><img src="../images/btn_xinjian1.png" /> </a>
+				<div class="next" style="margin-top:8px">
+					<img src="../images/btn_xiayiye.png" />
+				</div>
+			</div>
+			<div id="content2" class="content1">
+				<div class="firstchild">
+					<div class="main">
+						<a href="#"><span>语音</span></a>
+						<div class="firstname">给客户远程培训</div>
+						<div class="record_next">
+							<img src="../images/btn_xiayiye.png" />
+						</div>
+					</div>
+				</div>
+				<div class="kong_record"></div>
+				<div class="firstchild">
+					<div class="main">
+						<div class="firstname">张总（李鸣）</div>
+						<div class="firstname">2015-7-22&nbsp;&nbsp;&nbsp;10:01</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer class="footer">
+			<div class="content_bottom">
+				<a href="#">
+						名片扫描
+					</a>
+			</div>
+			<div class="content_bottom">
+				<a href="#">
+						手动新建
+					</a>
+			</div>
+			<div class="content_bottom">
+				<a href="#">
+						删除
+					</a>
+			</div>
+		</footer>
+		<script type="text/javascript" src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/client/client_detail.js"></script>
+	</body>
+
+</html>

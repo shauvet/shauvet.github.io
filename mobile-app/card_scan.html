@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=0.5,user-scalable=no,target-densitydpi=device-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="yes"  />  
+		<title>杭州数用科技信息有限公司</title>
+		<style id="_zoom"></style>
+		<script type="text/javascript" src="js/self-adaptive.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/android/card_scan.css" />		
+		<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="js/modal.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("a.forgot").click(function(){
+		$("#login-modal").modal("hide");	
+});
+}
+</script>
+</head>
+	<body class="zoom">	
+		<header class="header">    
+			<a href="main.html">
+				<div class="back"><img src="images/btn_fanhui.png" /></div>
+			</a>
+			<div class="header_title">名片扫描</div>
+		</header>
+		<div class="scroll_total">
+			<div class="title">名片扫描结果</div>
+			<div class="scan_out">
+				<div class="scan_inside" id="card">
+					<img src="img/card.jpg">
+				</div>
+			</div>
+			<div class="title title_bottom">信息提取</div>
+			<form method="post">
+				<div class="total">
+            <div class="biao">
+            	<div class="left">联系人</div>
+            	<div class="right">赵娟</div>
+            </div>
+            <div class="biao">
+            	<div class="left">企业名称</div>
+            	<div class="right">太平洋电脑信息咨询有限公司</div>
+            </div>
+            <div class="biao">
+            	<div class="left">联系电话</div>
+            	<div class="right">010-82667102-509</div>
+            </div>
+            <div class="biao">
+            	<div class="left">移动电话</div>
+            	<div class="right">13241926314</div>
+            </div>
+            <div class="biao">
+            	<div class="left">客户地址</div>
+            	<div class="right">北京市海淀区海淀路52号北大太平洋大厦18层</div>
+            </div>
+            <div class="biao">
+            	<div class="left">QQ</div>
+            	<div class="right"></div>
+            </div>
+            <div class="biao">
+            	<div class="left">企业网址</div>
+            	<div class="right">www.pconline.com.cn</div>
+            </div> 
+            </div>
+			</form>
+		</div>
+      <div class="dialog"  id="login-modal">
+      		<a href="client/client_detail.html"><div class="dialog_check dialog_add">个人客户</div></a>
+      		<a href="client/client_detail.html"><div class="dialog_check">企业客户</div></a>
+	   </div> 
+		<footer class="footer">
+			<div class="bottom">
+				<a data-toggle="modal" href="#login-modal">
+						保存到客户
+				</a>
+			</div>
+			<div class="bottom">
+				<a href="client/content_detail.html">
+					          保存到联系人
+				</a>
+			</div>
+		</footer>
+	</body>
+</html>

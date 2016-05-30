@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=0.5,user-scalable=no,target-densitydpi=device-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="no" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>杭州数用科技信息有限公司</title>
+		<style id="_zoom"></style>
+		<script type="text/javascript" src="js/self-adaptive.js"></script> 
+		<link rel="stylesheet" href="css/android/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="css/android/style.css" />
+		<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="js/modal.js"></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("a.forgot").click(function(){
+		$("#login-modal").modal("hide");	
+});
+</script>
+<script type="text/javascript"> 
+var i=1,gentry=null,w=null;
+var hl=null,le=null,de=null,ie=null;
+var unv=true;
+// H5 plus事件处理
+function plusReady(){
+	// 获取摄像头目录对象
+	plus.io.resolveLocalFileSystemURL( "_doc/", function ( entry ) {
+		entry.getDirectory( "camera", {create:true}, function ( dir ) {
+			gentry = dir;
+			updateHistory();
+		}, function ( e ) {
+			outSet( "Get directory \"camera\" failed: "+e.message );
+		} );
+	}, function ( e ) {
+		outSet( "Resolve \"_doc/\" failed: "+e.message );
+	} );
+}   
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener("plusready",plusReady,false);
+}
+// 监听DOMContentLoaded事件
+document.addEventListener("DOMContentLoaded",function(){
+	// 获取DOM元素对象
+	hl=document.getElementById("history");
+	le=document.getElementById("empty");
+	de=document.getElementById("display");
+	if(ie=document.getElementById("index")){
+		ie.onchange=indexChanged;
+	}
+	// 判断是否支持video标签
+	unv=!document.createElement('video').canPlayType;
+},false );
+function changeIndex() {
+	outSet( "选择摄像头：" );
+	ie.focus();
+}
+function indexChanged() {
+	de.innerText = ie.options[ie.selectedIndex].innerText;
+	i = parseInt( ie.value );
+	outLine( de.innerText );
+}
+// 拍照
+function getImage() {  
+	outSet( "开始拍照：" );
+	var cmr = plus.camera.getCamera();
+	cmr.captureImage( function ( p ) {
+		outLine( "成功："+p );
+		location.href = "card_scan.html";
+		plus.io.resolveLocalFileSystemURL( p, function ( entry ) {
+//			document.getElementById("img").src = entry.fullPath;
+			createItem( entry );
+		}, function ( e ) {
+			outLine( "读取拍照文件错误："+e.message );
+		} );
+	}, function ( e ) {
+		outLine( "失败："+e.message );
+	}, {filename:"_doc/camera/photo.jpg",index:1} );
+}
+// 录像
+function getVideo() {
+	outSet( "开始录像：" );
+	var cmr = plus.camera.getCamera();
+	cmr.startVideoCapture( function ( p ) {
+		outLine( "成功："+p );
+		plus.io.resolveLocalFileSystemURL( p, function( entry) {
+			createItem( entry );
+		}, function( e ) {
+			outLine( "读取录像文件错误："+e.message );
+		} );
+	}, function( e ){
+		outLine( "失败："+e.message );
+	}, {filename:"_doc/camera/",index:i} );
+}
+// 显示文件
+function displayFile( li ) {
+	if ( w ) {
+		outLine( "重复点击！" );
+		return;
+	}
+	if ( !li || !li.entry ) {
+		ouSet( "无效的媒体文件" ); 
+		return;
+	}
+	var name = li.entry.name;
+	var suffix = name.substr(name.lastIndexOf('.'));
+	var url = "";
+	if ( suffix==".mov" || suffix==".3gp" || suffix==".mp4" || suffix==".avi" ){
+		//if(unv){plus.runtime.openFile("_doc/camera/"+name);return;}
+		url = "camera_video.html";
+	} else {
+		url = "camera_image.html";
+	}
+	w=plus.webview.create(url,url,{scrollIndicator:'none',scalable:true,bounce:"all"});
+	w.addEventListener( "loaded", function(){
+		w.evalJS( "loadMedia('"+li.entry.toLocalURL()+"')" );
+		//w.evalJS( "loadMedia(\""+"http://localhost:13131/_doc/camera/"+name+"\")" );
+	}, false );
+	w.addEventListener( "close", function() {
+		w = null;
+	}, false );
+	w.show( "pop-in" );
+}
+
+// 添加播放项
+function createItem( entry ) {
+	var li = document.createElement("li");
+	li.className = "ditem";
+	li.innerHTML = '<span class="iplay"><font class="aname"></font><br/><font class="ainf"></font></span>';
+	li.setAttribute( "onclick", "displayFile(this);" );
+	hl.insertBefore( li, le.nextSibling );
+	li.querySelector(".aname").innerText = entry.name;
+	li.querySelector(".ainf").innerText = "...";
+	li.entry = entry;
+	updateInformation( li );
+	// 设置空项不可见
+	le.style.display = "none";
+}
+// 获取录音文件信息
+function updateInformation( li ) {
+	if ( !li || !li.entry ) {
+		return;
+	}
+	var entry = li.entry;
+	entry.getMetadata( function ( metadata ) {
+		li.querySelector( ".ainf" ).innerText = dateToStr( metadata.modificationTime );
+	}, function ( e ) {
+		outLine( "获取文件\""+entry.name+"\"信息失败："+e.message );
+	} );
+}
+// 获取录音历史列表
+function updateHistory() {
+	if ( !gentry ) {
+		return;
+	}
+  	var reader = gentry.createReader();
+  	reader.readEntries( function ( entries ) {
+  		for ( var i in entries ) {
+  			if ( entries[i].isFile ) {
+  				createItem( entries[i] );
+  			}
+  		}
+  	}, function ( e ) {
+  		outLine( "读取录音列表失败："+e.message );
+  	} );
+}
+// 清除历史记录
+function cleanHistory() {
+	hl.innerHTML = '<li id="empty" class="ditem-empty">无历史记录</li>';
+	le = document.getElementById( "empty" );
+	// 删除音频文件
+	outSet( "清空拍照录像历史记录：" );
+	gentry.removeRecursively( function () {
+		// Success
+		outLine( "成功！" );
+	}, function ( e ) {
+		outLine( "失败："+e.message ); 
+	});
+}
+</script>
+	</head>
+	<body class="zoom">
+		<!--头部开始-->
+		<header class="header">
+			<a url="search.html" class="link_btn">
+				<img src="images/btn_sousuo.png">
+			</a>
+<select>
+	<option value="" selected="selected">我的</option>
+	<option value="其他人"><a href="#">其他人</a></option>
+	<option value="团队"><a href="#">团队</a></option>
+	<option value="公司"><a href="#">公司</a></option>
+</select> 
+			<a data-toggle="modal" href="#login-modal">    
+				<img src="images/btn_xinjian.png">
+			</a>  
+			<a href="#">
+				<img src="images/btn_gongneng.png">
+			</a>
+		</header>	
+	<div class="news"  id="login-modal">
+ <div style="height:25px;"><img src="images/image_select.png"/></div> 
+	<a url="client/new_company.html" class="link_btn"><div class="news_list news_list_top">新建企业客户</div></a>
+	<a url="client/new_person.html" class="link_btn"><div class="news_list">新建个人客户</div></a>	
+		<a url="client/new_content.html" class="link_btn"><div class="news_list">新建联系人</div></a>
+			<a url="returnVisit/new_record.html"  class="link_btn"><div class="news_list">新建回访记录</div></a>
+				<div class="news_list" onclick="getImage();">名片扫描</div>
+				<div style="display: none;"><img id="img" src=""/>  </div>   
+				<div id="output" style="display: none;"></div>  
+					<a url="siginIn/signIn.html" class="link_btn"><div class="news_list news_list_bottom">签到</div></a> 
+		</div>
+		<!--头部结束-->  
+		<!--内容开始-->
+		<div class="mui-content">
+			<div id="slider" class="mui-slider mui-fullscreen">
+				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<div class="mui-scroll">
+						<a class="mui-control-item mui-active" style="width:15%" href="#item1mobile">
+							全部
+						</a>
+						<a class="mui-control-item" href="#item2mobile">
+							我的发布
+						</a>
+						<a class="mui-control-item" href="#item3mobile">
+							我的处理
+						</a>
+						<a class="mui-control-item" href="#item4mobile">
+							我的关注
+						</a>
+					</div>
+					<!--<div id="down" class="down"><img src="images/btn_open.png"/></div>-->
+				</div>
+				<div class="tips">
+					<div class="tips_title">小智提醒:</div>
+					<div class="tips_content"><span style="float:left;">您今天已经添加了</span>
+						<p>2个客户，5个销售合同，10条聊天记录。</p>
+					</div>
+				</div>
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">	
+								<a url="client/client_detail.html" class="link_btn">
+									<li class="mui-table-view-cell">
+										<div class="content">
+											<div class="pic">
+												<img src="images/images_test2.png" />
+											</div>
+											<div class="title">
+												<div class="name">我</div>
+												<div class="type">客户</div>
+												<div class="ins">新建了一个客户，上海XXX</div>
+											</div>
+											<div class="photo">
+												<img src="" />
+												<img src="" />
+												<img src="" />
+											</div>
+											<div class="time">  
+												<span>2015-7-7&nbsp;&nbsp;13:48</span>
+												&nbsp;&nbsp;
+												<span><img src="images/shouji-icno.png" />iPhone6</span>
+											</div>	
+											<div class="lin">联系人：张丹&nbsp;&nbsp;13959436858</div>
+											<div class="lin">#标签1&nbsp;&nbsp;#标签2</div>
+											<div class="lin">
+												
+											<img src="images/ioc_weizhi.png" />
+												&nbsp;&nbsp;浙江省杭州市滨江区XXX</div>
+											<div class="remind"><span style="float:left">您已添加2个客户，明天</span>
+												<p>回访</p>，客户需求整理</div>
+											<div class="kong"></div>
+										</div>								
+										<div class="newsbtn">
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_huifu.png" />
+													<p>回复</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+											</a>
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_yuyin.png" />
+													<p>语音</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+											</a>
+												<a href="">
+													<div class="fun">
+														<img src="images/btn_dianzan.png" />
+														<p>赞</p>
+													</div>
+													<div class="border">
+														<img src="images/fenge.png" />
+													</div>
+												</a>
+												<a href="">
+													<img src="images/btn_guanzhu.png" />
+													<p>关注</p>
+												</a>
+										</div>		
+									</li>
+								   </a>
+									<a url="client/client_detail.html" class="link_btn">
+									<li class="mui-table-view-cell">
+										<div class="content">
+											<div class="pic">
+												<img src="images/images_test1.png" />
+											</div>
+											<div class="title">
+												<div class="name">许公伟</div>
+												<div class="type">指令</div>
+												<div class="ins">新建了一个客户，上海XXX</div>
+											</div>
+											<div class="photo">
+												<img src="" />
+												<img src="" />
+												<img src="" />
+											</div>
+											<div class="time">
+												<span>2015-7-7&nbsp;&nbsp;13:48</span>
+												&nbsp;&nbsp;
+												<span><img src="images/shouji-icno.png" />IPhone6</span>
+											</div>
+											<div class="lin">@鲍俊伟&nbsp;&nbsp;#标签2</div>
+											<div class="relate">关联客户：浙江XX有限公司</div>
+											<div class="relate">关联产品：P1025 XXX</div>
+											<div class="lin">
+												<a>
+													<img src="images/ioc_weizhi.png" />
+												</a>&nbsp;&nbsp;浙江省杭州市滨江区XXX</div>
+											    <div class="remind">该指令由鲍军伟执行，应于明天15:45前完成该指令									    	
+												<p></p>
+											</div>											
+							                <div class="kong"></div>
+										</div>	
+										<div class="newsbtn">
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_huifu.png" />
+													<p>回复</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+											</a>
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_yuyin.png" />
+													<p>语音</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+												<a href="">
+													<div class="fun">
+														<img src="images/btn_dianzan.png" />
+														<p>赞</p>
+													</div>
+													<div class="border">
+														<img src="images/fenge.png" />
+													</div>
+												</a>
+												<a href="">
+													<img src="images/btn_guanzhu.png" />
+													<p>关注</p>
+												</a>
+										</div>
+									</li>
+									</a> 
+									<li class="mui-table-view-cell">
+										<a url="client/client_detail.html" class="link_btn">
+										<div class="content">
+											<div class="pic">
+												<img src="images/images_test2.png" />
+											</div>
+											<div class="title">
+												<div class="name">我</div>
+												<div class="type">客户</div>
+												<div class="ins">新建了一个客户，上海XXX</div>
+											</div>
+											<div class="photo">
+												<img src="" />
+												<img src="" />
+												<img src="" />
+											</div>
+											<div class="time">
+												<span>2015-7-7&nbsp;&nbsp;13:48</span>
+												&nbsp;&nbsp;
+												<span><img src="images/shouji-icno.png" />IPhone6</span>
+											</div>								
+											<div class="lin">联系人：张丹&nbsp;&nbsp;13959436858</div>
+											<div class="lin">#标签1&nbsp;&nbsp;#标签2</div>
+											<div class="lin">
+												<a>
+													<img src="images/ioc_weizhi.png" />
+												</a>&nbsp;&nbsp;浙江省杭州市滨江区XXX</div>
+											<div class="remind"><span style="float:left">您已添加2个客户，明天</span>
+												<p>回访</p>，客户需求整理</div>
+											<div class="kong"></div>
+										</div>
+										</a>
+										<div class="newsbtn">
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_huifu.png" />
+													<p>回复</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+											</a>
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_yuyin.png" />
+													<p>语音</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+												<a href="">
+													<div class="fun">
+														<img src="images/btn_dianzan.png" />
+														<p>赞</p>
+													</div>
+													<div class="border">
+														<img src="images/fenge.png" />
+													</div>
+												</a>
+												<a href="">
+													<img src="images/btn_guanzhu.png" />
+													<p>关注</p>
+												</a>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<li class="mui-table-view-cell">
+										<a url="client/client_detail.html" class="link_btn">
+										<div class="content">
+											<div class="pic">
+												<img src="images/images_test1.png" />
+											</div>
+											<div class="title">
+												<div class="name">许公伟</div>
+												<div class="type">指令</div>
+												<div class="ins">新建了一个客户，上海XXX</div>
+											</div>
+											<div class="photo">
+												<img src="" />
+												<img src="" />
+												<img src="" />
+											</div>
+											<div class="time">
+												<span>2015-7-7&nbsp;&nbsp;13:48</span>
+												&nbsp;&nbsp;
+												<span><img src="images/shouji-icno.png" />IPhone6</span>
+											</div>
+											<div class="lin">@鲍俊伟&nbsp;&nbsp;#标签2</div>
+											<div class="relate">关联客户：浙江XX有限公司</div>
+											<div class="relate">关联产品：P1025 XXX</div>
+											<div class="lin">
+												<a>
+													<img src="images/ioc_weizhi.png" />
+												</a>&nbsp;&nbsp;浙江省杭州市滨江区XXX</div>
+											    <div class="remind">该指令由鲍军伟执行，应于明天15:45前完成该指令									    	
+												<p></p>
+											</div>											
+							                <div class="kong"></div>
+										</div>	
+										</a>
+										<div class="newsbtn">
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_huifu.png" />
+													<p>回复</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+											</a>
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_yuyin.png" />
+													<p>语音</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+												<a href="">
+													<div class="fun">
+														<img src="images/btn_dianzan.png" />
+														<p>赞</p>
+													</div>
+													<div class="border">
+														<img src="images/fenge.png" />
+													</div>
+												</a>
+												<a href="">
+													<img src="images/btn_guanzhu.png" />
+													<p>关注</p>
+												</a>
+										</div>
+									</li>
+									<li class="mui-table-view-cell">
+										<a url="client/client_detail.html" class="link_btn">
+										<div class="content">
+											<div class="pic">
+												<img src="images/images_test2.png" />
+											</div>
+											<div class="title">
+												<div class="name">我</div>
+												<div class="type">客户</div>
+												<div class="ins">新建了一个客户，上海XXX</div>
+											</div>
+											<div class="photo">
+												<img src="" />
+												<img src="" />
+												<img src="" />
+											</div>
+											<div class="time">
+												<span>2015-7-7&nbsp;&nbsp;13:48</span>
+												&nbsp;&nbsp;
+												<span><img src="images/shouji-icno.png" />iPhone6</span>
+											</div>	
+											<div class="lin">联系人：张丹&nbsp;&nbsp;13959436858</div>
+											<div class="lin">#标签1&nbsp;&nbsp;#标签2</div>
+											<div class="lin">
+												<a>
+													<img src="images/ioc_weizhi.png" />
+												</a>&nbsp;&nbsp;浙江省杭州市滨江区XXX</div>
+											<div class="remind"><span style="float:left">您已添加2个客户，明天</span>
+												<p>回访</p>，客户需求整理</div>
+											<div class="kong"></div>
+										</div>
+										</a>
+										<div class="newsbtn">
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_huifu.png" />
+													<p>回复</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+											</a>
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_yuyin.png" />
+													<p>语音</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+												<a href="">
+													<div class="fun">
+														<img src="images/btn_dianzan.png" />
+														<p>赞</p>
+													</div>
+													<div class="border">
+														<img src="images/fenge.png" />
+													</div>
+												</a>
+												<a href="">
+													<img src="images/btn_guanzhu.png" />
+													<p>关注</p>
+												</a>
+										</div>		
+									</li>
+									<a url="client/client_detail.html" class="link_btn">
+									<li class="mui-table-view-cell">
+										<div class="content">
+											<div class="pic">
+												<img src="images/images_test1.png" />
+											</div>
+											<div class="title">
+												<div class="name">许公伟</div>
+												<div class="type">指令</div>
+												<div class="ins">新建了一个客户，上海XXX</div>
+											</div>
+											<div class="photo">
+												<img src="" />
+												<img src="" />
+												<img src="" />
+											</div>
+											<div class="time">
+												<span>2015-7-7&nbsp;&nbsp;13:48</span>
+												&nbsp;&nbsp;
+												<span><img src="images/shouji-icno.png" />IPhone6</span>
+											</div>
+											<div class="lin">@鲍俊伟&nbsp;&nbsp;#标签2</div>
+											<div class="relate">关联客户：浙江XX有限公司</div>
+											<div class="relate">关联产品：P1025 XXX</div>
+											<div class="lin">
+												<a>
+													<img src="images/ioc_weizhi.png" />
+												</a>&nbsp;&nbsp;浙江省杭州市滨江区XXX</div>
+											    <div class="remind">该指令由鲍军伟执行，应于明天15:45前完成该指令									    	
+												<p></p>
+											</div>											
+							                <div class="kong"></div>
+										</div>	
+										<div class="newsbtn">
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_huifu.png" />
+													<p>回复</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+											</a>
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_yuyin.png" />
+													<p>语音</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+												<a href="">
+													<div class="fun">
+														<img src="images/btn_dianzan.png" />
+														<p>赞</p>
+													</div>
+													<div class="border">
+														<img src="images/fenge.png" />
+													</div>
+												</a>
+												<a href="">
+													<img src="images/btn_guanzhu.png" />
+													<p>关注</p>
+												</a>
+										</div>
+									</li>
+								   </a>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item3mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<a href="client/client_detail.html">
+									<li class="mui-table-view-cell">
+										<div class="content">
+											<div class="pic">
+												<img src="images/images_test1.png" />
+											</div>
+											<div class="title">
+												<div class="name">许公伟</div>
+												<div class="type">指令</div>
+												<div class="ins">新建了一个客户，上海XXX</div>
+											</div>
+											<div class="photo">
+												<img src="" />
+												<img src="" />
+												<img src="" />
+											</div>
+											<div class="time">
+												<span>2015-7-7&nbsp;&nbsp;13:48</span>
+												&nbsp;&nbsp;
+												<span><img src="images/shouji-icno.png" />IPhone6</span>
+											</div>
+											<div class="lin">@鲍俊伟&nbsp;&nbsp;#标签2</div>
+											<div class="relate">关联客户：浙江XX有限公司</div>
+											<div class="relate">关联产品：P1025 XXX</div>
+											<div class="lin">
+												<a>
+													<img src="images/ioc_weizhi.png" />
+												</a>&nbsp;&nbsp;浙江省杭州市滨江区XXX</div>
+											    <div class="remind">该指令由鲍军伟执行，应于明天15:45前完成该指令									    	
+												<p></p>
+											</div>											
+							                <div class="kong"></div>
+										</div>	
+										<div class="newsbtn">
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_huifu.png" />
+													<p>回复</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+											</a>
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_yuyin.png" />
+													<p>语音</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+												<a href="">
+													<div class="fun">
+														<img src="images/btn_dianzan.png" />
+														<p>赞</p>
+													</div>
+													<div class="border">
+														<img src="images/fenge.png" />
+													</div>
+												</a>
+												<a href="">
+													<img src="images/btn_guanzhu.png" />
+													<p>关注</p>
+												</a>
+										</div>
+									</li>
+									</a>
+									<a url="client/client_detail.html" class="link_btn">
+									<li class="mui-table-view-cell">
+										<div class="content">
+											<div class="pic">
+												<img src="images/images_test1.png" />
+											</div>
+											<div class="title">
+												<div class="name">许公伟</div>
+												<div class="type">指令</div>
+												<div class="ins">新建了一个客户，上海XXX</div>
+											</div>
+											<div class="photo">
+												<img src="" />
+												<img src="" />
+												<img src="" />
+											</div>
+											<div class="time">
+												<span>2015-7-7&nbsp;&nbsp;13:48</span>
+												&nbsp;&nbsp;
+												<span><img src="images/shouji-icno.png" />IPhone6</span>
+											</div>
+											<div class="lin">@鲍俊伟&nbsp;&nbsp;#标签2</div>
+											<div class="relate">关联客户：浙江XX有限公司</div>
+											<div class="relate">关联产品：P1025 XXX</div>
+											<div class="lin">
+												<a>
+													<img src="images/ioc_weizhi.png" />
+												</a>&nbsp;&nbsp;浙江省杭州市滨江区XXX</div>
+											    <div class="remind">该指令由鲍军伟执行，应于明天15:45前完成该指令									    	
+												<p></p>
+											</div>											
+							                <div class="kong"></div>
+										</div>	
+										<div class="newsbtn">
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_huifu.png" />
+													<p>回复</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+											</a>
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_yuyin.png" />
+													<p>语音</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+												<a href="">
+													<div class="fun">
+														<img src="images/btn_dianzan.png" />
+														<p>赞</p>
+													</div>
+													<div class="border">
+														<img src="images/fenge.png" />
+													</div>
+												</a>
+												<a href="">
+													<img src="images/btn_guanzhu.png" />
+													<p>关注</p>
+												</a>
+										</div>
+									</li>
+									</a>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item4mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<a href="client/client_detail.html">
+									<li class="mui-table-view-cell">
+										<div class="content">
+											<div class="pic">
+												<img src="images/images_test2.png" />
+											</div>
+											<div class="title">
+												<div class="name">我</div>
+												<div class="type">客户</div>
+												<div class="ins">新建了一个客户，上海XXX</div>
+											</div>
+											<div class="photo">
+												<img src="" />
+												<img src="" />
+												<img src="" />
+											</div>
+											<div class="time">
+												<span>2015-7-7&nbsp;&nbsp;13:48</span>
+												&nbsp;&nbsp;
+												<span><img src="images/shouji-icno.png" />iPhone6</span>
+											</div>	
+											<div class="lin">联系人：张丹&nbsp;&nbsp;13959436858</div>
+											<div class="lin">#标签1&nbsp;&nbsp;#标签2</div>
+											<div class="lin">
+												<a>
+													<img src="images/ioc_weizhi.png" />
+												</a>&nbsp;&nbsp;浙江省杭州市滨江区XXX</div>
+											<div class="remind"><span style="float:left">您已添加2个客户，明天</span>
+												<p>回访</p>，客户需求整理</div>
+											<div class="kong"></div>
+										</div>
+										<div class="newsbtn">
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_huifu.png" />
+													<p>回复</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+											</a>
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_yuyin.png" />
+													<p>语音</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+												<a href="">
+													<div class="fun">
+														<img src="images/btn_dianzan.png" />
+														<p>赞</p>
+													</div>
+													<div class="border">
+														<img src="images/fenge.png" />
+													</div>
+												</a>
+												<a href="">
+													<img src="images/btn_guanzhu.png" />
+													<p>关注</p>
+												</a>
+										</div>	
+									</li>
+									</a>
+									<a url="client/client_detail.html" class="link_btn">
+									<li class="mui-table-view-cell">
+										<div class="content">
+											<div class="pic">
+												<img src="images/images_test1.png" />
+											</div>
+											<div class="title">
+												<div class="name">许公伟</div>
+												<div class="type">指令</div>
+												<div class="ins">新建了一个客户，上海XXX</div>
+											</div>
+											<div class="photo">
+												<img src="" />
+												<img src="" />
+												<img src="" />
+											</div>
+											<div class="time">
+												<span>2015-7-7&nbsp;&nbsp;13:48</span>
+												&nbsp;&nbsp;
+												<span><img src="images/shouji-icno.png" />IPhone6</span>
+											</div>
+											<div class="lin">@鲍俊伟&nbsp;&nbsp;#标签2</div>
+											<div class="relate">关联客户：浙江XX有限公司</div>
+											<div class="relate">关联产品：P1025 XXX</div>
+											<div class="lin">
+												<a>
+													<img src="images/ioc_weizhi.png" />
+												</a>&nbsp;&nbsp;浙江省杭州市滨江区XXX</div>
+											    <div class="remind">该指令由鲍军伟执行，应于明天15:45前完成该指令									    	
+												<p></p>
+											</div>											
+							                <div class="kong"></div>
+										</div>	
+										<div class="newsbtn">
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_huifu.png" />
+													<p>回复</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+											</a>
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_yuyin.png" />
+													<p>语音</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+												<a href="">
+													<div class="fun">
+														<img src="images/btn_dianzan.png" />
+														<p>赞</p>
+													</div>
+													<div class="border">
+														<img src="images/fenge.png" />
+													</div>
+												</a>
+												<a href="">
+													<img src="images/btn_guanzhu.png" />
+													<p>关注</p>
+												</a>
+										</div>
+									</li>
+									</a>
+									<a url="client/client_detail.html" class="link_btn">
+									<li class="mui-table-view-cell">
+										<div class="content">
+											<div class="pic">
+												<img src="images/images_test2.png" />
+											</div>
+											<div class="title">
+												<div class="name">我</div>
+												<div class="type">客户</div>
+												<div class="ins">新建了一个客户，上海XXX</div>
+											</div>
+											<div class="photo">
+												<img src="" />
+												<img src="" />
+												<img src="" />
+											</div>
+											<div class="time">
+												<span>2015-7-7&nbsp;&nbsp;13:48</span>
+												&nbsp;&nbsp;
+												<span><img src="images/shouji-icno.png" />iPhone6</span>
+											</div>	
+											<div class="lin">联系人：张丹&nbsp;&nbsp;13959436858</div>
+											<div class="lin">#标签1&nbsp;&nbsp;#标签2</div>
+											<div class="lin">
+												<a>
+													<img src="images/ioc_weizhi.png" />
+												</a>&nbsp;&nbsp;浙江省杭州市滨江区XXX</div>
+											<div class="remind"><span style="float:left">您已添加2个客户，明天</span>
+												<p>回访</p>，客户需求整理</div>
+											<div class="kong"></div>
+										</div>
+										<div class="newsbtn">
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_huifu.png" />
+													<p>回复</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+											</a>
+											<a href="">
+												<div class="fun">
+													<img src="images/btn_yuyin.png" />
+													<p>语音</p>
+												</div>
+												<div class="border">
+													<img src="images/fenge.png" />
+												</div>
+												<a href="">
+													<div class="fun">
+														<img src="images/btn_dianzan.png" />
+														<p>赞</p>
+													</div>
+													<div class="border">
+														<img src="images/fenge.png" />
+													</div>
+												</a>
+												<a href="">
+													<img src="images/btn_guanzhu.png" />
+													<p>关注</p>
+												</a>
+										</div>		
+									</li>
+								   </a>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--底部菜单开始-->
+		<!--<footer class="footer">
+			<a href="#">
+			<img src="images/ioc_workReplace.png" />
+				<p  style="color:#33B5E6">工作圈</p>
+			</a>
+			<a href="#">
+			<img src="images/ioc_net.png" />
+				<p>微网</p>
+			</a>			      
+			<a href="#">
+			<img src="images/ioc_qixin.png" />
+				<p>企信</p>
+			</a>
+			<a href="crm.html">
+		   <img src="images/ioc_crm.png" />
+				<p>CRM</p>
+			</a>
+			<a href="mine.html">
+		    <img src="images/ioc_mine.png" />
+				<p>我的</p>
+			</a>
+			<ul>
+				<li>
+					<a href="#">
+						<div class="footIcon fi1 currentIcon"></div>
+							<p>工作圈</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="footIcon fi2"></div>
+						<p>微网</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="footIcon fi3"></div>
+							<p>企信</p>
+					</a>
+				</li>
+				<li>
+					<a href="crm.html">
+						<div class="footIcon fi4"></div>
+							<p>CRM</p>
+					</a>
+				</li>
+				<li>
+					<a href="mine.html">
+						<div class="footIcon fi5"></div>
+							<p>我的</p>
+					</a>
+				</li>
+			</ul>
+		</footer>-->
+		<!--底部菜单结束-->
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery.select.js" ></script>
+		<script src="js/mui.pullToRefresh.js"></script>
+		<script src="js/mui.pullToRefresh.material.js"></script>
+		<script>
+			(function($) {
+				mui.init();
+				$('.mui-scroll-wrapper').scroll({
+					bounce: false,
+					indicators:false //是否显示滚动条
+				});
+				$.ready(function() {
+					//循环初始化所有下拉刷新，上拉加载。
+					$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+						$(pullRefreshEl).pullToRefresh({
+							down: {
+								callback: function() {
+									console.log('pulldown');
+									var self = this;
+									setTimeout(function() {
+										var ul = self.element.querySelector('.mui-table-view');
+										ul.insertBefore(createFragment(ul, index, 5, true), ul.firstChild);
+										self.endPullDownToRefresh();
+									}, 1000);
+								}
+							},
+							up: {
+								callback: function() {
+									console.log('pullup');
+									var self = this;
+									setTimeout(function() {
+										var ul = self.element.querySelector('.mui-table-view');
+										ul.appendChild(createFragment(ul, index, 5));
+										self.endPullUpToRefresh();
+									}, 1000);
+								}
+							}
+						});
+					});
+					var createFragment = function(ul, index, count, reverse) {
+						var length = ul.querySelectorAll('li').length; 
+						var fragment = document.createDocumentFragment();
+						var li;
+						for (var i = 0; i < count; i++) {
+							li = document.createElement('li');   
+							li.className = 'mui-table-view-cell';
+							li.innerHTML = '<a url="client/client_detail.html" class="link_btn"><div class="content"><div class="pic"><img src="images/images_test2.png" /></div><div class="title"><div class="name">我</div><div class="type">客户</div><div class="ins">新建了一个客户，上海XXX</div>	</div><div class="photo"><img src=""/><img src=""/><img src=""/></div><div class="time"><span>2015-7-7&nbsp;&nbsp;13:48</span>&nbsp;&nbsp;<span><img src="images/shouji-icno.png"/>IPhone6</span></div><div class="lin">联系人：张丹&nbsp;&nbsp;13959436858</div><div class="lin">#标签1&nbsp;&nbsp;#标签2</div><div class="lin"><a><img src="images/ioc_weizhi.png"/></a>&nbsp;&nbsp;浙江省杭州市滨江区XXX</div><div class="remind"><span style="float:left">您已添加2个客户，明天</span><p>回访</p>，客户需求整理</div><div class="kong"></div></div></a><div class="newsbtn"><a href=""><div class="fun"><img src="images/btn_huifu.png" /><p>回复</p></div><div class="border"><img src="images/fenge.png" /></div></a><a href=""><div class="fun"><img src="images/btn_yuyin.png" /><p>语音</p></div><div class="border"><img src="images/fenge.png" /></div><a href=""><div class="fun"><img src="images/btn_dianzan.png" /><p>赞</p></div><div class="border"><img src="images/fenge.png" /></div></a><a href=""><img src="images/btn_guanzhu.png" /><p>关注</p></a></div>'; fragment.appendChild(li); } return fragment; }; });
+		
+		var initBinding = function() {
+		var currWV = plus.webview.currentWebview();
+	// 将页面的参数传到详细页面
+		jQuery(".link_btn").each(function(i, el) {  
+			el.addEventListener('tap', function() {
+			var _this = jQuery(this);
+			var _url = _this.attr("url");
+				var wv = plus.webview.getWebviewById(_url);
+				if (wv == undefined) {
+					wv = plus.webview.create(
+						_url, _url, {}, {}	  				
+					);  
+				}
+				plus.webview.show( wv ); 
+			});
+		});
+	};
+	if (mui.os.plus) {
+		mui.plusReady(function() {  
+			initBinding();
+		});
+	} else {
+		mui.ready(function() {
+			initBinding();
+		});
+	}	
+	})(mui);
+		</script>
+	</body>
+
+</html>
