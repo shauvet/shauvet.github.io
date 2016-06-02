@@ -1,11 +1,35 @@
+/*tool-start*/
+.f-fl{float: left;}
+.f-fr{float: right;}
+.f-clearfix:after {content:""; display:block; height:0; clear:both; }
+.f-clearfix { *zoom:1; }
+
+/*too-end*/
+
+/*common-start*/
+body{font-family: "microsoft yahei";}
 a{text-decoration: none;}
 
 .g-nav,.g-container{width:960px;margin:0 auto;}
 
-header{width: 100%;height:250px; background-color: #2e3192;color: #fff;}
+header{width: 100%;height:150px; background-color: #369;color: #fff;}
 .g-nav a{color: #fff;}
-.g-nav a:hover{color: #ffff00;}
 
-.g-content{min-height: 500px;padding: 15px;background-color: #ddd;}
+.g-content{min-height: 600px;padding: 15px;background: url('/assets/imgs/paint.jpg') no-repeat;}
 
-footer{width:100%;height:100px;padding-top:15px;text-align:center;background-color: #333;color: #fff;font-size: 20px;font-weight: bold;}
+footer{width:100%; height:100px; padding-top:15px; text-align:center; background-color: #036; color: #fff; font-size: 20px;
+    font-weight: bold;}
+
+ul,li{list-style-type: none;}
+/*common-end*/
+
+/*nav-start*/
+.m-nav{width: 50%; padding: 22px 0;}
+.m-nav > li{position: relative; float: left; width: 25%; cursor: pointer;}
+.m-nav .menu{display: none; position: absolute; z-index: 101; top: 100%; left: 0; padding: 8px 3px; background-color: #fff;
+    border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 5px 5px #036;}
+.m-nav .menu a{color: #123;}
+.m-nav > li:hover > .menu{display: block; color: #022;}
+.m-nav .menu li{padding: 5px 3px;}
+.m-nav .menu li:hover a{display: block; color: #fff; background: #369;}
+/*nav-end*/
