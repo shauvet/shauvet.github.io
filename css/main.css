@@ -28,9 +28,9 @@ ul,li{list-style-type: none;}
 /*nav-start*/
 .m-nav{width: 50%; padding: 22px 0;}
 .m-nav > li{position: relative; float: left; width: 20%; cursor: pointer;}
-.m-nav .menu{display: none; position: absolute; z-index: 101; top: 100%; left: 0; padding: 8px 3px; background-color: #fff;
+.m-nav .menu{display: none; position: absolute; z-index: 101; top: 100%; left: 0; min-width: 120px; padding: 8px 3px; background-color: #fff;
     border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 5px 5px #036;}
-.m-nav .menu a{color: #123;}
+.m-nav .menu a{display: block; color: #123;}
 .m-nav > li:hover > .menu{display: block; color: #022;}
 .m-nav .menu li{padding: 5px 3px;}
 .m-nav .menu li:hover a{display: block; color: #fff; background: #369;}
