@@ -108,16 +108,14 @@ var sortTable = (function(){
                 var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
                 var eleTop = self.tableEle.offsetTop;
                 var eleHeight = self.tableEle.offsetHeight;
+                var trB = self.tableEle.children[1].children[0];
                 if(scrollTop > eleTop && scrollTop < eleTop + eleHeight){
-                    var trB = self.tableEle.children[1].children[0];
                     if (trB !== self.lockHead){
                         self.tableEle.children[1].insertBefore(self.lockHead, trB);
                     }
-
                     tr.style.position = 'fixed';
                     tr.style.top = '0';
                 }else{
-                    var trB = self.tableEle.children[1].children[0];
                     if (trB === self.lockHead){
                         self.tableEle.children[1].removeChild(self.lockHead);
                     }
