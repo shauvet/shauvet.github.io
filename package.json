@@ -1,0 +1,32 @@
+{
+  "name": "xiaowei-notebook",
+  "version": "1.0.0",
+  "description": "notebook",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {
+    "npm": "^6.1.0"
+  },
+  "devDependencies": {
+    "vuepress": "^0.10.2"
+  },
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shauvet/shauvet.github.io.git"
+  },
+  "keywords": [
+    "notebook"
+  ],
+  "author": "xiaowei",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shauvet/shauvet.github.io/issues"
+  },
+  "homepage": "https://github.com/shauvet/shauvet.github.io#readme"
+}
