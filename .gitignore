@@ -1,4 +1,4 @@
-node_modules
-projectFilesBackup
-.idea
-.vscode
+node_modules/
+projectFilesBackup/
+.idea/
+.vscode/
