@@ -2,3 +2,4 @@ node_modules/
 projectFilesBackup/
 .idea/
 .vscode/
+docs/.vuepress/dist/
