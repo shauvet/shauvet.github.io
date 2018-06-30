@@ -10,7 +10,7 @@
    
    - 一种是直接在起的服务里改写请求url，使用302转发请求，这样每次本地会发两次请求，参考代码如下：
    
-   ```
+   ``` js
     var express = require('express');
 	var app = express();
 	var url = require('url');
@@ -48,7 +48,7 @@
    
    - 第二种方法是使用反向代理把请求转发，从而绕过跨域问题，以常用的webpack-dev-server为例：
    
-   ```
+   ``` js
    module.exports = {
        devServer: {
         historyApiFallback: true,
@@ -79,7 +79,7 @@
    
    上面实例中我们把本地的端口号设置为了8088，如果这个时候接口放在了端口为6666的服务器上，并且我们请求的接口url如下：
    
-   ```
+   ``` js
    
    http://localhost:6666/api
    

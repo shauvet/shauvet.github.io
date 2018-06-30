@@ -13,9 +13,11 @@ module.exports = {
     sidebar: {
       '/javascript/': [
         '',
+        'function'
       ],
       '/js-frame/': [
-        ''
+        '',
+        'angularJS'
       ],
       '/backend/': [
         ''
