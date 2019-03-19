@@ -12,5 +12,5 @@ footer: MIT Licensed | Copyright © 2018-present shauvet
 * [backend](/backend/)
 
 ::: tip 感悟
-人生是一场长跑，可能前半场我跑得慢，但是接下来我会赶上你们甚至超越！
+人生是一场长跑，不论以前怎么样，现在开始全力以赴！
 :::
