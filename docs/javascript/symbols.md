@@ -10,3 +10,5 @@
 * JavaScript 有两种值类型，一种是 基本类型 （primitives），一种是 对象类型 （objects，包含 function 类型），基本类型包括数字 number （包含 integer，float，Infinity，NaN）,布尔值 boolean，字符串 string，undefined，null，尽管 `typeof null === 'object'`，null 仍然是一个基本类型。
 
 * 基本类型的值是不可变的，当然了，存放基本类型值得变量是可以被重新分配的，例如当你写 `let x = 1; x++`，变量 x 就被重新分配值了，但是你并没有改变原来的1.
+
+* 一些语言，例如 c 语言有引用传递和值传递的概念，JavaScript 也有类似的概念，尽管它传递的数据类型需要推断。
