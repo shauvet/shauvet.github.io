@@ -13,7 +13,8 @@ module.exports = {
     sidebar: {
       '/javascript/': [
         '',
-        'function'
+        'function',
+        'symbols',
       ],
       '/js-frame/': [
         '',

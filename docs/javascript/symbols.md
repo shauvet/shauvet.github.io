@@ -1,5 +1,6 @@
+## Symbols 的出现是为了什么呢？
+
 * 翻译自 [medium](https://medium.com/intrinsic/javascript-symbols-but-why-6b02768f4a5c)
-* Symbols 的出现是为了什么呢？
 
 * Symbols 是 JavaScript 最新推出的一种基本类型，它被当做对象属性时特别有用，但是有什么是它能做而 String 不能做的呢？
 
