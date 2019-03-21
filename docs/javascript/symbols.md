@@ -130,3 +130,90 @@ function lib2tag(obj) {
   obj.id = 369;
 }
 ```
+
+* 通过使用 symbols，不同的库在初始化的时候生成其所需的 symbols，然后就可以在对象上任意赋值。
+
+```
+const library1property = Symbol('lib1');
+function lib1tag(obj) {
+  obj[library1property] = 42;
+}
+const library2property = Symbol('lib2');
+function lib2tag(obj) {
+  obj[library2property] = 369;
+}
+```
+
+* 这方面 symbols 的确对 JavaScript 有用。然后你或许会奇怪，不同的库进行初始化的时候为什么不使用随机字符串，或者使用命名空间呢？
+
+```
+const library1property = uuid(); // random approach
+function lib1tag(obj) {
+  obj[library1property] = 42;
+}
+const library2property = 'LIB2-NAMESPACE-id'; // namespaced approach
+function lib2tag(obj) {
+  obj[library2property] = 369;
+}
+```
+
+* 你是对的，这种方法确实类似于 symbols 的这一作用，除非两个库使用相同的属性名，那就会有被覆写的风险。
+
+* 机敏的读者已经发现这两种方案的效果并不完全相同。我们独有的属性名仍然有一个缺点：它们的 key 很容易被找到，尤其是当代码进行递归或者系列化对象，考虑如下的例子：
+
+```
+const library2property = 'LIB2-NAMESPACE-id'; // namespaced
+function lib2tag(obj) {
+  obj[library2property] = 369;
+}
+const user = {
+  name: 'Thomas Hunter II',
+  age: 32
+};
+lib2tag(user);
+JSON.stringify(user);
+// '{"name":"Thomas Hunter II","age":32,"LIB2-NAMESPACE-id":369}'
+```
+
+* 假如我们使用 symbols 作为属性名，json 的输出将不会包含 symbols，这是为什么呢？因为 JavaScript 支持 symbols，并不意味着 json 规范也会跟着修改。json 只允许字符串作为 key，JavaScript 并没有试图让 json 输出 symbols。
+
+* 我们可以简单的通过 Object.defineProperty() 来调整对象字符串输出的 json。
+
+```
+const library2property = uuid(); // namespaced approach
+function lib2tag(obj) {
+  Object.defineProperty(obj, library2property, {
+    enumerable: false,
+    value: 369
+  });
+}
+const user = {
+  name: 'Thomas Hunter II',
+  age: 32
+};
+lib2tag(user);
+// '{"name":"Thomas Hunter II",
+   "age":32,"f468c902-26ed-4b2e-81d6-5775ae7eec5d":369}'
+console.log(JSON.stringify(user));
+console.log(user[library2property]); // 369
+```
+
+* 类似于 symbols，对象通过设置 enumerable 标识符来隐藏字符串 key，它们都会被 Object.keys() 隐藏掉，而且都会被 Reflect.ownKeys() 展示出来，如下所示：
+
+```
+const obj = {};
+obj[Symbol()] = 1;
+Object.defineProperty(obj, 'foo', {
+  enumberable: false,
+  value: 2
+});
+console.log(Object.keys(obj)); // []
+console.log(Reflect.ownKeys(obj)); // [ 'foo', Symbol() ]
+console.log(JSON.stringify(obj)); // {}
+```
+
+* 在这一点上，我们相当于重建了 symbols，我们的隐藏字符串和 symbols 都被序列化器隐藏了，属性也都可以通过 Reflect.ownKeys() 来获取，因此他们并不算私有属性。假设我们使用命名空间、随机字符串等字符串作为对象的属性名，我们就可以避免多个库重名的风险。
+
+* 但是仍然有一点细微的不同，字符串是不可变的，而 symbols 可以保证永远唯一，因此仍然有可能会有人生成重名的字符串。从数学意义上 symbols 提供了一个字符串没有的优点。
+
+* 在 Node.js 里面，当检测一个对象（例如使用 console.log()），假如对象上的一个方法叫做 inspect，当记录对象时，该方法会被调用并输出。你可以想象，这种行为并不是每个人都会这样做，被用户创建的 inspect 方法经常会导致命名冲突，现在 require('util').inspect.custom 提供的 symbol 可以被用在函数上。inspect 方法在 Node.js v10 被放弃，在 v11 版直接被忽略。现在没人可以忽然就改变 inspect 方法的行为了。
