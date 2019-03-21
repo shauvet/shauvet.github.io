@@ -84,3 +84,49 @@ console.log(s1 === str); // false
 console.log(s1 === s2); // false
 console.log(s1); // Symbol(debug)
 ```
+
+### symbols 作为对象的属性
+
+* symbols 有另一个很重要的用途，就是用作对象的 key。这儿有一个 symbols 作为对象 key 使用的例子：
+
+```
+const obj = {};
+const sym = Symbol();
+obj[sym] = 'foo';
+obj.bar = 'bar';
+console.log(obj); // { bar: 'bar' }
+console.log(sym in obj); // true
+console.log(obj[sym]); // foo
+console.log(Object.keys(obj)); // ['bar']
+```
+
+* 我们注意到使用 Object.keys() 并没有返回 symbols，这是为了向后兼容性的考虑。老代码不兼容 symbols，因此古老的 Object.keys() 不应该返回 symbols。
+
+* 看第一眼，我们可能会觉得 symbols 这个特性很适合作为对象的私有属性，许多其他语言都要类似的类的隐藏属性，这一直被认为是 JavaScript 的一大短板。不幸的是，还是有可能通过 symbols 来取到对象的值，甚至都不用试着获取对象属性就可以得到对象 key，例如，通过 Reflect.ownKeys() 方法就可以获取所有的 key，包括 字符串和 symbols，如下所示：
+
+```
+function tryToAddPrivate(o) {
+  o[Symbol('Pseudo Private')] = 42;
+}
+const obj = { prop: 'hello' };
+tryToAddPrivate(obj);
+console.log(Reflect.ownKeys(obj));
+        // [ 'prop', Symbol(Pseudo Private) ]
+console.log(obj[Reflect.ownKeys(obj)[1]]); // 42
+```
+
+* 注意：现在已经有一个旨在解决 JavaScript 私有属性的提案，叫做 [Private Fields](https://github.com/tc39/proposal-class-fields#private-fields)，尽管这并不会使所有的对象受益，它仍然对对象的实例有用，Private Fields 在 Chrome 74版本可用。
+
+### 阻止对象属性名冲突
+
+* symbols 可能对对象的私有属性没有直接好处，但是它有另外一个用途，它在不知道对象原有属性名的情况下，扩展对象属性很有用。
+* 考虑一下当两个不同的库要读取对象的一些原始属性时，或许它们都想要类似的标识符。如果只是简单的使用字符串 id 作为 key，这将会有很大的风险，因为它们的 key 完全有可能相同。
+
+```
+function lib1tag(obj) {
+  obj.id = 42;
+}
+function lib2tag(obj) {
+  obj.id = 369;
+}
+```
