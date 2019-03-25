@@ -217,3 +217,65 @@ console.log(JSON.stringify(obj)); // {}
 * 但是仍然有一点细微的不同，字符串是不可变的，而 symbols 可以保证永远唯一，因此仍然有可能会有人生成重名的字符串。从数学意义上 symbols 提供了一个字符串没有的优点。
 
 * 在 Node.js 里面，当检测一个对象（例如使用 console.log()），假如对象上的一个方法叫做 inspect，当记录对象时，该方法会被调用并输出。你可以想象，这种行为并不是每个人都会这样做，被用户创建的 inspect 方法经常会导致命名冲突，现在 require('util').inspect.custom 提供的 symbol 可以被用在函数上。inspect 方法在 Node.js v10 被放弃，在 v11 版直接被忽略。现在没人可以忽然就改变 inspect 方法的行为了。
+
+### 模拟私有属性
+
+* 这里有一个在对象上模拟私有属性的有趣的尝试。使用了另一个 JavaScript 的新特性：proxy。proxy 会包住一个对象，然后我们就可以跟这个对象进行各种各样的交互。
+
+* proxy 提供了很多种拦截对象行为的方式。这里我们感兴趣的是读取对象属性的行为。我并不会完整的解释 proxy 是如何工作的，所以如果你想要了解的更多，可以查看我们的另一篇文章：[JavaScript Object Property Descriptors, Proxies, and Preventing Extension](https://medium.com/intrinsic/javascript-object-property-descriptors-proxies-and-preventing-extension-1e1907aa9d10)
+
+* 我们可以使用代理来展示对象上可用的属性。这里我们先创建一个 proxy 来隐藏两个属性，一个是字符串 _favColor，另一个是 symbol 叫 favBook。
+
+```
+let proxy;
+
+{
+  const favBook = Symbol('fav book');
+
+  const obj = {
+    name: 'Thomas Hunter II',
+    age: 32,
+    _favColor: 'blue',
+    [favBook]: 'Metro 2033',
+    [Symbol('visible')]: 'foo'
+  };
+
+  const handler = {
+    ownKeys: (target) => {
+      const reportedKeys = [];
+      const actualKeys = Reflect.ownKeys(target);
+
+      for (const key of actualKeys) {
+        if (key === favBook || key === '_favColor') {
+          continue;
+        }
+        reportedKeys.push(key);
+      }
+
+      return reportedKeys;
+    }
+  };
+
+  proxy = new Proxy(obj, handler);
+}
+
+console.log(Object.keys(proxy)); // [ 'name', 'age' ]
+console.log(Reflect.ownKeys(proxy)); // [ 'name', 'age', Symbol(visible) ]
+console.log(Object.getOwnPropertyNames(proxy)); // [ 'name', 'age' ]
+console.log(Object.getOwnPropertySymbols(proxy)); // [Symbol(visible)]
+console.log(proxy._favColor); // 'blue'
+```
+
+* 发现 _favColor 属性很简单，只需要阅读源码即可，另外，动态的 key 可以通过暴力破解方式获得（例如前面的 uuid 例子）。但是对 symbol 属性，如果你没有直接的引用，是无法访问到 `Metro 2033` 这个值的。
+
+* Node.js 备注：有一个特性可以破解私有属性，这个特性不是 JavaScript 的语言特性，也不存在与其他场景，例如 web 浏览器。当使用 proxy 时，你可以获取到对象隐藏的属性。这里有一个破解上面私有属性的例子：
+
+```
+const [originalObject] = process
+  .binding('util')
+  .getProxyDetails(proxy);
+const allKeys = Reflect.ownKeys(originalObject);
+console.log(allKeys[3]); // Symbol(fav book)
+```
+
+* 我们现在要么修改全局的 Reflect 对象，要么修改 util 的方法绑定，来组织他们被某个 Node.js 实例访问。但这是一个无底洞，如果你有兴趣深挖，可以看这篇文章：[Protecting your JavaScript APIs](https://medium.com/intrinsic/protecting-your-javascript-apis-9ce5b8a0e3b5)
