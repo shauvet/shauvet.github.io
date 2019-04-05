@@ -31,7 +31,7 @@ objectMutator(obj);
 console.log(obj.prop); // 2
 ```
 
-基本类型的值永远同值一样的值相等（除了奇怪的 NaN ），看看这里：
+* 基本类型一样的值永远相等（除了奇怪的 NaN ），看看这里：
 
 ```
 const first = "abc" + "def";
@@ -39,7 +39,7 @@ const second = "ab" + "cd" + "ef";
 console.log(first === second); // true
 ```
 
-然而，非基本类型的值即使内容一样，但也不相等，看看这里：
+* 然而，非基本类型的值即使内容一样，但也不相等，看看这里：
 
 ```
 const obj1 = { name: "Intrinsic" };
@@ -49,7 +49,7 @@ console.log(obj1 === obj2); // false
 console.log(obj1.name === obj2.name); // true
 ```
 
-对象扮演了一个 JavaScript 语言的基本角色，它们被到处使用，它们常被用在键值对的存储。然而这样使用有一个很大的限制：在 symbols 诞生之前，对象的键只能是字符串。假如我们试着使用一个非字符串当做对象的键，就会被转换为字符串，如下所示：
+* 对象扮演了一个 JavaScript 语言的基本角色，它们被到处使用，它们常被用在键值对的存储。然而这样使用有一个很大的限制：在 symbols 诞生之前，对象的键只能是字符串。假如我们试着使用一个非字符串当做对象的键，就会被转换为字符串，如下所示：
 
 ```
 const obj = {};
@@ -62,7 +62,7 @@ console.log(obj);
      '[object Object]': 'someobj' }
 ```
 
-注意：稍微离一下题，Map 数据结构被创建的目的就是为了应对存储键值对中，键不是字符串的情况。
+> 注意：稍微离一下题，Map 数据结构被创建的目的就是为了应对存储键值对中，键不是字符串的情况。
 
 ### symbols 是什么？
 
@@ -74,7 +74,7 @@ const s2 = Symbol();
 console.log(s1 === s2); // false
 ```
 
-当你初始化一个带有一个接收可选字符串参数的 symbols 时，我们可以来 debug 看下，除此之外看看它会否影响自身。
+* 当你初始化一个带有一个接收可选字符串参数的 symbols 时，我们可以来 debug 看下，除此之外看看它会否影响自身。
 
 ```
 const s1 = Symbol('debug');
@@ -115,7 +115,7 @@ console.log(Reflect.ownKeys(obj));
 console.log(obj[Reflect.ownKeys(obj)[1]]); // 42
 ```
 
-* 注意：现在已经有一个旨在解决 JavaScript 私有属性的提案，叫做 [Private Fields](https://github.com/tc39/proposal-class-fields#private-fields)，尽管这并不会使所有的对象受益，它仍然对对象的实例有用，Private Fields 在 Chrome 74版本可用。
+> 注意：现在已经有一个旨在解决 JavaScript 私有属性的提案，叫做 [Private Fields](https://github.com/tc39/proposal-class-fields#private-fields)，尽管这并不会使所有的对象受益，它仍然对对象的实例有用，Private Fields 在 Chrome 74版本可用。
 
 ### 阻止对象属性名冲突
 
