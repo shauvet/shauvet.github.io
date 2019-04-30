@@ -28,3 +28,9 @@ export const setState = nextState => {
 > 更新状态的能力：setState。
 
 * 上面的例子对于我们真实应用来说太过简单，因此接下来我们将要构建一个能让 react 可用的解决方案。首先我们来重构我们的例子，以让它在 react 中可用。
+
+### react 状态管理
+
+* 为了制作一个我们之前解决方案的 react 版本，我们需要应用两个 react 功能。第一个功能是普通经典类组件，也就是众所周知的有状态组件。
+* 第二个功能是 context api，它可以让数据在整个 react 应用可用。context 有两部分：provider (生产者) 和 consumer (消费者)，provider 就像它的名字所说的那样，给应用提供 context (data 数据)，消费者意指当我们读取 context 时，我们就是消费者。
+* 可以这样理解 context：如果说 props 是显式的传送数据，那么 context 就是隐式的传送数据。
