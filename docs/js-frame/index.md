@@ -173,9 +173,37 @@ export const setState = nextState => {
 
 * 熟悉 redux 的人可能会注意到我们的解决方案缺少一些特性：
 
-* >* 没有内置的处理副作用的方法，你需要通过 [redux 中间件](https://redux.js.org/advanced/middleware)来做这件事
+  >* 没有内置的处理副作用的方法，你需要通过 [redux 中间件](https://redux.js.org/advanced/middleware)来做这件事
   >* 我们的 setState 依赖 react 默认的 this.setState 来处理我们的状态更新逻辑，当使用内联方式更新复杂状态时将可能引发混乱，同时也没有内置的方法来复用状态更新逻辑，也就是 [redux reducer](https://redux.js.org/basics/reducers)提供的功能。
   >* 也没有办法处理异步的操作，通常由 [redux thunk](https://github.com/reduxjs/redux-thunk) 或者 [redux saga](https://github.com/redux-saga/redux-saga)等库来提供解决办法。
   >* 最关键的是，我们没办法让消费者只订阅部分状态，这意味着只要状态的任何部分更新都会让每个消费者更新。
 
-  * 为了解决这些问题，我们模仿 redux 来应用我们自己的 **actions**，**reducers**，和**middleware**。我们也会为异步 actions 增加内在支持。之后我们将会让消费者只监听状态内的子状态的改变。最后我们来看看如何重构我们的代码以使用新的 [**hooks api**](https://reactjs.org/docs/hooks-intro.html)。
+* 为了解决这些问题，我们模仿 redux 来应用我们自己的 **actions**，**reducers**，和**middleware**。我们也会为异步 actions 增加内在支持。之后我们将会让消费者只监听状态内的子状态的改变。最后我们来看看如何重构我们的代码以使用新的 [**hooks api**](https://reactjs.org/docs/hooks-intro.html)。
+
+### redux 简介
+
+> 免责声明：接下来的内容只是为了让你更容易理解文章，我强烈推荐你阅读 [redux 官方](https://redux.js.org/introduction/motivation)完整的介绍。
+>
+> 如果你已经非常了解 redux，那你可以跳过这部分。
+
+* 下面是一个 redux 应用的数据流简化流程图：
+
+![redux-data-flow](../statics/imgs/redux-data-flow.png)
+
+* 如你所见，这就是单向数据流，从我们的 reducers 接收到状态改变之后，触发 actions，数据不会回传，也不会在应用的不同部分来回流动。
+
+* 说的更详细一点：
+
+* 首先，我们触发一个描述改变状态的 action，例如 `dispatch({ type: INCREMENT_BY_ONE })`来加1，同我们之前不同，之前我们是通过 `setState({ count: count + 1 })`来直接改变状态。
+
+* action 随后进入我们的中间件，redux 中间件是可选的，用于处理 action 副作用，并将结果返回给 action，例如，假如在 action 到达 reducer 之前触发一个`SIGN_OUT`的 action 用于从本地存储里删除所有用户数据。如果你熟悉的话，这有些类似于 [express](https://expressjs.com/) 中间件的概念。
+
+* 最后，我们的 action 到达了接收它的 reducer，伴随而来的还有数据，然后利用它和已有的状态合并生成一个新的状态。让我们触发一个叫做 `ADD` 的 action，同时把我们想发送过去增加到状态的值也发送过去(叫做 payload )。我们的 reducer 会查找叫做 `ADD` 的 action，当它发现后就会将 payload 里面的值和我们现有的状态里的值加到一起并返回新的状态。
+
+* reducer 的函数如下所示：
+
+* ```javascript
+  (state, action) => nextState
+  ```
+
+* reducer 应当只是处理 state 和 state ，虽然简单却很强大。关键是要知道 reducer 应当永远是纯函数，这样它们的结果就永远是确定的。
