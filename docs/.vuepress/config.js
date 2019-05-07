@@ -6,9 +6,9 @@ module.exports = {
   ],
   themeConfig: {
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'blog', link: '/tools/' },
-      { text: 'External', link: 'https://google.com' },
+      { text: '首页', link: '/' },
+      { text: '博客', link: '/tools/' },
+      { text: '外链', link: 'https://google.com' },
     ],
     sidebar: {
       '/javascript/': [
