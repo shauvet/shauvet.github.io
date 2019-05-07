@@ -207,3 +207,138 @@ export const setState = nextState => {
   ```
 
 * reducer 应当只是处理 state 和 state ，虽然简单却很强大。关键是要知道 reducer 应当永远是纯函数，这样它们的结果就永远是确定的。
+
+### actions + dispatch
+
+* 现在我们已经过了几个 redux app 的关键部分，我们需要修改 app 来模仿一些类似的行为。首先，我们需要一些 actions 和触发它们的方法。
+
+* 我们的 action 会使用 action 创建器来创建，它们其实就是能生成 action 的简单函数，action 创建器使得测试，复用，传递 payload 数据更加简单，我们也会创建一些 action type，其实就是字符串常量，为了让他们可以被 reducer 复用，因此我们把它存储到变量里：
+
+* ```javascript
+  // Action types
+  const ADD_ONE = 'ADD_ONE';
+  const ADD_N = 'ADD_N';
+  
+  // Actions
+  export const addOne = () => ({ type: ADD_ONE });
+  export const addN = amount => ({ type: ADD_N, payload: amount });
+  ```
+
+* 现在我们来做一个 `dispatch` 的占位符函数，我们的占位符只是一个空函数，将会被用于替换上下文中的 `setState` 函数，我们一会再回到这儿，因为我们还没做接收 action 的 reducer 呢。
+
+* ```javascript
+  export class Provider extends React.PureComponent {
+    static defaultProps = {
+      state: {}
+    };
+  
+    state = this.props.state;
+  
+    _dispatch = action => {};
+  
+    render () {
+      return (
+        <StateContext.Provider value={{ state: this.state, dispatch: this._dispatch }}>
+          {this.props.children}
+        </StateContext.Provider>
+      );
+    }
+  }
+  ```
+
+  ### reducers
+
+  * 现在我们已经有了一些 action，只需要一些 reducer 来接收就好了。回到之前的 reducer 函数标记，它只是一个关于 action 和 state 的纯函数：
+
+  * ```javascript
+    (state, action) => nextState
+    ```
+
+  * 知道了这个，我们只需要传递组件的状态，然后在 reducer 里触发 action。对 reducer 来说，我们只想要一个对应上面标记的函数数组。我们使用一个数组，这样就可以使用数组的 `Array.reduce` 方法来迭代数组，最终生成我们的新状态：
+
+  * ```javascript
+    export class Provider extends React.PureComponent {
+      static defaultProps = {
+        state: {},
+        reducers: []
+      };
+    
+      state = this.props.state;
+    
+      _dispatch = action => {
+        const { reducers } = this.props;
+        const nextState = reducers.reduce((state, reducer) => {
+          return reducer(state, action) || state;
+        }, this.state);
+    
+        this.setState(nextState);
+      };
+    
+      render () {
+        return (
+          <StateContext.Provider value={{ state: this.state, dispatch: this._dispatch }}>
+            {this.props.children}
+          </StateContext.Provider>
+        );
+      }
+    }
+    ```
+
+  * 如你所见，我们所做的就是使用 reducer 来计算并获得新状态，然后就像之前所做的，我们调用 `this.setState` 来更新 `StateProvider` 组件的状态。
+
+  * 现在我们只需要一个实际的 reducer：
+
+  * ```javascript
+    function countReducer ({ count, ...state }, { type, payload }) {
+      switch (type) {
+        case ADD_N:
+          return { ...state, count: count + payload };
+        case ADD_ONE:
+          return { ...state, count: count + 1 };
+      }
+    }
+    ```
+
+  * 我们的 reducer 只是检查传入的 `action.type`，然后假如匹配到之后将会更新相对应的状态，否则就会在经过 `switch` 判断语句之后返回函数默认的 `undefined`。我们的 reducer 和 redux 的 reducer 的一个重要的区别在当我们不想更新状态时，一般情况下我们会因为未匹配到 action type 而返回一个[falsy](https://developer.mozilla.org/en-US/docs/Glossary/Falsy) 值，而 redux 则会返回未变化的状态。
+
+  * 然后把我们的 reducer 传进 `StateProvider`:
+
+  * ```javascript
+    export default function Root () {
+      return (
+        <StateProvider state={initialState} reducers={[countReducer]}>
+          <MyApp />
+        </StateProvider>
+      );
+    }
+    ```
+
+  * 现在我们终于可以触发一些 action，然后就会观察到相对应的状态更新：
+
+  * ```javascript
+    export default function SomeCount () {
+      return (
+        <StateConsumer>
+          {({ state, dispatch }) => (
+            <>
+              <p>
+                Count: {state.count}
+              </p>
+              <button onClick={() => dispatch(addOne())}>
+                + 1
+              </button>
+              <button onClick={() => dispatch(addN(5))}>
+                + 5
+              </button>
+              <button onClick={() => dispatch(addN(10))}>
+                + 10
+              </button>
+            </>
+          )}
+        </StateConsumer>
+      );
+    
+    ```
+
+    
+
