@@ -11,7 +11,7 @@
 
 * 任何状态管理工具只需要两件东西：对整个应用都可用的全局状态，和读取以及更新它的能力。只有这些，真的。
 * 这里展示一个状态管理的简单例子：
-```
+```javascript
 const state = {};
 
 export const getState = () => state;
@@ -474,3 +474,113 @@ function countMiddleware ({ type, payload }, { count }) {
 
 * 这里需要注意两点：我们调用 `action` 为函数，传入 `this.state`，这样用户可以访问异步 action 中已有的状态，我们也会返回函数调用的结果，允许开发者从他们的异步 action 中获得一个返回值从而开启更多的可能性，例如从 `dispatch` 触发的 promise 链。
 
+## 避免不必要的重新渲染
+
+* Redux  的一个经常被忽视的必要特性是它能在必须时才会对组件重新渲染（或者更准确的说是 [React-Redux](https://github.com/reduxjs/react-redux)  — react 跟 redux 的绑定）。为了做到这一点，它使用了 `connect` [高阶组件](https://reactjs.org/docs/higher-order-components.html)，它提供了一个映射函数 — `mapStateToProps` — 仅仅只在关联的 `mapStateToProps` 的输出改变时（只映射从现在开始的状态）才会触发组件的重新渲染。如果不这样的话，那么每次状态更新都会让组件使用 connect 来订阅存储改变然后重新渲染。
+
+* 想想我们需要做的，我们需要一种方法来存储 `mapState` 前面的输出，这样我们就可以比较两者看看有没有差异来决定我们是否需要继续向前和重新渲染我们的组件。为了做到这一点我们需要使用一种叫做[记忆化](https://en.wikipedia.org/wiki/Memoization)的进程，跟我们这行的许多事情一样，对于一个想到简单的进程来说，这是一个重要的词，尤其是我们可以使用 `React.Component` 来存储我们状态的子状态，然后仅在我们检测到 `mapState` 的输出改变之后再更新。
+
+* 接下来我们需要一种能够跳过不必要的组件更新的方法。react 提供了一个生命周期方法 `shouldComponentUpdate` 可以让我们达到目的。它将接收到的 props 和 state 当做参数来让我们同现有的 props 和 state 进行比较，如果我们返回 `true` 那么更新继续，如果返回 `false` 那么 react 将会跳过渲染。
+
+* ```javascript
+  class ConnectState extends React.Component {
+    state = this.props.mapState(this.props.state);
+  
+    static getDerivedStateFromProps (nextProps, nextState) {}
+  
+    shouldComponentUpdate (nextProps) {
+      if (!Object.keys(this.state).length) {
+        this.setState(this.props.mapDispatch(this.props.state));
+        return true;
+      }
+  
+      console.log({
+        s: this.state,
+        nextState: nextProps.mapState(nextProps.state),
+        state: this.props.mapState(this.state)
+      });
+      
+      return false;
+    }
+  
+    render () {
+      return this.props.children({ state: this.props.state, dispatch: this.props.dispatch });
+    }
+  }
+  
+  export function StateConsumer ({ mapState, mapDispatch, children }) {
+    return (
+      <StateContext.Consumer>
+        {({ state, dispatch }) => (
+          <ConnectState state={state} dispatch={dispatch} mapState={mapState} mapDispatch={mapDispatch}>
+            {children}
+          </ConnectState>
+        )}
+      </StateContext.Consumer>
+    );
+  }
+  ```
+
+* 上面只是对我们接下来要做的事情的概述。它有了所以主要的部分：从我们的 context 接收更新，它使用了 `getDerivedStateFromProps` 和 `shouldComponentUpdate`，它也接收一个 render 属性来作为子组件，就像默认的消费者一样。我们也会通过使用传递的 `mapState` 函数来初始化我们的消费者初始状态。
+
+* 现在这样的话，`shouldComponentUpdate` 将只会在接收到第一次状态更新之后渲染一次。之后它会记录传进的状态和现有的状态，然后返回 `false`，阻止任何更新。
+
+* 上面的解决方案中在 `shouldComponentUpdate` 内部也调用了 `this.setState`，而我们都知道 `this.setState` 总是会触发重新渲染。由于我们也会从 `shouldComponentUpdate` 里返回 `true`，这会产生一次额外的重新渲染，所以为了解决这个问题，我们将使用生命周期 `getDerivedStateFromProps` 来获取我们的状态，然后我们再使用 `shouldComponentUpdate` 来决定基于我们获取的状态是否继续更新进程。
+
+* 如果我们检查控制台也可以看到全局的状态更新，同时我们的组件阻止任何更新到 `this.state` 对象以至组件跳过更新：
+
+* ![redux-like-state-update](../statics/imgs/redux-like-state-update.png)
+
+* 现在我们知道了如何阻止不必要的更新，我们还需要一个可以智能的决定我们的消费者何时应当更新的方法。如果我们想要递归循环传进来的 state 对象来查看每个属性来看状态是否有改变，但是这对于帮助我们理解有帮助却对性能不利。我们没办法知道传进来的 state 对象层级有多深或者多复杂，如果条件永远不满足，那么递归函数将会无限期的执行下去，因此我们准备限制我们比较的作用域。
+
+* 跟 redux 类似，我们准备使用一个*浅*比较函数。*浅*在这里意味着我们在比较我们的对象是否相等的属性的层级，意味着我们只会比较一层。因此我们将会检查我们每个新状态的顶层属性是否等于我们现有状态的同名属性，如果同名属性不存在，或者它们的值不同，我们将会继续渲染，否则我们就认为我们的状态时相同的，然后阻止渲染。
+
+* ```javascript
+  function shallowCompare (state, nextState) {
+    if ((typeof state !== 'object' || state === null || typeof nextState !== 'object' || nextState === null)) return false;
+  
+    return Object.entries(nextState).reduce((shouldUpdate, [key, value]) => state[key] !== value ? true : shouldUpdate, false);
+  }
+  ```
+
+* 首先我们从检查是否两个 state 都是对象开始，如果不是那么我们就跳过渲染。在初始检查之后我们把现有的状态转化为一个键值对的数组，并通过将数组减少为单个布尔值来检查每个属性的值与传进来的 state 对象的值。
+
+* 这是困难的部分，现在我们想用我们的 `shallowCompare` 函数，实际上只是调用并检查结果。如果它返回 `true`，我们就返回 `true` 来允许组件重新渲染，否则我们就返回 `false` 来跳过更新(然后我们获得的状态被放弃掉)。我们也想在 `mapDispatch` 存在的时候调用它。
+
+* ```javascript
+  class ConnectState extends React.Component {
+    state = {};
+  
+    static getDerivedStateFromProps ({ state, mapState = s => s }) {
+      return mapState(state);
+    }
+  
+    shouldComponentUpdate (nextProps, nextState) {
+      return shallowCompare(this.state, nextState);
+    }
+  
+    render () {
+      return this.props.children({
+        state: this.state,
+        dispatch: this.props.mapDispatch ? this.props.mapDispatch(this.props.dispatch) : this.props.dispatch
+      });
+    }
+  }
+  ```
+
+* 最后我们需要传递一个 `mapState` 函数让我们消费者以只匹配我们的部分状态，这样我们就会将它作为一个属性传给我们的 `StateConsumer`：
+
+* ```javascript
+  return (
+    <StateConsumer mapState={state => ({ greeting: state.greeting })} mapDispatch={dispatch => dispatch}>
+      // ...
+  ```
+
+* 现在我们只订阅 `greeting` 里面的改变，因此假如我们更新了组件里的 `count` 将会被我们的全局状态改变所忽略并且避免了一次重新渲染。
+
+## 快速回顾
+
+* 如果你已经做到了这一步，你就已经见到了如何开发一个带有 reducer 和 action 的 类 redux 的状态管理库。我们也覆盖了更高级的特性，例如异步 action，中间件，以及如何让我们只接收我们想要的状态更新，从而避免我们的消费者每次全局状态更新进而引起的重新渲染。
+* 尽管 redux 其实做的比我们的解决方案要多得多，希望这个方案有助于澄清一些核心概念，而 redux 通常被认为是一个更加高级的特性，但它的实现其实相对简单。
+* 想要对 redux 的内部了解更加彻底，我强烈推荐你阅读它在 [github 的源码](https://github.com/reduxjs/redux/tree/master/src)。
+* 我们目前为止的解决方案已经有了真实项目所必须的工具和特性了。我们可以在一个 react 项目中使用它，不需要使用 redux，除非我们想要接入一些真正高级的功能。
