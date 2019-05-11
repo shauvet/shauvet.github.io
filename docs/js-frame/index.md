@@ -584,3 +584,133 @@ function countMiddleware ({ type, payload }, { count }) {
 * 尽管 redux 其实做的比我们的解决方案要多得多，希望这个方案有助于澄清一些核心概念，而 redux 通常被认为是一个更加高级的特性，但它的实现其实相对简单。
 * 想要对 redux 的内部了解更加彻底，我强烈推荐你阅读它在 [github 的源码](https://github.com/reduxjs/redux/tree/master/src)。
 * 我们目前为止的解决方案已经有了真实项目所必须的工具和特性了。我们可以在一个 react 项目中使用它，不需要使用 redux，除非我们想要接入一些真正高级的功能。
+
+## Hooks
+
+* 如果你还没听过它，它正在快速变成 react 的下一个大特性。这里有一段来自官方描述的简单解释：
+
+  >Hooks 是一个让你不必写 class 就可以使用 state 和 react 其他特性的新功能。
+
+* hooks 提供给我们高阶组件的所有能力，以及更加清晰和直观的 API 来渲染属性。
+
+* 我们来看一个使用基本的 `useState` 钩子的例子来看看它们是如何工作的：
+
+  ```javascript
+  import React, { useState } from 'react';
+  
+  function Counter () {
+    const [count, setCount] = useState(0);
+    return (
+      <>
+        <span>
+          Count: {count}
+        </span>
+        <button onClick={() => setCount(count + 1)}>
+          Increment
+        </button>
+      </>
+    );
+  }
+  ```
+
+* 在上面的例子中，我们通过给 `useState` 传递一个 0 来初始化新状态，它会返回我们的状态：`count`，以及一个更新函数 `setCount`。如果你以前没见过的话，可能会奇怪 `useState` 是如何不在每次渲染时初始化，这是因为 react 在内部处理了，因此我们无需担心这一点。
+
+* 让我们暂时先忘掉中间件和异步 action，用 `useReducer` 钩子来重新应用我们的 provider，就像我们正在做的一样，除了将 action 触发到一个获得新状态的 reducer，它就像 `useState` 一样工作。
+
+* 知道了这个，我们只需要将 reducer 的逻辑从老的 `StateProvider` 拷贝到新的函数组件 `StateProvider`里就可以了：
+
+  ```javascript
+  export function StateProvider ({ state: initialState, reducers, middleware, children }) {
+    const [state, dispatch] = useReducer((state, action) => {
+      return reducers.reduce((state, reducer) => reducer(state, action) || state, state);
+    }, initialState);
+  
+    return (
+      <StateContext.Provider value={{ state, dispatch }}>
+        {children}
+      </StateContext.Provider>
+    );
+  }
+  ```
+
+* 可以如此的简单，但是当我们想要保持简单时，我们仍然没有完全掌握 hooks 的所有能力。我们也可以使用 hooks 来把我们的 `StateConsumer` 换为我们自己的钩子，我们可以通过包裹 `useContext` 钩子来做到：
+
+  ```javascript
+  const StateContent = createContext();
+  
+  export function useStore () {
+    const { state, dispatch } = useContext(StateContext);
+    return [state, dispatch];
+  }
+  ```
+
+* 尽管之前当我们创建我们的上下文时使用了解构的 `Provider` 和 `Consumer`，但是这次我们会将它存到我们传递到 `useContext` 单个变量从而让我们可不用 `Consumer` 就可以接入上下文。我们也将它命名为我们自己的 `useStore` 钩子，因为 `useState` 是一个默认的钩子。
+
+* 接下来我们来简单地重构下我们消费上下文数据的方法：
+
+  ```
+  export default function SomeCount () {
+    const [state, dispatch] = useStore();
+    return (
+      <>
+        <p>
+          Count: {state.count}
+        </p>
+        <button onClick={() => dispatch(addOne())}>
+          + 1
+        </button>
+        <button onClick={() => dispatch(addN(5))}>
+          + 5
+        </button>
+        <button onClick={() => dispatch(addN(10))}>
+          + 10
+        </button>
+      </>
+    );
+  }
+  ```
+
+* 希望这些例子能让你感受到 hooks 是如何的直观、简单和有效。我们减少了所需的代码数量，并且给了我们一个友好、简单的 API 供使用。
+
+* 我们也想让我们的中间件和内置的异步 action 重新开始工作。为了做到这一点，我们将我们的 `useReducer` 包裹进一个自定义钩子，在我们的 `StateProvider` 中被特殊的使用，然后简单地重用我们老的状态组件的逻辑就好了。
+
+* ```javascript
+  export function useStateProvider ({ initialState, reducers, middleware = [] }) {
+    const [state, _dispatch] = useReducer((state, action) => {
+      return reducers.reduce((state, reducer) => reducer(state, action) || state, state);
+    }, initialState);
+  
+    function dispatch (action) {
+      if (typeof action === 'function') {
+        return action(dispatch, state);
+      }
+  
+      const continueUpdate = middleware.reduce((result, middleware) => {
+        return result !== null ? middleware(action, state) : result;
+      }, undefined);
+  
+      if (continueUpdate !== null) {
+        _dispatch(action);
+      }
+    }
+  
+    return { state, dispatch };
+  }
+  ```
+
+* 在我们的老的解决方案中，我们想让中间件是可选的，所以我们添加了一个空数组作为默认值，同样地这次我们也使用一个默认的参数来替换默认属性。类似于我们老的 dispatch 函数，我们调用了中间件，然后如果 `continueUpdate !== null` 我们就继续更新状态。我们也不会改变处理异步 action 的方式。
+
+* 最终，我们将 `useStateProvider` 的结果和它的参数到我们的 provider，这我们之前没怎么考虑：
+
+* ```javascript
+  export function StateProvider ({ state: initialState, reducers, middleware, children }) {
+    return (
+      <StateContext.Provider value={useStateProvider({ initialState, reducers, middleware })}>
+        {children}
+      </StateContext.Provider>
+    );
+  }
+  ```
+
+* 完结！
+
