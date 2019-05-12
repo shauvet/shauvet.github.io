@@ -1,5 +1,7 @@
 # [译]开发类 redux 库来理解状态管理
 
+> 原文[地址](https://hackernoon.com/building-a-redux-like-state-manager-for-react-cd75cc2853b3)
+
 > 对于想要直接看结果，跳过文章的人，我已经把我写的内容制作成了一个库：[use-simple-state](https://github.com/Jahans3/use-simple-state)，无任何依赖（除了依赖 react ），只有3kb，相当轻量。
 
 * 近几年，应我们的 app 增长的需要，web 应用数量增长迅速，随之而来的还有复杂性。为了使增加的复杂性易于处理，应用某些新增的技巧和模式使得开发者可以更简单的处理以及帮助我们建立更加健壮的应用。
