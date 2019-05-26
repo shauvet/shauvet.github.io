@@ -16,8 +16,10 @@ module.exports = {
         'function',
         'symbols',
       ],
-      '/js-frame/': [
+      '/react/': [
         '',
+      ],
+      '/angular/': [
         'angularJS'
       ],
       '/backend/': [
