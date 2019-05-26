@@ -4,7 +4,7 @@
 [stackOverFlow question](https://stackoverflow.com/questions/14876112/angularjs-difference-between-the-observe-and-watch-methods)
 
 
-* `[$observe()](https://docs.angularjs.org/api/ng.$compile.directive.Attributes#$observe)` 是 `[Attrbutes](http://docs.angularjs.org/api/ng.$compile.directive.Attributes)` 对象的一个方法,因此，它只能被用于观察 DOM 的 attribute 属性的值的改变，只在指令内部使用或调用。当你需要观察一个 DOM 的 attribute 包含插入值（例如 
+* [$observe()](https://docs.angularjs.org/api/ng.$compile.directive.Attributes#$observe) 是 [Attrbutes](http://docs.angularjs.org/api/ng.$compile.directive.Attributes) 对象的一个方法,因此，它只能被用于观察 DOM 的 attribute 属性的值的改变，只在指令内部使用或调用。当你需要观察一个 DOM 的 attribute 包含插入值（例如 
 ``` js
 attr1="Name: {{name}}"
 ```
