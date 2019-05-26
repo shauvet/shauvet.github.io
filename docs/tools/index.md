@@ -60,6 +60,25 @@
   }
   ```
 
-  正因为这里的 this.request 为 `undefined` 导致了报错，于是就看了看 request 是 `undefined` 的时候其它属性是什么。最终查到了出问题的模块，改完解决，庆祝下~
+  正因为这里的 this.request 为 `undefined` 导致了报错，于是就看了看 request 是 `undefined` 的时候其它属性是什么。在它的构造函数里发现了重要线索：
+
+  ```javascript
+  constructor(sourceRequest, data, type, userRequest, originalRequest) {
+    super();
+    this.sourceRequest = sourceRequest;
+    this.request = data.id;
+    this.meta = data.meta;
+    this.type = type;
+    this.originalRequest = originalRequest;
+    this.userRequest = userRequest;
+    this.built = false;
+    this.delegated = true;
+    this.delegateData = data;
+  }
+  ```
+
+  这里已经提示了当前模块的源头，请求等信息，分析之后即可得出结论。
+
+  最终查到了出问题的模块，改完解决，庆祝下~
 
 * 至此，本地服务也可以正常运行，线上打包也可以正常输出。优化第一步完成。后续问题放在下篇。
