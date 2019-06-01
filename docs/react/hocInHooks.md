@@ -37,11 +37,19 @@
 
 * 在这个片段中，`HelloComponent` 是一个我们可以通过 `withNameOverride` 和/或者 `withStyling` 增强的组件。
 
-* `<EnhancedHello1 name='World' />` 变成 `<div>Hello New Name</div>`
+* ```javascript
+  <EnhancedHello1 name='World' /> 
+  //becomes
+  <div>Hello New Name</div>
 
-* `<EnhancedHello2 name='World' />` 变成 `<div style={{...}}>Hello World</div>`
+  <EnhancedHello2 name='World' /> 
+  //becomes
+  <div style={{ fontWeight: 700,color: 'green' }}>Hello World</div>
 
-* `<EnhancedHello3 name='World' />` 变成 `<div style={{...}}>Hello New Name</div>`
+  <EnhancedHello3 name='World' /> 
+  //becomes
+  <div style={{ fontWeight: 700,color: 'green' }}>Hello New Name</div>
+  ```
 
 * 这是一项简单的例子，展示了高阶组件是如何帮助我们写出高度组合性的代码。许多人想到[高阶组件](https://reactjs.org/docs/higher-order-components.html)的时候，很难不想到一个非常可靠的增强器的库，[Recompose](https://github.com/acdlite/recompose)。每周140多万次下载，完全可以说它是一个很流行的纯粹地由高阶组件开发的库。这足以说明高阶组件的一些最佳应用。
 

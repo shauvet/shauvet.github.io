@@ -18,6 +18,7 @@ module.exports = {
       ],
       '/react/': [
         '',
+        'hocInHooks',
       ],
       '/angular/': [
         'angularJS'
