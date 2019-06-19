@@ -1,7 +1,5 @@
 # [译]JavaScript Async/Await 优于 Promises 的6个原因
 
-> [原文地址](https://hackernoon.com/6-reasons-why-javascripts-async-await-blows-promises-away-tutorial-c7ec10518dd9)
-
 NodeJS 从7.6版开始支持 async/await。我认为这是从2017年以来 JS 最大的更新了。如果你还没有试过它，这里有一些为什么你应该立刻使用并且再不回头的原因及例子。
 
 [更新]:这篇文章在2019年被编辑的更加贴切了。
@@ -144,4 +142,121 @@ makeRequest()
    }
    ```
 
+4. 媒介值
+
+   你可能会遇到这样一种情况，你调了 `promise1` 之后使用它的返回值来调 `promise2`，然后使用它们返回的结果来调 `promise3`。你的代码看起来可能像这样。
+
+   ```javascript
+   const makeRequest = () => {
+     return promise1()
+       .then(value1 => {
+         // do something
+         return promise2(value1)
+           .then(value2 => {
+             // do something          
+             return promise3(value1, value2)
+           })
+       })
+   }
+   ```
+
+   如果 `promise3` 不需要 `value1` 的话就会容易将 promise 拉平一点。如果你是那种无法忍受这种状况的人，你可以使用 `Promise.all` 将 value 1 和 value 2 包裹，这样可以避免深层次的嵌套，就行这样。 
    
+   ```javascript
+   const makeRequest = () => {
+     return promise1()
+       .then(value1 => {
+         // do something
+         return Promise.all([value1, promise2(value1)])
+       })
+       .then(([value1, value2]) => {
+         // do something          
+         return promise3(value1, value2)
+       })
+   }
+   ```
+   
+   这种方式为了可读性牺牲了语义性。因为没有必要让 `value1` 和 `value2` 一起放在一个数组里，除了避免 promises 的嵌套。
+   
+   而当使用 async/await 的时候就变得很简单了。它让你想知道在你努力让 promises 看起来不那么可怕的时候你就可以做所有的事情。
+   
+   ```javascript
+   const makeRequest = async () => {
+     const value1 = await promise1()
+     const value2 = await promise2(value1)
+     return promise3(value1, value2)
+   }
+   ```
+   
+5. 错误堆栈
+
+   想象下你在一个 promise 链中，在后面的某处发生了错误。
+
+   ```javascript
+   
+   const makeRequest = () => {
+     return callAPromise()
+       .then(() => callAPromise())
+       .then(() => callAPromise())
+       .then(() => callAPromise())
+       .then(() => callAPromise())
+       .then(() => {
+         throw new Error("oops");
+       })
+   }
+   
+   makeRequest()
+     .catch(err => {
+       console.log(err);
+       // output
+       // Error: oops at callAPromise.then.then.then.then.then (index.js:8:13)
+     })
+   ```
+
+   从 promise 链返回的错误堆栈信息无从知道错误到底发生在哪儿。更糟糕的是，他还会误导，唯一包含的函数名是 `callAPromise`，而这个函数跟这个错误是完全无关的(文件和函数还是有用的)。
+
+   然而，async/await 里的错误堆栈信息就会指向出错的那个函数。
+
+   ```javascript
+   const makeRequest = async () => {
+     await callAPromise()
+     await callAPromise()
+     await callAPromise()
+     await callAPromise()
+     await callAPromise()
+     throw new Error("oops");
+   }
+   
+   makeRequest()
+     .catch(err => {
+       console.log(err);
+       // output
+       // Error: oops at makeRequest (index.js:7:9)
+     })
+   ```
+
+   当你在本地环境开发并且在编辑器打开这个文件时这并没多大帮助，但是对于你排查生产环境的问题就很有帮助了。在这些状况下，知道错误时发生在 `makeRequest` 比只知道错误在一个又一个 `then` 后面要好得多。
+
+6. Debugging
+
+   最后但并不是最不重要的一个。使用 async/await 的一个杀手锏是它很容易进行 debug。在 promises 中进行 debug 很痛苦有两个原因：
+
+   1. 你无法在箭头函数的返回表达式中设置断点(无函数体)。
+
+      ![image](https://cdn-images-1.medium.com/max/1600/1*n_V4LaVdBOFgGCbmTR_VKA.png)
+
+   2. 当你在 `.then` 里面打断点时，断点并不会移动到紧邻的下一个 `.then` 里面去，因为它只会在同步代码中移动断点。
+
+   而使用 async/await 时，你就不必使用箭头函数了，而且你可以一步一步的执行 await 调用，因为它们就是普通的同步代码。
+
+   ![image](https://cdn-images-1.medium.com/max/1600/1*GWYd4eLrs0U96MkNNVB56A.png)
+
+## 总结
+
+Async/await 是近几年 [JavaScript](https://hackernoon.com/tagged/JavaScript) 新增的最具有革命性的特性之一了，它让你意识到 promises 有多么混乱，并且提供了一个直观的替代品。
+
+## 担忧
+
+你可能有一些合理的担忧认为使用这个特性会让异步代码不那么明显：当我们看到一个回调或者 `.then` 时我们的肉眼会认出这是异步代码。而要调整到新的标记却需要几周的适应时间。但是 C# 已经有这项特性很多年了，熟悉它的人们认为这点不适应很微小，并且也只是暂时的不便。
+
+>[原文地址](https://hackernoon.com/6-reasons-why-javascripts-async-await-blows-promises-away-tutorial-c7ec10518dd9)
