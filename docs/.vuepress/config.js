@@ -20,6 +20,7 @@ module.exports = {
       '/react/': [
         '',
         'hocInHooks',
+        'fetchDataWithReduxAndHooks',
       ],
       '/angular/': [
         'angularJS'
