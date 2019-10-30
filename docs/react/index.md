@@ -98,7 +98,7 @@ export const setState = nextState => {
 
 * 在我们完成上述代码之后，就可以作为一个消费者从 `MyApp` 的任何地方获得应用的状态。在这里我们会初始化我们的状态为一个有一个 `count` 属性的对象，所以无论什么时候我们想要立即获取应用的状态，我们就可以从这里获得。
 
-* 消费者使用  [render 属性](https://reactjs.org/docs/render-props.html) 来传递上下文数据，我们可以通过下面的一个函数作为 `StateConsumer` 的子组件的例子来查看。`state` 参数传递给函数用以展现我们应用的当前状态，作为我们的初始状态，`state.count` 为 0.
+* 消费者使用  [render props](https://reactjs.org/docs/render-props.html) 来传递上下文数据，我们可以通过下面的一个函数作为 `StateConsumer` 的子组件的例子来查看。`state` 参数传递给函数用以展现我们应用的当前状态，作为我们的初始状态，`state.count` 为 0.
 
 * ```javascript
   import { StateConsumer } from './stateContext';
@@ -523,7 +523,7 @@ function countMiddleware ({ type, payload }, { count }) {
   }
   ```
 
-* 上面只是对我们接下来要做的事情的概述。它有了所以主要的部分：从我们的 context 接收更新，它使用了 `getDerivedStateFromProps` 和 `shouldComponentUpdate`，它也接收一个 render 属性来作为子组件，就像默认的消费者一样。我们也会通过使用传递的 `mapState` 函数来初始化我们的消费者初始状态。
+* 上面只是对我们接下来要做的事情的概述。它有了所以主要的部分：从我们的 context 接收更新，它使用了 `getDerivedStateFromProps` 和 `shouldComponentUpdate`，它也接收一个 **render props** 来作为子组件，就像默认的消费者一样。我们也会通过使用传递的 `mapState` 函数来初始化我们的消费者初始状态。
 
 * 现在这样的话，`shouldComponentUpdate` 将只会在接收到第一次状态更新之后渲染一次。之后它会记录传进的状态和现有的状态，然后返回 `false`，阻止任何更新。
 
