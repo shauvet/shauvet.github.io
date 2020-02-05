@@ -1,3 +1,8 @@
+/*
+ * @Date: 2019-05-13 17:07:56
+ * @LastEditors  : guangling
+ * @LastEditTime : 2020-02-05 13:23:33
+ */
 module.exports = {
   title: 'shauvet',
   description: '我的 BLOG',
@@ -7,10 +12,13 @@ module.exports = {
   themeConfig: {
     nav: [
       { text: '首页', link: '/' },
-      { text: '博客', link: '/tools/' },
-      { text: '外链', link: 'https://google.com' },
+      { text: '博客', link: '/life/' },
+      { text: 'BING', link: 'https://cn.bing.com' },
     ],
     sidebar: {
+      '/life': [
+        ''
+      ],
       '/javascript/': [
         '',
         'function',
