@@ -1,6 +1,6 @@
 /*
  * @Date: 2019-05-13 17:07:56
- * @LastEditors  : guangling
+ * @LastEditors: guangling
  * @LastEditTime : 2020-02-05 13:23:33
  */
 module.exports = {
@@ -29,6 +29,7 @@ module.exports = {
         '',
         'hocInHooks',
         'fetchDataWithReduxAndHooks',
+        'reselect',
       ],
       '/angular/': [
         'angularJS'

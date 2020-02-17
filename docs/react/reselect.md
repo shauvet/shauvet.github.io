@@ -113,3 +113,38 @@ export const totalSelector = state => {
 ```
 
 当你考虑到 react 组件由于它们的或者他们父级组件的 state 或者 props 改变时重新渲染的事实，派生数据的计算将会变得很昂贵。Reselect 的最大好处就是它的计算是记忆化的，也就是说除非参数变化，不然它是不会重新计算的。
+
+## Reselect 的语法
+
+Reselect 提供了一个叫做 `createSelector` 的方法来创建记忆化的选择器。这里是一个以我们商店的 app 写的例子：
+
+```javascript
+import { createSelector } from 'reselect'
+
+const shopItemsSelector = state => state.shop.items
+const taxPercentSelector = state => state.shop.taxPercent
+
+const subtotalSelector = createSelector(
+  shopItemsSelector,
+  items => items.reduce((acc, item) => acc + item.value, 0)
+)
+
+const taxSelector = createSelector(
+  subtotalSelector,
+  taxPercentSelector,
+  (subtotal, taxPercent) => subtotal * (taxPercent / 100)
+)
+
+export const totalSelector = createSelector(
+  subtotalSelector,
+  taxSelector,
+  (subtotal, tax) => ({ total: subtotal + tax })
+)
+```
+
+如你所见，`createSelector`是一个接收两个参数的函数：
+
+1. 选择器 - 如果有多个选择器，它们之间可以以逗号相连，或者也可以使用数组。
+2. 转换函数 - 接收从第一个参数的选择器的值，然后进行选择相关数据的函数。
+
+
