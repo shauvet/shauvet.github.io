@@ -1,7 +1,7 @@
 <!--
  * @Date: 2019-12-30 18:50:22
  * @LastEditors: guangling
- * @LastEditTime : 2019-12-30 20:08:44
+ * @LastEditTime: 2020-02-19 22:50:51
  -->
 # 理解 Javascript 选择器
 
@@ -147,4 +147,73 @@ export const totalSelector = createSelector(
 1. 选择器 - 如果有多个选择器，它们之间可以以逗号相连，或者也可以使用数组。
 2. 转换函数 - 接收从第一个参数的选择器的值，然后进行选择相关数据的函数。
 
+## 使用 Reselect
 
+### 从组件获取 state
+
+```javascript
+import {totalSelector} from 'path/to/selector'
+
+class Inventory extends React.Component {
+  render() {
+    return <h1>`The shop's total inventory is: ${this.props.inventoryValue}`</h1>
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    inventoryValue: totalSelector(state)
+  }
+}
+```
+
+这是最基本的应用场景，不用 Reselect 你也可以使用选择器来创建。
+
+### 使用选择器替换 `mapStateToProps` 方法
+
+为了进一步优化性能，可以使用选择器替换 React 组件的 `mapStateToProps` 方法，这样可以减少组件重新渲染的次数。
+
+```javascript
+import {totalSelector} from 'path/to/selector'
+import {createSelector} from 'reselect'
+
+class Inventory extends React.Component {
+  render() {
+    return <h1>`The shop's total inventory is: ${this.props.inventoryValue}`</h1>
+  }
+}
+
+const mapStateToPropsSelector = createSelector(
+  totalSelector,
+  (total) => {
+    return {inventoryValue: total}
+  }
+)
+```
+
+### 使用 CreateStructuredSelector
+
+为了减少样板代码，Reselect 提供了一个 `CreateStructuredSelector` 方法，它可以替换传递给 `connect` 的 `createSelector` 方法。它在组件中最有用的一点是可以拉取几个选择器。
+
+```javascript
+import {subtotalSelector, taxPercentSelector, taxSelector, totalSelector} from 'path/to/selector'
+import {createStructuredSelector} from 'reselect'
+
+class Inventory extends React.Component {
+  render() {
+    return (
+      <h1>`The shop's total inventory is: ${this.props.inventoryValue}`</h1>
+      <h3>`The shop's subtotal inventory is ${this.props.inventorySubtotal}`</h3>
+      <h3>`The shop's tax percent is ${this.props.taxPercent}`</h3>
+      <h3>`This shop's total tax percent is ${this.props.totalTaxPercent}`</h3>
+    )
+  }
+}
+
+const mapStateToPropsSelector = createStructuredSelector({
+  inventorySubtotal: subtotalSelector,
+  inventoryValue: totalSelector,
+  taxPercent: taxPercentSelector,
+  totalTaxPercent: taxSelector
+})
+```
