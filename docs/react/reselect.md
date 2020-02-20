@@ -1,7 +1,7 @@
 <!--
  * @Date: 2019-12-30 18:50:22
  * @LastEditors: guangling
- * @LastEditTime: 2020-02-19 22:50:51
+ * @LastEditTime: 2020-02-20 17:23:58
  -->
 # 理解 Javascript 选择器
 
@@ -217,3 +217,163 @@ const mapStateToPropsSelector = createStructuredSelector({
   totalTaxPercent: taxSelector
 })
 ```
+
+## 给选择器传递参数
+
+### 传递一个 prop 作为一个参数：
+
+如果你想给选择器传递一个 prop，那么你很幸运。除此之外，state 选择器还可以接受 props。让我们砍一个例子：
+
+```javascript
+// In a selector file
+import { createSelector } from 'reselect'
+
+const getShopItemsByCategory = (state, props) =>
+  state.shop.items[props.category]
+
+const getInStockShopItems = createSelector(
+  getItemsByCategory,
+  (items) => items.filter(item => item.in_stock)
+)
+
+// Used in a component
+class ShopItems extends React.Component {
+  // display shop items
+}
+const mapStateToProps = (state, props) => {
+  return {
+    itemsInStock: getInStockShopItems(state, props)
+  }
+}
+```
+
+"但是有一个问题！"-Reselect 文档这样说。
+
+如果组件在多个地方都使用了带 props 的选择器，那你将会被一个记忆错误终止掉。为什么？因为如果我们有多个组件实例，那么选择器将会在这些实例之间共享。
+
+因此传递给 `getInStockShopItems` 的 props 将会是 `props.category === ‘belts'`，在另一个实例收到 `props.category === 'dresses'`，在另一个实例收到 `props.category === ‘pants'`。这样就会产生问题了，因为 Reselect 的缓存大小是 1，这意味着这时选择器的缓存将会被每一个实例分享，而且由于每一个 `ShopItems` 的输入值一直在变，还会产生不必要的重新计算。
+
+正确的解决办法是保证每个实例有自己私有选择器的拷贝，这样才不会被其它实例影响。
+
+给组件实例自己私有的选择器传递选择器会有如下好处：
+
+> 如果提供给 `connect` 的 `mapStateToProps` 参数从对象换成函数的话，这个函数将会给容器的每个实例创建一个独立的 `mapStateToProps` 函数。
+
+在实践中完成这一点：
+
+1. 创建一个返回选择器的函数。
+
+```javascript
+// In a selector file
+import { createSelector } from 'reselect'
+
+const getShopItemsByCategory = (state, props) =>
+  state.shop.items[props.category]
+
+const makeGetInStockShopItems = () => {
+  return createSelector(
+    getShopItemsByCategory,
+    (items) => items.filter(item => item.in_stock)
+  )
+}
+```
+2. 在使用选择器的组件中，创建一个使用 `makeGetInStockShopItems` 函数(在第一步创建)返回 `mapStateToProps` 的对象来创建一个选择器的新拷贝。
+
+```javascript
+// Used in a component
+class ShopItems extends React.Component {
+  // display shop items
+}
+
+const makeMapStateToProps = () => {
+  const getInStockShopItems = makeGetInStockShopItems()
+  const mapStateToProps = (state, props) => {
+    return {
+      itemsInStock: getInStockShopItems(state, props)
+    }
+  }
+}
+```
+
+这将会给组件的每个实例创建一份私有的 `mapStateToProps` 函数。
+
+3. 像平时传递 `mapStateToProps` 那样将 `makeMapStateToProps` (第二步创建的)函数传递给 `connect` 方法：
+
+```javascript
+// Used in a component
+class ShopItems extends React.Component {
+  // display shop items
+}
+
+const makeMapStateToProps = () => {
+  const getInStockShopItems = makeGetInStockShopItems()
+  const mapStateToProps = (state, props) => {
+    return {
+      itemsInStock: getInStockShopItems(state, props)
+    }
+  }
+}
+
+export default connect(
+  makeMapStateToProps
+)(ShopItems)
+```
+
+就是这样。
+
+### 传递一个静态值的参数
+
+在这种场景下你可以使用[工厂函数](https://medium.com/javascript-scene/javascript-factory-functions-with-es6-4d224591a8b1)。下面这个例子来自 [Reselect 文档](https://github.com/reduxjs/reselect#q-how-do-i-create-a-selector-that-takes-an-argument)：
+
+```javascript
+const expensiveItemSelectorFactory = minValue => {
+  return createSelector(
+    shopItemsSelector,
+    items => items.filter(item => item.value > minValue)
+  )
+}
+
+const subtotalSelector = createSelector(
+  expensiveItemSelectorFactory(200),
+  items => items.reduce((acc, item) => acc + item.value, 0)
+)
+```
+
+### 传递一个动态值作为参数：
+
+如果你要给选择器传递一个动态值，Reselect 建议把值存到 store，这样就不必传值了，选择器会像取其他普通流数据那样获得数据。
+
+然后如果你不想把值存到 store，那你可以创建一个接受动态值作为参数的函数然后返回它作为选择器。
+
+关键是你需要自己来做这个函数的记忆化改造，因为 Reselect 只能缓存一个，没办法来记忆额外的参数。提供处理接下来参数记忆化的通常办法是使用 lodash 提供的 memoize 函数来处理。下面的例子也来自[官方文档](https://github.com/reduxjs/reselect#q-how-do-i-create-a-selector-that-takes-an-argument)，你应该仔细看看！
+
+```javascript
+import { createSelector } from 'reselect'
+import memoize from 'lodash.memoize'
+
+const expensiveSelector = createSelector(
+  state => state.items,
+  items => memoize(
+    minValue => items.filter(item => item.value > minValue)
+  )
+)
+
+const expensiveFilter = expensiveSelector(state)
+```
+
+## 总结
+
+什么是选择器：选择器是可以用来从一个中心数据存储中获得数据的一个函数。你可以独立创建任意独立的选择器。
+
+为什么使用选择器：选择器封装了数据如何存储以及如何获取的知识，这样可以帮助创建高复用的代码。
+
+为什么使用 Reselect：Reselect 提供了一种性能提升的手段，因为它使用记忆化的方式创建选择器，只在输入值变化的情况下才会重新计算。这对于复杂的 app 很有益处，app 可以保持一个微小的 store，这样就可以让选择器来做一些昂贵的操作(例如过滤，累加等等)来计算衍生数据。
+
+## 进一步阅读
+
+1. [Reselect’s Docs](https://github.com/reduxjs/reselect)
+2. [Computing Derived Data (Redux Docs)](https://redux.js.org/recipes/computing-derived-data)
+3. [React, Reselect and Redux](https://medium.com/@parkerdan/react-reselect-and-redux-b34017f8194c)
+
+> 原文地址：[Understanding Javascript Selectors With and Without Reselect](https://medium.com/@pearlmcphee/selectors-react-redux-reselect-9ab984688dd4
+> )
