@@ -1,9 +1,4 @@
-<!--
- * @Date: 2019-12-30 18:50:22
- * @LastEditors: guangling
- * @LastEditTime: 2020-02-20 17:23:58
- -->
-# 理解 Javascript 选择器
+# 通过 Reselect 来理解 Javascript 选择器
 
 选择器并不特指 Jvascript，React，Redux，或者 Reselect 本文重在讲解这些技术的组合使用，假定你对 React 和 Redux 已经有了比较扎实的理解。那么，让我们开始吧。
 
