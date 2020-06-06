@@ -1,7 +1,7 @@
 /*
  * @Date: 2019-05-13 17:07:56
  * @LastEditors: guangling
- * @LastEditTime : 2020-02-05 13:23:33
+ * @LastEditTime: 2020-06-06 23:04:56
  */
 module.exports = {
   title: 'shauvet',
@@ -30,6 +30,7 @@ module.exports = {
         'hocInHooks',
         'fetchDataWithReduxAndHooks',
         'reselect',
+        'buildHighlyCustomizableComponent',
       ],
       '/angular/': [
         'angularJS'
